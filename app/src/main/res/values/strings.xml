@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Beer Recipe Generator</string>
+    <string name="action_settings">Settings</string>
+</resources>
