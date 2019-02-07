@@ -3,8 +3,11 @@ package com.jlafshari.beerrecipegenerator
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.LinearLayout
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -19,6 +22,15 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+
+        val recipeListView = findViewById<RecyclerView>(R.id.recipeRecyclerView)
+        recipeListView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        val recipes = ArrayList<RecipePreview>()
+        recipes.add(RecipePreview("FSB"))
+        recipes.add(RecipePreview("Jahan's Private Reserve"))
+
+        val adapter = RecipeListAdapter(recipes)
+        recipeListView.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
