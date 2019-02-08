@@ -1,14 +1,14 @@
 package com.jlafshari.beerrecipegenerator
 
+import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.LinearLayout
-
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -17,11 +17,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
 
         val recipeListView = findViewById<RecyclerView>(R.id.recipeRecyclerView)
         recipeListView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
@@ -47,5 +42,11 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun newRecipe(view: View) {
+        val newRecipeIntent = Intent(this, NewRecipeWizardActivity::class.java)
+
+        startActivity(newRecipeIntent)
     }
 }
