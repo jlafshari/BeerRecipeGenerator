@@ -1,3 +1,3 @@
 package com.jlafshari.beerrecipecore
 
-class Style(val name: String)
+data class Style(val name: String)
