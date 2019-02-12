@@ -7,9 +7,12 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.jlafshari.beerrecipecore.RecipeGenerationInfo
+import com.jlafshari.beerrecipecore.Style
+import com.jlafshari.beerrecipegenerator.BeerStyleFragment.OnRecipeStyleSelectedListener
 import kotlinx.android.synthetic.main.activity_new_recipe_wizard.*
 
-class NewRecipeWizardActivity : AppCompatActivity() {
+class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener {
 
     /**
      * The [android.support.v4.view.PagerAdapter] that will provide
@@ -20,6 +23,8 @@ class NewRecipeWizardActivity : AppCompatActivity() {
      * [android.support.v4.app.FragmentStatePagerAdapter].
      */
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
+
+    private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +37,7 @@ class NewRecipeWizardActivity : AppCompatActivity() {
 
         // Set up the ViewPager with the sections adapter.
         container.adapter = mSectionsPagerAdapter
-
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -55,6 +58,9 @@ class NewRecipeWizardActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onRecipeStyleSelected(style: Style) {
+        mRecipeGenerationInfo.style = style
+    }
 
     /**
      * A [FragmentPagerAdapter] that returns a fragment corresponding to
