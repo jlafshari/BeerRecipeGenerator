@@ -27,6 +27,25 @@
 
         </android.support.v7.widget.Toolbar>
 
+        <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <android.support.design.widget.TabItem
+                    android:id="@+id/beerStyleTabItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recipe_style_tab_name"/>
+
+            <android.support.design.widget.TabItem
+                    android:id="@+id/recipeSizeTabItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recipe_size_tab_name"/>
+
+        </android.support.design.widget.TabLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager

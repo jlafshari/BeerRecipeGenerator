@@ -1,6 +1,7 @@
 package com.jlafshari.beerrecipegenerator
 
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
@@ -10,9 +11,11 @@ import android.view.MenuItem
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipegenerator.BeerStyleFragment.OnRecipeStyleSelectedListener
+import com.jlafshari.beerrecipegenerator.RecipeSizeFragment.OnRecipeSizeSetListener
 import kotlinx.android.synthetic.main.activity_new_recipe_wizard.*
 
-class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener {
+class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
+    OnRecipeSizeSetListener {
 
     /**
      * The [android.support.v4.view.PagerAdapter] that will provide
@@ -37,6 +40,9 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
 
         // Set up the ViewPager with the sections adapter.
         container.adapter = mSectionsPagerAdapter
+
+        container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+        tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -62,6 +68,10 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         mRecipeGenerationInfo.style = style
     }
 
+    override fun onRecipeSizeSet(recipeSize: Double?) {
+        mRecipeGenerationInfo.size = recipeSize
+    }
+
     /**
      * A [FragmentPagerAdapter] that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -69,29 +79,21 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            //return PlaceholderFragment.newInstance(position + 1)
-
-            return BeerStyleFragment()
-
-//            return when (position) {
-//                0 -> {
-//                    BeerStyleFragment()
-//                }
-//            }
+            return when (position) {
+                0 -> BeerStyleFragment()
+                1 -> RecipeSizeFragment()
+                else -> BeerStyleFragment()
+            }
         }
 
-        override fun getCount(): Int {
-            // Show 3 total pages.
-            return 1
-        }
+        override fun getCount() = 2
 
         override fun getPageTitle(position: Int): CharSequence? {
-            return "Beer Style"
-//            return when (position) {
-//                0 -> "Beer Style"
-//            }
+            return when (position) {
+                0 -> "Beer Style"
+                1 -> "Recipe Size"
+                else -> "Beer Style"
+            }
         }
     }
 
