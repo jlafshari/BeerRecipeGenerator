@@ -2,13 +2,12 @@ package com.jlafshari.beerrecipegenerator
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -22,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         recipeListView.layoutManager =
             LinearLayoutManager(
                 this,
-                LinearLayout.VERTICAL,
+                RecyclerView.VERTICAL,
                 false
             )
         val recipes = ArrayList<RecipePreview>()

@@ -17,14 +17,6 @@ import kotlinx.android.synthetic.main.activity_new_recipe_wizard.*
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
     OnRecipeSizeSetListener {
 
-    /**
-     * The [android.support.v4.view.PagerAdapter] that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * [android.support.v4.app.FragmentStatePagerAdapter].
-     */
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
 
     private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()

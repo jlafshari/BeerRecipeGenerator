@@ -9,11 +9,11 @@ import java.util.ArrayList
 
 class RecipeListAdapter(private val recipeList: ArrayList<RecipePreview>) : RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
 
-    override fun onBindViewHolder(holder: RecipeListAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.txtName.text = recipeList[position].name
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.recipe_item_layout, parent, false)
         return ViewHolder(v)
     }
