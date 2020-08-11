@@ -17,8 +17,6 @@ import kotlinx.android.synthetic.main.activity_new_recipe_wizard.*
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
     OnRecipeSizeSetListener {
 
-    private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
-
     private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,12 +24,9 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         setContentView(R.layout.activity_new_recipe_wizard)
 
         setSupportActionBar(toolbar)
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = SectionsPagerAdapter(this)
 
         // Set up the ViewPager with the sections adapter.
-        viewPager.adapter = mSectionsPagerAdapter
+        viewPager.adapter = SectionsPagerAdapter(this)
 
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = NewRecipeTabs.getTabTitle(position)
