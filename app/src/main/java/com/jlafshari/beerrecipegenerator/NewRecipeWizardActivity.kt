@@ -1,13 +1,13 @@
 package com.jlafshari.beerrecipegenerator
 
 import android.os.Bundle
-import com.google.android.material.tabs.TabLayout
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipegenerator.BeerStyleFragment.OnRecipeStyleSelectedListener
@@ -28,13 +28,18 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         setSupportActionBar(toolbar)
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+        mSectionsPagerAdapter = SectionsPagerAdapter(this)
 
         // Set up the ViewPager with the sections adapter.
-        container.adapter = mSectionsPagerAdapter
+        viewPager.adapter = mSectionsPagerAdapter
 
-        container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
-        tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
+        TabLayoutMediator(tabs, viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> "Beer Style"
+                1 -> "Recipe Size"
+                else -> "Beer Style"
+            }
+        }.attach()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -65,28 +70,17 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     }
 
     /**
-     * A [FragmentPagerAdapter] that returns a fragment corresponding to
+     * A [FragmentStateAdapter] that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    inner class SectionsPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
-        override fun getItem(position: Int): Fragment {
-            return when (position) {
-                0 -> BeerStyleFragment()
-                1 -> RecipeSizeFragment()
-                else -> BeerStyleFragment()
-            }
-        }
+        override fun getItemCount() = 2
 
-        override fun getCount() = 2
-
-        override fun getPageTitle(position: Int): CharSequence? {
-            return when (position) {
-                0 -> "Beer Style"
-                1 -> "Recipe Size"
-                else -> "Beer Style"
-            }
+        override fun createFragment(position: Int): Fragment = when (position) {
+            0 -> BeerStyleFragment()
+            1 -> RecipeSizeFragment()
+            else -> BeerStyleFragment()
         }
     }
-
 }
