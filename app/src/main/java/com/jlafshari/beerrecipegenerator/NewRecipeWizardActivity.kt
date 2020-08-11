@@ -34,11 +34,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         viewPager.adapter = mSectionsPagerAdapter
 
         TabLayoutMediator(tabs, viewPager) { tab, position ->
-            tab.text = when (position) {
-                0 -> "Beer Style"
-                1 -> "Recipe Size"
-                else -> "Beer Style"
-            }
+            tab.text = NewRecipeTabs.getTabTitle(position)
         }.attach()
     }
 
@@ -75,12 +71,8 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
      */
     inner class SectionsPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
-        override fun getItemCount() = 2
+        override fun getItemCount() = NewRecipeTabs.tabTitles.size
 
-        override fun createFragment(position: Int): Fragment = when (position) {
-            0 -> BeerStyleFragment()
-            1 -> RecipeSizeFragment()
-            else -> BeerStyleFragment()
-        }
+        override fun createFragment(position: Int): Fragment = NewRecipeTabs.getTabFragment(position)
     }
 }
