@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipegenerator.MainActivity
@@ -26,9 +27,16 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         setContentView(R.layout.activity_new_recipe_wizard)
 
         setSupportActionBar(toolbar)
-
         // Set up the ViewPager with the sections adapter.
         viewPager.adapter = SectionsPagerAdapter(this)
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                progressBar.progress = position + 1
+                super.onPageSelected(position)
+            }
+        })
+
+        progressBar.max = NewRecipeSteps.numberOfSteps
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
