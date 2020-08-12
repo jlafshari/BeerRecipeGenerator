@@ -1,4 +1,4 @@
-package com.jlafshari.beerrecipegenerator
+package com.jlafshari.beerrecipegenerator.newRecipe
 
 import android.os.Bundle
 import android.view.Menu
@@ -10,8 +10,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.Style
-import com.jlafshari.beerrecipegenerator.BeerStyleFragment.OnRecipeStyleSelectedListener
-import com.jlafshari.beerrecipegenerator.RecipeSizeFragment.OnRecipeSizeSetListener
+import com.jlafshari.beerrecipegenerator.R
+import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener
+import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
 import kotlinx.android.synthetic.main.activity_new_recipe_wizard.*
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,

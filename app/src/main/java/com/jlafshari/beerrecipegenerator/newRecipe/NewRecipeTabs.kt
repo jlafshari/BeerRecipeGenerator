@@ -1,4 +1,4 @@
-package com.jlafshari.beerrecipegenerator
+package com.jlafshari.beerrecipegenerator.newRecipe
 
 import androidx.fragment.app.Fragment
 

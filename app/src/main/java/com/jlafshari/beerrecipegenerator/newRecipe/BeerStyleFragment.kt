@@ -1,4 +1,4 @@
-package com.jlafshari.beerrecipegenerator
+package com.jlafshari.beerrecipegenerator.newRecipe
 
 import android.content.Context
 import android.os.Bundle
@@ -12,6 +12,7 @@ import android.widget.Spinner
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Style
+import com.jlafshari.beerrecipegenerator.R
 import java.nio.charset.Charset
 
 class BeerStyleFragment : Fragment() {
@@ -24,7 +25,8 @@ class BeerStyleFragment : Fragment() {
         val recipeStylesJSON = resources.openRawResource(R.raw.recipe_styles).readBytes().toString(Charset.defaultCharset())
         val recipeStyles: List<Style> = json.readValue(recipeStylesJSON)
 
-        val adapter = ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item,
+        val adapter = ArrayAdapter(context!!,
+            R.layout.support_simple_spinner_dropdown_item,
             recipeStyles)
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         val styleSpinner = view.findViewById<Spinner>(R.id.styleSpinner)
