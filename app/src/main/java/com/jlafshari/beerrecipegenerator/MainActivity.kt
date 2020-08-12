@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,8 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val recipeListView = findViewById<RecyclerView>(R.id.recipeRecyclerView)
-        recipeListView.layoutManager =
+        recipeRecyclerView.layoutManager =
             LinearLayoutManager(
                 this,
                 RecyclerView.VERTICAL,
@@ -29,8 +29,7 @@ class MainActivity : AppCompatActivity() {
         recipes.add(RecipePreview("FSB"))
         recipes.add(RecipePreview("Jahan's Private Reserve"))
 
-        val adapter = RecipeListAdapter(recipes)
-        recipeListView.adapter = adapter
+        recipeRecyclerView.adapter = RecipeListAdapter(recipes)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -40,18 +39,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun newRecipe(view: View) {
         val newRecipeIntent = Intent(this, NewRecipeWizardActivity::class.java)
-
         startActivity(newRecipeIntent)
     }
 }
