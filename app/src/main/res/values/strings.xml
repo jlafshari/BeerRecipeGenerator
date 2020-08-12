@@ -10,4 +10,5 @@
     <string name="recipe_size_heading_fragment">What size should the recipe be (in gallons)?</string>
     <string name="recipe_size_hint_text">Size in gallons</string>
     <string name="recipe_size_gallons_default">5.0</string>
+    <string name="cancel_menu_item_text">Cancel</string>
 </resources>

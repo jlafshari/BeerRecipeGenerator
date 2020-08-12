@@ -6,4 +6,11 @@
           android:title="@string/action_settings"
           android:orderInCategory="100"
           app:showAsAction="never"/>
+    <item
+            android:id="@+id/action_cancel"
+            android:checkable="false"
+            android:enabled="true"
+            android:title="@string/cancel_menu_item_text"
+            android:visible="true"
+            app:showAsAction="ifRoom" />
 </menu>
