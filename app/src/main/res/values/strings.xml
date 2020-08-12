@@ -9,7 +9,5 @@
     <string name="beer_style_heading_fragment">Select Beer Style</string>
     <string name="recipe_size_heading_fragment">What size should the recipe be (in gallons)?</string>
     <string name="recipe_size_hint_text">Size in gallons</string>
-    <string name="recipe_style_tab_name">Style</string>
-    <string name="recipe_size_tab_name">Size</string>
     <string name="recipe_size_gallons_default">5.0</string>
 </resources>

@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.google.android.material.tabs.TabLayoutMediator
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipegenerator.R
@@ -28,10 +27,6 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
 
         // Set up the ViewPager with the sections adapter.
         viewPager.adapter = SectionsPagerAdapter(this)
-
-        TabLayoutMediator(tabs, viewPager) { tab, position ->
-            tab.text = NewRecipeTabs.getTabTitle(position)
-        }.attach()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -67,8 +62,8 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
      */
     inner class SectionsPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
-        override fun getItemCount() = NewRecipeTabs.tabTitles.size
+        override fun getItemCount() = NewRecipeSteps.numberOfSteps
 
-        override fun createFragment(position: Int): Fragment = NewRecipeTabs.getTabFragment(position)
+        override fun createFragment(position: Int): Fragment = NewRecipeSteps.getTabFragment(position)
     }
 }
