@@ -10,23 +10,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipegenerator.MainActivity
+import com.jlafshari.beerrecipegenerator.MyRecipesHelper
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
 import com.jlafshari.beerrecipegenerator.newRecipe.SaveRecipeFragment.OnSaveRecipeListener
 import kotlinx.android.synthetic.main.activity_new_recipe_wizard.*
-import java.io.File
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
     OnRecipeSizeSetListener, OnSaveRecipeListener {
-
-    private val recipesFileName = "saved recipes.json"
 
     private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
 
@@ -86,20 +82,8 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     }
 
     override fun onSaveRecipe() {
-        //get list of existing saved recipes (if any)
-        val recipesFile = File(getExternalFilesDir(null), recipesFileName)
-        var recipesList = mutableListOf<Recipe>()
-        val jacksonObjectMapper = jacksonObjectMapper()
-        if (recipesFile.exists()) {
-            val recipesJson = recipesFile.readText()
-            recipesList = jacksonObjectMapper.readValue(recipesJson)
-        }
-
-        //add new recipe to list and save
         val recipe = Recipe(mRecipeGenerationInfo.style!!, mRecipeGenerationInfo.size!!)
-        recipesList.add(recipe)
-        val recipesJsonToSave = jacksonObjectMapper.writeValueAsString(recipesList)
-        recipesFile.writeText(recipesJsonToSave)
+        MyRecipesHelper.saveRecipe(recipe, getExternalFilesDir(null)!!)
 
         Toast.makeText(this, "Saved recipe!", Toast.LENGTH_SHORT).show()
 
