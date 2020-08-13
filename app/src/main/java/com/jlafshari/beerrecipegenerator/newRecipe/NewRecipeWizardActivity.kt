@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -15,10 +16,11 @@ import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
+import com.jlafshari.beerrecipegenerator.newRecipe.SaveRecipeFragment.*
 import kotlinx.android.synthetic.main.activity_new_recipe_wizard.*
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
-    OnRecipeSizeSetListener {
+    OnRecipeSizeSetListener, OnSaveRecipeListener {
 
     private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
 
@@ -71,6 +73,10 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
 
     override fun onRecipeSizeSet(recipeSize: Double?) {
         mRecipeGenerationInfo.size = recipeSize
+    }
+
+    override fun onSaveRecipe() {
+        Toast.makeText(this, "Saved recipe!", Toast.LENGTH_SHORT).show()
     }
 
     /**
