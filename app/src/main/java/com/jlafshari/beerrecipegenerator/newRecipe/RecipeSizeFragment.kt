@@ -32,6 +32,7 @@ class RecipeSizeFragment : Fragment() {
                 mCallback?.onRecipeSizeSet(recipeSize)
             }
         })
+        mCallback?.onRecipeSizeSet(recipeSizeEditText.text.toString().toDoubleOrNull())
 
         return view
     }
