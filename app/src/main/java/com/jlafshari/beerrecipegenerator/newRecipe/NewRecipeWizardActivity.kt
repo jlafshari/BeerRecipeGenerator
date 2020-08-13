@@ -69,6 +69,10 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     }
 
     private fun cancelNewRecipe() {
+        goToMainActivity()
+    }
+
+    private fun goToMainActivity() {
         val mainActivityIntent = Intent(this, MainActivity::class.java)
         startActivity(mainActivityIntent)
     }
@@ -98,6 +102,8 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         recipesFile.writeText(recipesJsonToSave)
 
         Toast.makeText(this, "Saved recipe!", Toast.LENGTH_SHORT).show()
+
+        goToMainActivity()
     }
 
     /**
