@@ -6,10 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RecipeListAdapter(private val recipeList: List<RecipePreview>) : RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
+class RecipeListAdapter(private val recipeList: List<RecipePreview>, private val clickListener: (RecipePreview) -> Unit) :
+    RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.txtName.text = recipeList[position].toString()
+        val recipePreview = recipeList[position]
+        holder.txtName.text = recipePreview.toString()
+        holder.bind(recipePreview, clickListener)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,5 +24,9 @@ class RecipeListAdapter(private val recipeList: List<RecipePreview>) : RecyclerV
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val txtName: TextView = itemView.findViewById(R.id.txtName)
+
+        fun bind(recipePreview: RecipePreview, clickListener: (RecipePreview) -> Unit) {
+            itemView.setOnClickListener { clickListener(recipePreview) }
+        }
     }
 }

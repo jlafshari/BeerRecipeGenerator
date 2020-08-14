@@ -9,10 +9,12 @@ object MyRecipesHelper {
     private const val recipesFileName = "saved recipes.json"
     private val jacksonObjectMapper = jacksonObjectMapper()
 
-    fun getSavedRecipePreviews(externalFilesDirectory: File): List<RecipePreview> {
-        return getSavedRecipes(externalFilesDirectory)
-            .map { RecipePreview(it.name, it.style.name) }
-    }
+    fun getRecipe(recipeId: String, externalFilesDirectory: File): Recipe? =
+        getSavedRecipes(externalFilesDirectory).find { it.id == recipeId }
+
+    fun getSavedRecipePreviews(externalFilesDirectory: File): List<RecipePreview> =
+        getSavedRecipes(externalFilesDirectory)
+            .map { RecipePreview(it.id, it.name, it.style.name) }
 
     fun saveRecipe(recipe: Recipe, externalFilesDirectory: File) {
         val recipesList = getSavedRecipes(externalFilesDirectory)

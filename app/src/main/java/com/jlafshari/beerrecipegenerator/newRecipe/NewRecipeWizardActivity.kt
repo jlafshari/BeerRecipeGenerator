@@ -20,6 +20,7 @@ import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeSty
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
 import com.jlafshari.beerrecipegenerator.newRecipe.SaveRecipeFragment.OnSaveRecipeListener
 import kotlinx.android.synthetic.main.activity_new_recipe_wizard.*
+import java.util.*
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
     OnRecipeSizeSetListener, OnSaveRecipeListener {
@@ -82,7 +83,8 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     }
 
     override fun onSaveRecipe(recipeName: String) {
-        val recipe = Recipe(mRecipeGenerationInfo.style!!, mRecipeGenerationInfo.size!!, recipeName)
+        val newRecipeId = UUID.randomUUID().toString()
+        val recipe = Recipe(newRecipeId, mRecipeGenerationInfo.style!!, mRecipeGenerationInfo.size!!, recipeName)
         MyRecipesHelper.saveRecipe(recipe, getExternalFilesDir(null)!!)
 
         Toast.makeText(this, "Saved recipe!", Toast.LENGTH_SHORT).show()

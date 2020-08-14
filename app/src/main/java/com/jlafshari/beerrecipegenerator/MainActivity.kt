@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             )
 
         val recipes = MyRecipesHelper.getSavedRecipePreviews(getExternalFilesDir(null)!!)
-        recipeRecyclerView.adapter = RecipeListAdapter(recipes)
+        recipeRecyclerView.adapter = RecipeListAdapter(recipes) { recipePreview -> recipePreviewClicked(recipePreview) }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -47,5 +47,11 @@ class MainActivity : AppCompatActivity() {
     fun newRecipe(view: View) {
         val newRecipeIntent = Intent(this, NewRecipeWizardActivity::class.java)
         startActivity(newRecipeIntent)
+    }
+
+    private fun recipePreviewClicked(recipePreview: RecipePreview) {
+        val recipeViewIntent = Intent(this, RecipeViewActivity::class.java)
+        recipeViewIntent.putExtra(Constants.EXTRA_VIEW_RECIPE, recipePreview.id)
+        startActivity(recipeViewIntent)
     }
 }
