@@ -28,4 +28,17 @@
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+            android:id="@+id/txt_recipe_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginBottom="48dp"
+            android:autofillHints="@string/recipe_name_hint"
+            android:hint="@string/recipe_name_hint"
+            android:inputType="text"
+            app:layout_constraintBottom_toTopOf="@+id/button_save_recipe"
+            app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

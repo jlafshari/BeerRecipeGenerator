@@ -81,8 +81,8 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         mRecipeGenerationInfo.size = recipeSize
     }
 
-    override fun onSaveRecipe() {
-        val recipe = Recipe(mRecipeGenerationInfo.style!!, mRecipeGenerationInfo.size!!)
+    override fun onSaveRecipe(recipeName: String) {
+        val recipe = Recipe(mRecipeGenerationInfo.style!!, mRecipeGenerationInfo.size!!, recipeName)
         MyRecipesHelper.saveRecipe(recipe, getExternalFilesDir(null)!!)
 
         Toast.makeText(this, "Saved recipe!", Toast.LENGTH_SHORT).show()

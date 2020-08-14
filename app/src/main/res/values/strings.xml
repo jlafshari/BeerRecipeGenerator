@@ -12,4 +12,5 @@
     <string name="cancel_menu_item_text">Cancel</string>
     <string name="button_save_recipe">Save</string>
     <string name="generated_recipe_heading">Generated Recipe</string>
+    <string name="recipe_name_hint">Recipe Name</string>
 </resources>

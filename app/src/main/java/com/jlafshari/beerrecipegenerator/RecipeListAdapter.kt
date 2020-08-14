@@ -1,16 +1,15 @@
 package com.jlafshari.beerrecipegenerator
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import java.util.ArrayList
+import androidx.recyclerview.widget.RecyclerView
 
-class RecipeListAdapter(private val recipeList: ArrayList<RecipePreview>) : RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
+class RecipeListAdapter(private val recipeList: List<RecipePreview>) : RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.txtName.text = recipeList[position].name
+        holder.txtName.text = recipeList[position].toString()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

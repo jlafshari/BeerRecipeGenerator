@@ -25,10 +25,8 @@ class MainActivity : AppCompatActivity() {
                 RecyclerView.VERTICAL,
                 false
             )
-        val recipes = ArrayList<RecipePreview>()
-        recipes.add(RecipePreview("FSB"))
-        recipes.add(RecipePreview("Jahan's Private Reserve"))
 
+        val recipes = MyRecipesHelper.getSavedRecipePreviews(getExternalFilesDir(null)!!)
         recipeRecyclerView.adapter = RecipeListAdapter(recipes)
     }
 

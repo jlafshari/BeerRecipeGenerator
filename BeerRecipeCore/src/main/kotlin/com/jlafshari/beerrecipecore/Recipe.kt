@@ -1,3 +1,3 @@
 package com.jlafshari.beerrecipecore
 
-data class Recipe(val style: Style, val size: Double)
+data class Recipe(val style: Style, val size: Double, val name: String)
