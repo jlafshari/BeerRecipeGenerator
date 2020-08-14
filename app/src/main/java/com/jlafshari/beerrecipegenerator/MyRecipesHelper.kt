@@ -1,5 +1,7 @@
 package com.jlafshari.beerrecipegenerator
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Recipe
@@ -19,6 +21,20 @@ object MyRecipesHelper {
     fun saveRecipe(recipe: Recipe, externalFilesDirectory: File) {
         val recipesList = getSavedRecipes(externalFilesDirectory)
         recipesList.add(recipe)
+        saveRecipes(recipesList, externalFilesDirectory)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun deleteRecipe(recipeId: String, externalFilesDirectory: File) {
+        val recipesList = getSavedRecipes(externalFilesDirectory)
+        recipesList.removeIf { it.id == recipeId }
+        saveRecipes(recipesList, externalFilesDirectory)
+    }
+
+    private fun saveRecipes(
+        recipesList: MutableList<Recipe>,
+        externalFilesDirectory: File
+    ) {
         val recipesJsonToSave = jacksonObjectMapper.writeValueAsString(recipesList)
         val recipesFile = getSavedRecipesFile(externalFilesDirectory)
         recipesFile.writeText(recipesJsonToSave)
