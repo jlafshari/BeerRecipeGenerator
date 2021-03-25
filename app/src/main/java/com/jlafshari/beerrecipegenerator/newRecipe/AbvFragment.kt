@@ -22,7 +22,7 @@ class AbvFragment : Fragment() {
         recipeAbvPicker.maxValue = values.size - 1
         recipeAbvPicker.value = 2
         recipeAbvPicker.displayedValues = values
-        recipeAbvPicker.wrapSelectorWheel = true
+        recipeAbvPicker.wrapSelectorWheel = false
 
         recipeAbvPicker.setOnValueChangedListener { _, _, newVal ->
             mCallback?.onAbvValueSet(values[newVal].toDoubleOrNull())

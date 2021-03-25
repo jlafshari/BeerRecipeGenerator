@@ -19,10 +19,11 @@
 
     <NumberPicker
             android:id="@+id/abvPicker"
-            android:layout_width="64dp"
-            android:layout_height="108dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="84dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="24dp"
             android:layout_weight="1"
+            android:theme="@style/NumberPickerText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recipeAbvHeadingTextView" />
