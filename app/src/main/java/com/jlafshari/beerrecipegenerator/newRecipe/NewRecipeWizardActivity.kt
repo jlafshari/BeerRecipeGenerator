@@ -19,11 +19,12 @@ import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
 import com.jlafshari.beerrecipegenerator.newRecipe.SaveRecipeFragment.OnSaveRecipeListener
+import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.OnAbvValueSetListener
 import kotlinx.android.synthetic.main.activity_new_recipe_wizard.*
 import java.util.*
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
-    OnRecipeSizeSetListener, OnSaveRecipeListener {
+    OnRecipeSizeSetListener, OnAbvValueSetListener, OnSaveRecipeListener {
 
     private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
 
@@ -82,9 +83,13 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         mRecipeGenerationInfo.size = recipeSize
     }
 
+    override fun onAbvValueSet(abv: Double?) {
+        mRecipeGenerationInfo.abv = abv
+    }
+
     override fun onSaveRecipe(recipeName: String) {
         val newRecipeId = UUID.randomUUID().toString()
-        val recipe = Recipe(newRecipeId, mRecipeGenerationInfo.style!!, mRecipeGenerationInfo.size!!, recipeName)
+        val recipe = Recipe(newRecipeId, mRecipeGenerationInfo.style!!, mRecipeGenerationInfo.size!!, recipeName, mRecipeGenerationInfo.abv!!)
         MyRecipesHelper.saveRecipe(recipe, getExternalFilesDir(null)!!)
 
         Toast.makeText(this, "Saved recipe!", Toast.LENGTH_SHORT).show()

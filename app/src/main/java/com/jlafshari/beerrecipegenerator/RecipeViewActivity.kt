@@ -26,6 +26,7 @@ class RecipeViewActivity : AppCompatActivity() {
         txt_recipe_name.text = mRecipe!!.name
         txt_style.text = getString(R.string.recipe_view_style_name, mRecipe!!.style.name)
         txt_size.text = getString(R.string.recipe_view_size, mRecipe!!.size.toString())
+        txt_abv.text = getString(R.string.recipe_view_abv, mRecipe!!.abv.toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
