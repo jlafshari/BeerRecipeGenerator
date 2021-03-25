@@ -18,4 +18,5 @@
     <string name="recipe_view_size">%1$s gallons</string>
     <string name="recipe_view_abv">ABV: %1$s%%</string>
     <string name="recipe_abv_heading_fragment">What should the alcohol by volume (ABV) percentage be?</string>
+    <string name="new_recipe_btn_desc">New recipe</string>
 </resources>
