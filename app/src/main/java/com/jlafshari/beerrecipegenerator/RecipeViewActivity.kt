@@ -9,24 +9,25 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.jlafshari.beerrecipecore.Recipe
-import kotlinx.android.synthetic.main.activity_recipe_view.*
+import com.jlafshari.beerrecipegenerator.databinding.ActivityRecipeViewBinding
 
 class RecipeViewActivity : AppCompatActivity() {
     private var mRecipe: Recipe? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recipe_view)
+        val binding = ActivityRecipeViewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val recipeId = intent.getStringExtra(Constants.EXTRA_VIEW_RECIPE)
         mRecipe = MyRecipesHelper.getRecipe(recipeId!!, getExternalFilesDir(null)!!)
         if (mRecipe == null) {
             throw Error("Could not load recipe with id \"$recipeId\"")
         }
-        txt_recipe_name.text = mRecipe!!.name
-        txt_style.text = getString(R.string.recipe_view_style_name, mRecipe!!.style.name)
-        txt_size.text = getString(R.string.recipe_view_size, mRecipe!!.size.toString())
-        txt_abv.text = getString(R.string.recipe_view_abv, mRecipe!!.abv.toString())
+        binding.txtRecipeName.text = mRecipe!!.name
+        binding.txtStyle.text = getString(R.string.recipe_view_style_name, mRecipe!!.style.name)
+        binding.txtSize.text = getString(R.string.recipe_view_size, mRecipe!!.size.toString())
+        binding.txtAbv.text = getString(R.string.recipe_view_abv, mRecipe!!.abv.toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.jlafshari.beerrecipegenerator.R
-import kotlinx.android.synthetic.main.fragment_save_recipe.*
 
 class SaveRecipeFragment : Fragment() {
     private var mCallback: OnSaveRecipeListener? = null
@@ -21,7 +21,8 @@ class SaveRecipeFragment : Fragment() {
 
         val saveButton = view.findViewById<Button>(R.id.button_save_recipe)
         saveButton.setOnClickListener {
-            mCallback?.onSaveRecipe(txt_recipe_name.text.toString())
+            val txtRecipeName = view.findViewById<TextView>(R.id.txt_recipe_name)
+            mCallback?.onSaveRecipe(txtRecipeName.text.toString())
         }
 
         return view

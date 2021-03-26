@@ -16,11 +16,11 @@ import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.MyRecipesHelper
 import com.jlafshari.beerrecipegenerator.R
+import com.jlafshari.beerrecipegenerator.databinding.ActivityNewRecipeWizardBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
 import com.jlafshari.beerrecipegenerator.newRecipe.SaveRecipeFragment.OnSaveRecipeListener
 import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.OnAbvValueSetListener
-import kotlinx.android.synthetic.main.activity_new_recipe_wizard.*
 import java.util.*
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
@@ -30,19 +30,20 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_recipe_wizard)
+        val binding = ActivityNewRecipeWizardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         // Set up the ViewPager with the sections adapter.
-        viewPager.adapter = SectionsPagerAdapter(this)
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        binding.viewPager.adapter = SectionsPagerAdapter(this)
+        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                progressBar.progress = position + 1
+                binding.progressBar.progress = position + 1
                 super.onPageSelected(position)
             }
         })
 
-        progressBar.max = NewRecipeSteps.numberOfSteps
+        binding.progressBar.max = NewRecipeSteps.numberOfSteps
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
