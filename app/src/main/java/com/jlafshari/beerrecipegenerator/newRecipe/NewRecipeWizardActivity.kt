@@ -21,10 +21,11 @@ import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeSty
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
 import com.jlafshari.beerrecipegenerator.newRecipe.SaveRecipeFragment.OnSaveRecipeListener
 import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.OnAbvValueSetListener
+import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.OnColorValueSetListener
 import java.util.*
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
-    OnRecipeSizeSetListener, OnAbvValueSetListener, OnSaveRecipeListener {
+    OnRecipeSizeSetListener, OnAbvValueSetListener, OnColorValueSetListener, OnSaveRecipeListener {
 
     private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
 
@@ -88,9 +89,14 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         mRecipeGenerationInfo.abv = abv
     }
 
+    override fun onColorValueSet(colorSrm: Double?) {
+        mRecipeGenerationInfo.colorSrm = colorSrm
+    }
+
     override fun onSaveRecipe(recipeName: String) {
         val newRecipeId = UUID.randomUUID().toString()
-        val recipe = Recipe(newRecipeId, mRecipeGenerationInfo.style!!, mRecipeGenerationInfo.size!!, recipeName, mRecipeGenerationInfo.abv!!)
+        val recipe = Recipe(newRecipeId, mRecipeGenerationInfo.style!!, mRecipeGenerationInfo.size!!,
+            recipeName, mRecipeGenerationInfo.abv!!, mRecipeGenerationInfo.colorSrm!!)
         MyRecipesHelper.saveRecipe(recipe, getExternalFilesDir(null)!!)
 
         Toast.makeText(this, "Saved recipe!", Toast.LENGTH_SHORT).show()
