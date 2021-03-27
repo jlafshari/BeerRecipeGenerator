@@ -89,7 +89,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         mRecipeGenerationInfo.abv = abv
     }
 
-    override fun onColorValueSet(colorSrm: Double?) {
+    override fun onColorValueSet(colorSrm: Int?) {
         mRecipeGenerationInfo.colorSrm = colorSrm
     }
 

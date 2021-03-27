@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipegenerator.R
 
 class ColorFragment : Fragment() {
@@ -17,6 +19,13 @@ class ColorFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_color, container, false)
+
+        val colorRecyclerView = view.findViewById<RecyclerView>(R.id.colorPaletteRecyclerView)
+        colorRecyclerView.layoutManager = LinearLayoutManager(
+            this.context, RecyclerView.HORIZONTAL, false)
+
+        val colors = listOf(1, 2, 3, 4, 5)
+        colorRecyclerView.adapter = ColorPaletteListAdapter(colors) { colorValueSrm -> mCallback?.onColorValueSet(colorValueSrm)}
 
         return view
     }
@@ -36,6 +45,6 @@ class ColorFragment : Fragment() {
     }
 
     interface OnColorValueSetListener {
-        fun onColorValueSet(colorSrm: Double?)
+        fun onColorValueSet(colorSrm: Int?)
     }
 }

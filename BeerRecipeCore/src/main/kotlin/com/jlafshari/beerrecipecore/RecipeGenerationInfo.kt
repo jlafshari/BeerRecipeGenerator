@@ -4,5 +4,5 @@ class RecipeGenerationInfo {
     var style: Style? = null
     var size: Double? = null
     var abv: Double? = null
-    var colorSrm: Double? = null
+    var colorSrm: Int? = null
 }
