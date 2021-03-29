@@ -25,7 +25,8 @@ class ColorFragment : Fragment() {
             this.context, RecyclerView.HORIZONTAL, false)
 
         val colors = listOf(1, 2, 3, 4, 5)
-        colorRecyclerView.adapter = ColorPaletteListAdapter(colors) { colorValueSrm -> mCallback?.onColorValueSet(colorValueSrm)}
+        colorRecyclerView.adapter = ColorPaletteListAdapter(context!!, colors)
+            { colorValueSrm -> mCallback?.onColorValueSet(colorValueSrm)}
 
         return view
     }

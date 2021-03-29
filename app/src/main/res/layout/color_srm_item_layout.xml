@@ -4,6 +4,7 @@
         android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+            android:id="@+id/colorCardView"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_margin="5dp">
