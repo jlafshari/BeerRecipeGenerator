@@ -23,7 +23,7 @@ class ColorFragment : Fragment() {
 
         val colorRecyclerView = view.findViewById<RecyclerView>(R.id.colorPaletteRecyclerView)
         colorRecyclerView.layoutManager = LinearLayoutManager(
-            this.context, RecyclerView.HORIZONTAL, false)
+            this.context, RecyclerView.VERTICAL, false)
 
         colorRecyclerView.adapter = ColorPaletteListAdapter(Colors.getColors())
             { colorValueSrm -> mCallback?.onColorValueSet(colorValueSrm)}

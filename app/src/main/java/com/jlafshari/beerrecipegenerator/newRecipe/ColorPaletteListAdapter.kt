@@ -31,12 +31,17 @@ class ColorPaletteListAdapter(
         holder.txtColorSrmValue.text = srmColor.srmColor.toString()
 
         holder.colorCardView.setCardBackgroundColor(srmColor.rbgColor)
-        val cardLength: Int = if (selectedPos == position) {
-            155
+        val cardWidth: Int = if (selectedPos == position) {
+            630
+        } else {
+            600
+        }
+        val cardHeight: Int = if (selectedPos == position) {
+            170
         } else {
             140
         }
-        holder.colorCardView.layoutParams = LinearLayout.LayoutParams(cardLength, cardLength)
+        holder.colorCardView.layoutParams = LinearLayout.LayoutParams(cardWidth, cardHeight)
 
         holder.itemView.setOnClickListener {
             val previousItem = selectedPos
