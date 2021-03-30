@@ -1,18 +1,16 @@
 package com.jlafshari.beerrecipegenerator.newRecipe
 
-import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipegenerator.R
 
 class ColorPaletteListAdapter(
-    private val context: Context,
     private val colorList: List<Int>,
     private val clickListener: (Int) -> Unit
 ):
@@ -32,9 +30,13 @@ class ColorPaletteListAdapter(
         val colorSrmValue = colorList[position]
         holder.txtColorSrmValue.text = colorSrmValue.toString()
 
-        holder.colorCardView.setCardBackgroundColor(Color.TRANSPARENT)
-        if (selectedPos == position)
-            holder.colorCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+        holder.colorCardView.setCardBackgroundColor(Color.rgb(224, 208, 27))
+        val cardLength: Int = if (selectedPos == position) {
+            155
+        } else {
+            140
+        }
+        holder.colorCardView.layoutParams = LinearLayout.LayoutParams(cardLength, cardLength)
 
         holder.itemView.setOnClickListener {
             val previousItem = selectedPos
