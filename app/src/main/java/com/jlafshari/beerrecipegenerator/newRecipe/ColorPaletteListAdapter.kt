@@ -1,6 +1,5 @@
 package com.jlafshari.beerrecipegenerator.newRecipe
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +8,10 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipegenerator.R
+import com.jlafshari.beerrecipegenerator.srmColors.SrmColor
 
 class ColorPaletteListAdapter(
-    private val colorList: List<Int>,
+    private val colorList: List<SrmColor>,
     private val clickListener: (Int) -> Unit
 ):
     RecyclerView.Adapter<ColorPaletteListAdapter.ViewHolder>() {
@@ -27,10 +27,10 @@ class ColorPaletteListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val colorSrmValue = colorList[position]
-        holder.txtColorSrmValue.text = colorSrmValue.toString()
+        val srmColor = colorList[position]
+        holder.txtColorSrmValue.text = srmColor.srmColor.toString()
 
-        holder.colorCardView.setCardBackgroundColor(Color.rgb(224, 208, 27))
+        holder.colorCardView.setCardBackgroundColor(srmColor.rbgColor)
         val cardLength: Int = if (selectedPos == position) {
             155
         } else {
@@ -44,7 +44,7 @@ class ColorPaletteListAdapter(
             notifyItemChanged(position)
             notifyItemChanged(previousItem)
 
-            clickListener(colorSrmValue)
+            clickListener(srmColor.srmColor)
         }
     }
 

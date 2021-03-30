@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipegenerator.R
+import com.jlafshari.beerrecipegenerator.srmColors.Colors
 
 class ColorFragment : Fragment() {
     private var mCallback: OnColorValueSetListener? = null
@@ -24,8 +25,7 @@ class ColorFragment : Fragment() {
         colorRecyclerView.layoutManager = LinearLayoutManager(
             this.context, RecyclerView.HORIZONTAL, false)
 
-        val colors = listOf(1, 2, 3, 4, 5)
-        colorRecyclerView.adapter = ColorPaletteListAdapter(colors)
+        colorRecyclerView.adapter = ColorPaletteListAdapter(Colors.getColors())
             { colorValueSrm -> mCallback?.onColorValueSet(colorValueSrm)}
 
         return view
