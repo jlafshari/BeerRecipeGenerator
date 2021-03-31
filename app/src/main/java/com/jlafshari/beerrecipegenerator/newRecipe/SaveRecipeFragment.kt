@@ -22,7 +22,10 @@ class SaveRecipeFragment : Fragment() {
         val saveButton = view.findViewById<Button>(R.id.button_save_recipe)
         saveButton.setOnClickListener {
             val txtRecipeName = view.findViewById<TextView>(R.id.txt_recipe_name)
-            mCallback?.onSaveRecipe(txtRecipeName.text.toString())
+            if (txtRecipeName.text.isNotEmpty())
+                mCallback?.onSaveRecipe(txtRecipeName.text.toString())
+            else
+                txtRecipeName.error = "No recipe name set"
         }
 
         return view
