@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipegenerator.databinding.ActivityRecipeViewBinding
+import com.jlafshari.beerrecipegenerator.srmColors.Colors
 
 class RecipeViewActivity : AppCompatActivity() {
     private var mRecipe: Recipe? = null
@@ -28,7 +29,9 @@ class RecipeViewActivity : AppCompatActivity() {
         binding.txtStyle.text = getString(R.string.recipe_view_style_name, mRecipe!!.style.name)
         binding.txtSize.text = getString(R.string.recipe_view_size, mRecipe!!.size.toString())
         binding.txtAbv.text = getString(R.string.recipe_view_abv, mRecipe!!.abv.toString())
-        binding.txtColor.text = getString(R.string.recipe_view_color, mRecipe!!.colorSrm.toString())
+        val srmColor: Int = mRecipe!!.colorSrm
+        binding.txtColor.text = getString(R.string.recipe_view_color, srmColor.toString())
+        binding.srmColorCardView.setCardBackgroundColor(Colors.getColor(srmColor).rbgColor)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -7,6 +7,10 @@ class Colors {
             return srmColors
         }
 
+        fun getColor(srmColor: Int): SrmColor {
+            return srmColors.find { it.srmColor == srmColor }!!
+        }
+
         private val srmColors = listOf(
             SrmColor(1, Color.rgb(243, 249, 147)),
             SrmColor(2, Color.rgb(245, 247, 92)),

@@ -56,4 +56,13 @@
             android:minWidth="60dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_abv" />
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/srmColorCardView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_color" />
 </androidx.constraintlayout.widget.ConstraintLayout>
