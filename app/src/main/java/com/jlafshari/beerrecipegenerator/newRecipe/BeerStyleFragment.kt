@@ -40,7 +40,7 @@ class BeerStyleFragment : Fragment() {
 
     private fun loadRecipeStyles(styleSpinner: Spinner) {
         val queue = Volley.newRequestQueue(this.context)
-        val stringRequest = StringRequest(Request.Method.GET, "http://10.0.2.2:5000/Style/GetAll",
+        val stringRequest = StringRequest(Request.Method.GET, resources.getString(R.string.getAllStylesUrl),
             {
                 val json = jacksonObjectMapper()
                 val recipeStyles: List<Style> = json.readValue(it)
