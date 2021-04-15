@@ -3,12 +3,12 @@ import android.graphics.Color
 
 class Colors {
     companion object {
-        fun getColors(): List<SrmColor> {
-            return srmColors
-        }
-
         fun getColor(srmColor: Int): SrmColor {
             return srmColors.find { it.srmColor == srmColor }!!
+        }
+
+        fun getColorsInRange(startingSrmColor: Int, endingSrmColor: Int): List<SrmColor> {
+            return srmColors.filter { it.srmColor in startingSrmColor..endingSrmColor }
         }
 
         private val srmColors = listOf(

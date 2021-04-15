@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jlafshari.beerrecipecore.StyleThreshold
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
 
@@ -25,7 +26,9 @@ class ColorFragment : Fragment() {
         colorRecyclerView.layoutManager = LinearLayoutManager(
             this.context, RecyclerView.VERTICAL, false)
 
-        colorRecyclerView.adapter = ColorPaletteListAdapter(Colors.getColors())
+        val srmColorThreshold = mCallback!!.getSrmColorThreshold()
+        val colors = Colors.getColorsInRange(srmColorThreshold.minimum.toInt(), srmColorThreshold.maximum.toInt())
+        colorRecyclerView.adapter = ColorPaletteListAdapter(colors)
             { colorValueSrm -> mCallback?.onColorValueSet(colorValueSrm)}
 
         return view
@@ -47,5 +50,6 @@ class ColorFragment : Fragment() {
 
     interface OnColorValueSetListener {
         fun onColorValueSet(colorSrm: Int?)
+        fun getSrmColorThreshold(): StyleThreshold
     }
 }

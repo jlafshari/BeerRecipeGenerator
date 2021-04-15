@@ -13,15 +13,16 @@ import androidx.viewpager2.widget.ViewPager2
 import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.Style
+import com.jlafshari.beerrecipecore.StyleThreshold
 import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.MyRecipesHelper
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivityNewRecipeWizardBinding
+import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.OnAbvValueSetListener
 import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener
+import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.OnColorValueSetListener
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
 import com.jlafshari.beerrecipegenerator.newRecipe.SaveRecipeFragment.OnSaveRecipeListener
-import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.OnAbvValueSetListener
-import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.OnColorValueSetListener
 import java.util.*
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
@@ -92,6 +93,9 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     override fun onColorValueSet(colorSrm: Int?) {
         mRecipeGenerationInfo.colorSrm = colorSrm
     }
+
+    override fun getSrmColorThreshold(): StyleThreshold =
+        mRecipeGenerationInfo.style!!.colorThreshold
 
     override fun onSaveRecipe(recipeName: String) {
         val newRecipeId = UUID.randomUUID().toString()
