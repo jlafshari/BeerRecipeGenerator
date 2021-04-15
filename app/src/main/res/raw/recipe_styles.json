@@ -1,5 +1,32 @@
 [
-  {"name": "American Brown Ale"},
-  {"name": "English Special Bitter"},
-  {"name": "IPA"}
+  {
+    "name": "American Brown Ale",
+    "thresholds": [
+      {
+        "value": "color",
+        "minimum": 18,
+        "maximum": 35
+      }
+    ]
+  },
+  {
+    "name": "English Special Bitter",
+    "thresholds": [
+      {
+        "value": "color",
+        "minimum": 18,
+        "maximum": 35
+      }
+    ]
+  },
+  {
+    "name": "IPA",
+    "thresholds": [
+      {
+        "value": "color",
+        "minimum": 18,
+        "maximum": 35
+      }
+    ]
+  }
 ]
