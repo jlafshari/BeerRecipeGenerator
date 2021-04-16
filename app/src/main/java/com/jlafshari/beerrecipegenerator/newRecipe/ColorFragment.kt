@@ -13,7 +13,7 @@ import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
 
 class ColorFragment : Fragment() {
-    private var mCallback: OnColorValueSetListener? = null
+    private var mCallback: ColorCallback? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,10 +36,10 @@ class ColorFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnColorValueSetListener) {
+        if (context is ColorCallback) {
             mCallback = context
         } else {
-            throw ClassCastException("$context must implement ${OnColorValueSetListener::class.simpleName}")
+            throw ClassCastException("$context must implement ${ColorCallback::class.simpleName}")
         }
     }
 
@@ -48,7 +48,7 @@ class ColorFragment : Fragment() {
         mCallback = null
     }
 
-    interface OnColorValueSetListener {
+    interface ColorCallback {
         fun onColorValueSet(colorSrm: Int?)
         fun getSrmColorThreshold(): StyleThreshold
     }

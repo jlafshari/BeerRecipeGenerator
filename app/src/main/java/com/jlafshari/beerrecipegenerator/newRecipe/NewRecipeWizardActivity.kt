@@ -20,13 +20,13 @@ import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivityNewRecipeWizardBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.OnAbvValueSetListener
 import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener
-import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.OnColorValueSetListener
+import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.ColorCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
 import com.jlafshari.beerrecipegenerator.newRecipe.SaveRecipeFragment.OnSaveRecipeListener
 import java.util.*
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
-    OnRecipeSizeSetListener, OnAbvValueSetListener, OnColorValueSetListener, OnSaveRecipeListener {
+    OnRecipeSizeSetListener, OnAbvValueSetListener, ColorCallback, OnSaveRecipeListener {
 
     private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
 
