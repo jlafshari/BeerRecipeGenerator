@@ -18,7 +18,7 @@ import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.MyRecipesHelper
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivityNewRecipeWizardBinding
-import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.OnAbvValueSetListener
+import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.AbvCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener
 import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.ColorCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
@@ -26,7 +26,7 @@ import com.jlafshari.beerrecipegenerator.newRecipe.SaveRecipeFragment.OnSaveReci
 import java.util.*
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
-    OnRecipeSizeSetListener, OnAbvValueSetListener, ColorCallback, OnSaveRecipeListener {
+    OnRecipeSizeSetListener, AbvCallback, ColorCallback, OnSaveRecipeListener {
 
     private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
 
@@ -89,6 +89,9 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     override fun onAbvValueSet(abv: Double?) {
         mRecipeGenerationInfo.abv = abv
     }
+
+    override fun getAbvThreshold(): StyleThreshold =
+        mRecipeGenerationInfo.style!!.abvThreshold
 
     override fun onColorValueSet(colorSrm: Int?) {
         mRecipeGenerationInfo.colorSrm = colorSrm

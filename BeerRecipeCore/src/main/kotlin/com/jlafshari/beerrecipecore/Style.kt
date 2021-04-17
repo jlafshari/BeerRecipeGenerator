@@ -9,4 +9,5 @@ data class Style(val name: String, val thresholds: List<StyleThreshold>) {
     }
 
     val colorThreshold = thresholds.find { it.value == "color" }!!
+    val abvThreshold = thresholds.find { it.value == "abv" }!!
 }
