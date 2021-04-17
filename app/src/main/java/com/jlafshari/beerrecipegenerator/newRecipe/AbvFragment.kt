@@ -9,6 +9,7 @@ import android.widget.NumberPicker
 import androidx.fragment.app.Fragment
 import com.jlafshari.beerrecipecore.StyleThreshold
 import com.jlafshari.beerrecipecore.utility.AbvUtility.getAbvValues
+import com.jlafshari.beerrecipecore.utility.AbvUtility.getMedianAbvIndex
 import com.jlafshari.beerrecipegenerator.R
 
 class AbvFragment : Fragment() {
@@ -19,18 +20,23 @@ class AbvFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_abv, container, false)
 
         val abvValues = getAbvValues(mCallback?.getAbvThreshold()!!)
+        val startingAbvIndex = getMedianAbvIndex(abvValues)
         val recipeAbvPicker = view.findViewById<NumberPicker>(R.id.abvPicker)
-        setUpRecipeAbvPicker(recipeAbvPicker, abvValues)
+        setUpRecipeAbvPicker(recipeAbvPicker, abvValues.map { it.toString() }, startingAbvIndex)
 
-        mCallback?.onAbvValueSet(abvValues[2].toDoubleOrNull())
+        mCallback?.onAbvValueSet(abvValues[startingAbvIndex])
 
         return view
     }
 
-    private fun setUpRecipeAbvPicker(recipeAbvPicker: NumberPicker, abvValues: List<String>) {
+    private fun setUpRecipeAbvPicker(
+        recipeAbvPicker: NumberPicker,
+        abvValues: List<String>,
+        startingAbvIndex: Int
+    ) {
         recipeAbvPicker.minValue = 0
         recipeAbvPicker.maxValue = abvValues.size - 1
-        recipeAbvPicker.value = 2
+        recipeAbvPicker.value = startingAbvIndex
         recipeAbvPicker.displayedValues = abvValues.toTypedArray()
         recipeAbvPicker.wrapSelectorWheel = false
 
