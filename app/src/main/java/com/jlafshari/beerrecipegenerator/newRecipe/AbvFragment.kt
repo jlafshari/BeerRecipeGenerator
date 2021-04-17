@@ -18,8 +18,16 @@ class AbvFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_abv, container, false)
 
-        val recipeAbvPicker = view.findViewById<NumberPicker>(R.id.abvPicker)
         val abvValues = getAbvValues(mCallback?.getAbvThreshold()!!)
+        val recipeAbvPicker = view.findViewById<NumberPicker>(R.id.abvPicker)
+        setUpRecipeAbvPicker(recipeAbvPicker, abvValues)
+
+        mCallback?.onAbvValueSet(abvValues[2].toDoubleOrNull())
+
+        return view
+    }
+
+    private fun setUpRecipeAbvPicker(recipeAbvPicker: NumberPicker, abvValues: List<String>) {
         recipeAbvPicker.minValue = 0
         recipeAbvPicker.maxValue = abvValues.size - 1
         recipeAbvPicker.value = 2
@@ -29,9 +37,6 @@ class AbvFragment : Fragment() {
         recipeAbvPicker.setOnValueChangedListener { _, _, newVal ->
             mCallback?.onAbvValueSet(abvValues[newVal].toDoubleOrNull())
         }
-        mCallback?.onAbvValueSet(abvValues[2].toDoubleOrNull())
-
-        return view
     }
 
     override fun onAttach(context: Context) {
