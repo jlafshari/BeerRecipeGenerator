@@ -31,6 +31,22 @@ class ColorPaletteListAdapter(
         holder.txtColorSrmValue.text = srmColor.srmColor.toString()
 
         holder.colorCardView.setCardBackgroundColor(srmColor.rbgColor)
+        setCardViewDimensions(position, holder.colorCardView)
+
+        holder.itemView.setOnClickListener {
+            val previousItem = selectedPos
+            selectedPos = position
+            notifyItemChanged(position)
+            notifyItemChanged(previousItem)
+
+            clickListener(srmColor.srmColor)
+        }
+    }
+
+    private fun setCardViewDimensions(
+        position: Int,
+        cardView: CardView
+    ) {
         val cardWidth: Int = if (selectedPos == position) {
             630
         } else {
@@ -41,16 +57,7 @@ class ColorPaletteListAdapter(
         } else {
             140
         }
-        holder.colorCardView.layoutParams = LinearLayout.LayoutParams(cardWidth, cardHeight)
-
-        holder.itemView.setOnClickListener {
-            val previousItem = selectedPos
-            selectedPos = position
-            notifyItemChanged(position)
-            notifyItemChanged(previousItem)
-
-            clickListener(srmColor.srmColor)
-        }
+        cardView.layoutParams = LinearLayout.LayoutParams(cardWidth, cardHeight)
     }
 
     override fun getItemCount() = colorList.size
