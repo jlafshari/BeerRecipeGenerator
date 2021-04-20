@@ -10,8 +10,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.jlafshari.beerrecipegenerator.R
 
-class SaveRecipeFragment : Fragment() {
-    private var mCallback: OnSaveRecipeListener? = null
+class GenerateRecipeFragment : Fragment() {
+    private var mCallback: OnGenerateRecipeListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,11 +19,11 @@ class SaveRecipeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_save_recipe, container, false)
 
-        val saveButton = view.findViewById<Button>(R.id.button_save_recipe)
+        val saveButton = view.findViewById<Button>(R.id.button_generate_recipe)
         saveButton.setOnClickListener {
             val txtRecipeName = view.findViewById<TextView>(R.id.txt_recipe_name)
             if (txtRecipeName.text.isNotEmpty())
-                mCallback?.onSaveRecipe(txtRecipeName.text.toString())
+                mCallback?.onGenerateRecipe(txtRecipeName.text.toString())
             else
                 txtRecipeName.error = "No recipe name set"
         }
@@ -34,13 +34,13 @@ class SaveRecipeFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        if (context is OnSaveRecipeListener)
+        if (context is OnGenerateRecipeListener)
             mCallback = context
         else
             throw ClassCastException(context.toString())
     }
 
-    interface OnSaveRecipeListener {
-        fun onSaveRecipe(recipeName: String)
+    interface OnGenerateRecipeListener {
+        fun onGenerateRecipe(recipeName: String)
     }
 }

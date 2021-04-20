@@ -22,11 +22,11 @@ import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.AbvCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener
 import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.ColorCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
-import com.jlafshari.beerrecipegenerator.newRecipe.SaveRecipeFragment.OnSaveRecipeListener
+import com.jlafshari.beerrecipegenerator.newRecipe.GenerateRecipeFragment.OnGenerateRecipeListener
 import java.util.*
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
-    OnRecipeSizeSetListener, AbvCallback, ColorCallback, OnSaveRecipeListener {
+    OnRecipeSizeSetListener, AbvCallback, ColorCallback, OnGenerateRecipeListener {
 
     private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
 
@@ -100,7 +100,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     override fun getSrmColorThreshold(): StyleThreshold =
         mRecipeGenerationInfo.style!!.colorThreshold
 
-    override fun onSaveRecipe(recipeName: String) {
+    override fun onGenerateRecipe(recipeName: String) {
         val newRecipeId = UUID.randomUUID().toString()
         val recipe = Recipe(newRecipeId, mRecipeGenerationInfo.style!!, mRecipeGenerationInfo.size!!,
             recipeName, mRecipeGenerationInfo.abv!!, mRecipeGenerationInfo.colorSrm!!)

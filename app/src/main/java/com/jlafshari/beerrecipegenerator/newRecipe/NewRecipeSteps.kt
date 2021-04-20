@@ -10,7 +10,7 @@ object NewRecipeSteps {
         1 -> RecipeSizeFragment()
         2 -> AbvFragment()
         3 -> ColorFragment()
-        4 -> SaveRecipeFragment()
+        4 -> GenerateRecipeFragment()
         else -> BeerStyleFragment()
     }
 }
