@@ -6,6 +6,11 @@
         "value": "color",
         "minimum": 18,
         "maximum": 35
+      },
+      {
+        "value": "abv",
+        "minimum": 4.3,
+        "maximum": 6.2
       }
     ]
   },
@@ -16,6 +21,11 @@
         "value": "color",
         "minimum": 18,
         "maximum": 35
+      },
+      {
+        "value": "abv",
+        "minimum": 4.3,
+        "maximum": 6.2
       }
     ]
   },
@@ -26,6 +36,11 @@
         "value": "color",
         "minimum": 18,
         "maximum": 35
+      },
+      {
+        "value": "abv",
+        "minimum": 4.3,
+        "maximum": 6.2
       }
     ]
   }
