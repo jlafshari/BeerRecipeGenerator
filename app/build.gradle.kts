@@ -22,6 +22,7 @@ android {
     buildTypes {
         getByName("debug") {
             resValue("string", "getAllStylesUrl", localProperties["getAllStylesUrl"] as String)
+            resValue("string", "generateRecipeUrl", localProperties["generateRecipeUrl"] as String)
         }
         getByName("release") {
             isMinifyEnabled = false

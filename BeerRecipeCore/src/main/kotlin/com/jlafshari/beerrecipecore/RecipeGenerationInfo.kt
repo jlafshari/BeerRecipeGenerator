@@ -1,8 +1,9 @@
 package com.jlafshari.beerrecipecore
 
 class RecipeGenerationInfo {
-    var style: Style? = null
+    var styleId: String? = null
     var size: Double? = null
     var abv: Double? = null
     var colorSrm: Int? = null
+    var name: String? = null
 }

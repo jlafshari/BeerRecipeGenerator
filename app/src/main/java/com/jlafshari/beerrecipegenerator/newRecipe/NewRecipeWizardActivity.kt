@@ -10,6 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.android.volley.AuthFailureError
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.Style
@@ -21,14 +25,15 @@ import com.jlafshari.beerrecipegenerator.databinding.ActivityNewRecipeWizardBind
 import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.AbvCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener
 import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.ColorCallback
-import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
 import com.jlafshari.beerrecipegenerator.newRecipe.GenerateRecipeFragment.OnGenerateRecipeListener
+import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
 import java.util.*
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
     OnRecipeSizeSetListener, AbvCallback, ColorCallback, OnGenerateRecipeListener {
 
     private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
+    private var mStyle: Style? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +84,8 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     }
 
     override fun onRecipeStyleSelected(style: Style) {
-        mRecipeGenerationInfo.style = style
+        mStyle = style
+        mRecipeGenerationInfo.styleId = style.id
     }
 
     override fun onRecipeSizeSet(recipeSize: Double?) {
@@ -91,24 +97,41 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     }
 
     override fun getAbvThreshold(): StyleThreshold =
-        mRecipeGenerationInfo.style!!.abvThreshold
+        mStyle!!.abvThreshold
 
     override fun onColorValueSet(colorSrm: Int?) {
         mRecipeGenerationInfo.colorSrm = colorSrm
     }
 
     override fun getSrmColorThreshold(): StyleThreshold =
-        mRecipeGenerationInfo.style!!.colorThreshold
+        mStyle!!.colorThreshold
 
     override fun onGenerateRecipe(recipeName: String) {
+        mRecipeGenerationInfo.name = recipeName
+        val queue = Volley.newRequestQueue(this)
+        val stringRequest = object : StringRequest(
+            Method.POST, resources.getString(R.string.generateRecipeUrl),
+            {
+                Toast.makeText(this, "Saved recipe!", Toast.LENGTH_SHORT).show()
+
+                goToMainActivity()
+            },
+            { println(it) })
+            {
+                override fun getBodyContentType(): String = "application/json"
+
+                @Throws(AuthFailureError::class)
+                override fun getBody(): ByteArray {
+                    val jacksonObjectMapper = jacksonObjectMapper()
+                    return jacksonObjectMapper.writeValueAsBytes(mRecipeGenerationInfo)
+                }
+            }
+        queue.add(stringRequest)
+
         val newRecipeId = UUID.randomUUID().toString()
-        val recipe = Recipe(newRecipeId, mRecipeGenerationInfo.style!!, mRecipeGenerationInfo.size!!,
+        val recipe = Recipe(newRecipeId, mStyle!!, mRecipeGenerationInfo.size!!,
             recipeName, mRecipeGenerationInfo.abv!!, mRecipeGenerationInfo.colorSrm!!)
         MyRecipesHelper.saveRecipe(recipe, getExternalFilesDir(null)!!)
-
-        Toast.makeText(this, "Saved recipe!", Toast.LENGTH_SHORT).show()
-
-        goToMainActivity()
     }
 
     /**
