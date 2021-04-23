@@ -14,11 +14,15 @@ import com.android.volley.AuthFailureError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipecore.StyleThreshold
+import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.R
+import com.jlafshari.beerrecipegenerator.RecipeViewActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityNewRecipeWizardBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.AbvCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener
@@ -111,7 +115,11 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
             {
                 Toast.makeText(this, "Saved recipe!", Toast.LENGTH_SHORT).show()
 
-                goToMainActivity()
+                val recipe: Recipe = jacksonObjectMapper().readValue(it)
+
+                val recipeViewIntent = Intent(this, RecipeViewActivity::class.java)
+                recipeViewIntent.putExtra(Constants.EXTRA_VIEW_RECIPE, recipe.id)
+                startActivity(recipeViewIntent)
             },
             { println(it) })
             {
