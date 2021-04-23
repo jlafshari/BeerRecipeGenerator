@@ -71,6 +71,11 @@ class RecipeViewActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onBackPressed() {
+        val mainActivityIntent = Intent(this, MainActivity::class.java)
+        startActivity(mainActivityIntent)
+    }
+
     @RequiresApi(Build.VERSION_CODES.N)
     private fun deleteRecipe() {
         val queue = Volley.newRequestQueue(this)
