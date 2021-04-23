@@ -23,6 +23,8 @@ android {
         getByName("debug") {
             resValue("string", "getAllStylesUrl", localProperties["getAllStylesUrl"] as String)
             resValue("string", "generateRecipeUrl", localProperties["generateRecipeUrl"] as String)
+            resValue("string", "getAllRecipesUrl", localProperties["getAllRecipesUrl"] as String)
+            resValue("string", "getRecipeUrl", localProperties["getRecipeUrl"] as String)
         }
         getByName("release") {
             isMinifyEnabled = false

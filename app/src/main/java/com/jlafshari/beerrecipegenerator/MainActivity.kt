@@ -8,6 +8,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 
@@ -27,8 +33,23 @@ class MainActivity : AppCompatActivity() {
                 false
             )
 
-        val recipes = MyRecipesHelper.getSavedRecipePreviews(getExternalFilesDir(null)!!)
-        recipeRecyclerView.adapter = RecipeListAdapter(recipes) { recipePreview -> recipePreviewClicked(recipePreview) }
+        loadSavedRecipePreviews(recipeRecyclerView)
+    }
+
+    private fun loadSavedRecipePreviews(recipeRecyclerView: RecyclerView) {
+        val queue = Volley.newRequestQueue(this)
+        val stringRequest = StringRequest(
+            Request.Method.GET, resources.getString(R.string.getAllRecipesUrl),
+            {
+                val json = jacksonObjectMapper()
+                val recipes: List<Recipe> = json.readValue(it)
+                val recipePreviews = recipes.map { r -> RecipePreview(r.id, r.name, r.styleName) }
+                recipeRecyclerView.adapter = RecipeListAdapter(recipePreviews) { recipePreview -> recipePreviewClicked(recipePreview) }
+            },
+            {
+                println(it)
+            })
+        queue.add(stringRequest)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

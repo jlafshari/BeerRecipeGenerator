@@ -14,12 +14,10 @@ import com.android.volley.AuthFailureError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipecore.StyleThreshold
 import com.jlafshari.beerrecipegenerator.MainActivity
-import com.jlafshari.beerrecipegenerator.MyRecipesHelper
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivityNewRecipeWizardBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.AbvCallback
@@ -27,7 +25,6 @@ import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeSty
 import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.ColorCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.GenerateRecipeFragment.OnGenerateRecipeListener
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
-import java.util.*
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
     OnRecipeSizeSetListener, AbvCallback, ColorCallback, OnGenerateRecipeListener {
@@ -127,11 +124,6 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
                 }
             }
         queue.add(stringRequest)
-
-        val newRecipeId = UUID.randomUUID().toString()
-        val recipe = Recipe(newRecipeId, mStyle!!, mRecipeGenerationInfo.size!!,
-            recipeName, mRecipeGenerationInfo.abv!!, mRecipeGenerationInfo.colorSrm!!)
-        MyRecipesHelper.saveRecipe(recipe, getExternalFilesDir(null)!!)
     }
 
     /**
