@@ -44,7 +44,7 @@ class RecipeViewActivity : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this)
         val stringRequest = StringRequest(
             Request.Method.GET,
-            "${resources.getString(R.string.getRecipeUrl)}/$recipeId",
+            "${resources.getString(R.string.recipeBaseUrl)}/$recipeId",
             {
                 val json = jacksonObjectMapper()
                 mRecipe = json.readValue(it)
@@ -73,10 +73,17 @@ class RecipeViewActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun deleteRecipe() {
-        //MyRecipesHelper.deleteRecipe(mRecipe!!.id, getExternalFilesDir(null)!!)
-        Toast.makeText(this, "Recipe deleted!", Toast.LENGTH_SHORT).show()
+        val queue = Volley.newRequestQueue(this)
+        val stringRequest = StringRequest(Request.Method.DELETE,
+            "${resources.getString(R.string.recipeBaseUrl)}/${mRecipe!!.id}",
+            {
+                Toast.makeText(this, "Recipe deleted!", Toast.LENGTH_SHORT).show()
 
-        val mainActivityIntent = Intent(this, MainActivity::class.java)
-        startActivity(mainActivityIntent)
+                val mainActivityIntent = Intent(this, MainActivity::class.java)
+                startActivity(mainActivityIntent)
+            },
+            { println(it) }
+        )
+        queue.add(stringRequest)
     }
 }
