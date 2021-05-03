@@ -8,6 +8,8 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -25,6 +27,12 @@ class RecipeViewActivity : AppCompatActivity() {
         val binding = ActivityRecipeViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.grainRecyclerView.layoutManager = LinearLayoutManager(
+            this,
+            RecyclerView.VERTICAL,
+            false
+        )
+
         val recipeId = intent.getStringExtra(Constants.EXTRA_VIEW_RECIPE)
         loadRecipe(recipeId!!, binding)
     }
@@ -38,6 +46,7 @@ class RecipeViewActivity : AppCompatActivity() {
         val srmColor: Int = mRecipe!!.projectedOutcome.colorSrm
         binding.txtColor.text = getString(R.string.recipe_view_color, srmColor.toString())
         binding.srmColorCardView.setCardBackgroundColor(Colors.getColor(srmColor).rbgColor)
+        binding.grainRecyclerView.adapter = GrainListAdapter(mRecipe!!.fermentableIngredients, this)
     }
 
     private fun loadRecipe(recipeId: String, binding: ActivityRecipeViewBinding) {

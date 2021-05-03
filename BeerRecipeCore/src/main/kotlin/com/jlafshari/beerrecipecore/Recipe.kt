@@ -4,4 +4,5 @@ data class Recipe(val id: String,
                   val size: Double,
                   val name: String,
                   val styleName: String,
-                  val projectedOutcome: RecipeProjectedOutcome)
+                  val projectedOutcome: RecipeProjectedOutcome,
+                  val fermentableIngredients: List<FermentableIngredient>)

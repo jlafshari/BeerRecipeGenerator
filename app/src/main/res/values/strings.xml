@@ -21,4 +21,7 @@
     <string name="recipe_abv_heading_fragment">What should the alcohol by volume (ABV) percentage be?</string>
     <string name="new_recipe_btn_desc">New recipe</string>
     <string name="recipe_color_heading_fragment">What should the color of the beer be?</string>
+    <string name="ingredientsHeading">Ingredients</string>
+    <string name="grainsHeading">Grains</string>
+    <string name="grainListItem">%1$s lbs %2$s</string>
 </resources>
