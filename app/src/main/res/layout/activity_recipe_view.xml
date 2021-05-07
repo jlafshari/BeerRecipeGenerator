@@ -90,10 +90,31 @@
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/grainRecyclerView"
-            android:layout_width="197dp"
-            android:layout_height="85dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtGrainHeading" />
+
+    <TextView
+            android:id="@+id/txtYeastHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/yeastHeading"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/grainRecyclerView" />
+
+    <TextView
+            android:id="@+id/txtYeast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtYeastHeading" />
 </androidx.constraintlayout.widget.ConstraintLayout>

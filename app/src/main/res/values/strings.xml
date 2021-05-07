@@ -24,4 +24,6 @@
     <string name="ingredientsHeading">Ingredients</string>
     <string name="grainsHeading">Grains</string>
     <string name="grainListItem">%1$s lbs %2$s</string>
+    <string name="yeastHeading">Yeast</string>
+    <string name="yeastIngredient">%1$s (%2$s)</string>
 </resources>
