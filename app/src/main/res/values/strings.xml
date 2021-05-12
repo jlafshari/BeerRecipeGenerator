@@ -26,4 +26,5 @@
     <string name="grainListItem">%1$s lbs %2$s</string>
     <string name="yeastHeading">Yeast</string>
     <string name="yeastIngredient">%1$s (%2$s)</string>
+    <string name="recipe_bitterness_heading_fragment">What should the bitterness of the beer be? (The greater the IBU value, the more bitter.)</string>
 </resources>

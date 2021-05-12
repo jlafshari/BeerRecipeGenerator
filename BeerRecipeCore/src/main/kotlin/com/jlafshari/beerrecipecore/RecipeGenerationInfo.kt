@@ -5,5 +5,6 @@ class RecipeGenerationInfo {
     var size: Double? = null
     var abv: Double? = null
     var colorSrm: Int? = null
+    var ibu: Int? = null
     var name: String? = null
 }

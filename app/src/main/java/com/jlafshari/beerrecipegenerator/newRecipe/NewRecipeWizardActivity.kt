@@ -27,11 +27,12 @@ import com.jlafshari.beerrecipegenerator.databinding.ActivityNewRecipeWizardBind
 import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.AbvCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener
 import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.ColorCallback
+import com.jlafshari.beerrecipegenerator.newRecipe.BitternessFragment.BitternessCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.GenerateRecipeFragment.OnGenerateRecipeListener
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
-    OnRecipeSizeSetListener, AbvCallback, ColorCallback, OnGenerateRecipeListener {
+    OnRecipeSizeSetListener, AbvCallback, ColorCallback, BitternessCallback, OnGenerateRecipeListener {
 
     private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
     private var mStyle: Style? = null
@@ -106,6 +107,13 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
 
     override fun getSrmColorThreshold(): StyleThreshold =
         mStyle!!.colorThreshold
+
+    override fun onBitternessValueSet(bitterness: Int?) {
+        mRecipeGenerationInfo.ibu = bitterness
+    }
+
+    override fun getBitternessThreshold(): StyleThreshold =
+        mStyle!!.ibuThreshold
 
     override fun onGenerateRecipe(recipeName: String) {
         mRecipeGenerationInfo.name = recipeName
