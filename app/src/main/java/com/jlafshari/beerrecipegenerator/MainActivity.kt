@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
                 RecyclerView.VERTICAL,
                 false
             )
+        recipeRecyclerView.adapter = RecipeListAdapter(emptyList()) { recipePreview -> recipePreviewClicked(recipePreview) }
 
         loadSavedRecipePreviews(recipeRecyclerView)
     }

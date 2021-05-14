@@ -32,11 +32,13 @@ class RecipeViewActivity : AppCompatActivity() {
             RecyclerView.VERTICAL,
             false
         )
+        binding.grainRecyclerView.adapter = GrainListAdapter(emptyList(), this)
         binding.hopsRecyclerView.layoutManager = LinearLayoutManager(
             this,
             RecyclerView.VERTICAL,
             false
         )
+        binding.hopsRecyclerView.adapter = HopListAdapter(emptyList(), this)
 
         val recipeId = intent.getStringExtra(Constants.EXTRA_VIEW_RECIPE)
         loadRecipe(recipeId!!, binding)
