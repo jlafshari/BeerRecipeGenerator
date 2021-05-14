@@ -32,6 +32,11 @@ class RecipeViewActivity : AppCompatActivity() {
             RecyclerView.VERTICAL,
             false
         )
+        binding.hopsRecyclerView.layoutManager = LinearLayoutManager(
+            this,
+            RecyclerView.VERTICAL,
+            false
+        )
 
         val recipeId = intent.getStringExtra(Constants.EXTRA_VIEW_RECIPE)
         loadRecipe(recipeId!!, binding)
@@ -47,6 +52,7 @@ class RecipeViewActivity : AppCompatActivity() {
         binding.txtColor.text = getString(R.string.recipe_view_color, srmColor.toString())
         binding.srmColorCardView.setCardBackgroundColor(Colors.getColor(srmColor).rbgColor)
         binding.grainRecyclerView.adapter = GrainListAdapter(mRecipe!!.fermentableIngredients, this)
+        binding.hopsRecyclerView.adapter = HopListAdapter(mRecipe!!.hopIngredients, this)
         val yeastIngredient = mRecipe!!.yeastIngredient
         binding.txtYeast.text = getString(R.string.yeastIngredient, yeastIngredient.name, yeastIngredient.laboratory)
     }
