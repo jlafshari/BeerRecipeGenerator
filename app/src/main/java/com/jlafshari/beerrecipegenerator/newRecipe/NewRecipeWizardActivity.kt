@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -26,13 +25,13 @@ import com.jlafshari.beerrecipegenerator.RecipeViewActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityNewRecipeWizardBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.AbvCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener
-import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.ColorCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.BitternessFragment.BitternessCallback
-import com.jlafshari.beerrecipegenerator.newRecipe.GenerateRecipeFragment.OnGenerateRecipeListener
+import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.ColorCallback
+import com.jlafshari.beerrecipegenerator.newRecipe.GenerateRecipeFragment.OnGenerateRecipeCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
-    OnRecipeSizeSetListener, AbvCallback, ColorCallback, BitternessCallback, OnGenerateRecipeListener {
+    OnRecipeSizeSetListener, AbvCallback, ColorCallback, BitternessCallback, OnGenerateRecipeCallback {
 
     private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
     private var mStyle: Style? = null
@@ -115,21 +114,25 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     override fun getBitternessThreshold(): StyleThreshold =
         mStyle!!.ibuThreshold
 
-    override fun onGenerateRecipe(recipeName: String) {
+    override fun onRecipeNameSet(recipeName: String) {
         mRecipeGenerationInfo.name = recipeName
-        val queue = Volley.newRequestQueue(this)
-        val stringRequest = object : StringRequest(
-            Method.POST, resources.getString(R.string.generateRecipeUrl),
-            {
-                Toast.makeText(this, "Saved recipe!", Toast.LENGTH_SHORT).show()
+    }
 
-                val recipe: Recipe = jacksonObjectMapper().readValue(it)
+    override fun onGenerateRecipe(): RecipeGenerationValidationResult {
+        val validationResult = validateRecipeGenerationInfo()
 
-                val recipeViewIntent = Intent(this, RecipeViewActivity::class.java)
-                recipeViewIntent.putExtra(Constants.EXTRA_VIEW_RECIPE, recipe.id)
-                startActivity(recipeViewIntent)
-            },
-            { println(it) })
+        if (validationResult.succeeded) {
+            val queue = Volley.newRequestQueue(this)
+            val stringRequest = object : StringRequest(
+                Method.POST, resources.getString(R.string.generateRecipeUrl),
+                {
+                    val recipe: Recipe = jacksonObjectMapper().readValue(it)
+
+                    val recipeViewIntent = Intent(this, RecipeViewActivity::class.java)
+                    recipeViewIntent.putExtra(Constants.EXTRA_VIEW_RECIPE, recipe.id)
+                    startActivity(recipeViewIntent)
+                },
+                { println(it) })
             {
                 override fun getBodyContentType(): String = "application/json"
 
@@ -139,7 +142,25 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
                     return jacksonObjectMapper.writeValueAsBytes(mRecipeGenerationInfo)
                 }
             }
-        queue.add(stringRequest)
+            queue.add(stringRequest)
+        }
+
+        return validationResult
+    }
+
+    private fun validateRecipeGenerationInfo(): RecipeGenerationValidationResult {
+        var succeeded = true
+        val message : StringBuilder = StringBuilder()
+        if (mRecipeGenerationInfo.colorSrm == null) {
+            succeeded = false
+            message.appendLine("No beer color selected!")
+        }
+        if (mRecipeGenerationInfo.name == null) {
+            succeeded = false
+            message.appendLine("No recipe name given!")
+        }
+
+        return RecipeGenerationValidationResult(succeeded, message.toString())
     }
 
     /**
