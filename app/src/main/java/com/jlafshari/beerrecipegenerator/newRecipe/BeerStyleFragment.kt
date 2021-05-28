@@ -44,7 +44,7 @@ class BeerStyleFragment : Fragment() {
             {
                 val json = jacksonObjectMapper()
                 val recipeStyles: List<Style> = json.readValue(it)
-                val adapter = ArrayAdapter(context!!,
+                val adapter = ArrayAdapter(requireContext(),
                     R.layout.support_simple_spinner_dropdown_item,
                     recipeStyles)
                 adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
