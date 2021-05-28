@@ -9,3 +9,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.1")
     testImplementation("junit:junit:4.13")
 }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
