@@ -9,19 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.android.volley.AuthFailureError
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipecore.StyleThreshold
-import com.jlafshari.beerrecipegenerator.Constants
-import com.jlafshari.beerrecipegenerator.MainActivity
-import com.jlafshari.beerrecipegenerator.R
-import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
+import com.jlafshari.beerrecipegenerator.*
 import com.jlafshari.beerrecipegenerator.databinding.ActivityNewRecipeWizardBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.AbvCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener
@@ -29,7 +23,7 @@ import com.jlafshari.beerrecipegenerator.newRecipe.BitternessFragment.Bitterness
 import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.ColorCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.GenerateRecipeFragment.OnGenerateRecipeCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
-import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
+import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
     OnRecipeSizeSetListener, AbvCallback, ColorCallback, BitternessCallback, OnGenerateRecipeCallback {
@@ -123,37 +117,21 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         val validationResult = validateRecipeGenerationInfo()
 
         if (validationResult.succeeded) {
-            val queue = Volley.newRequestQueue(this)
-            val stringRequest = object : StringRequest(
-                Method.POST, resources.getString(R.string.generateRecipeUrl),
-                {
-                    val recipe: Recipe = jacksonObjectMapper().readValue(it)
-
-                    val recipeViewIntent = Intent(this, RecipeViewActivity::class.java)
-                    recipeViewIntent.putExtra(Constants.EXTRA_VIEW_RECIPE, recipe.id)
-                    startActivity(recipeViewIntent)
-                },
-                { println(it) })
-            {
-                override fun getBodyContentType(): String = "application/json"
-
-                @Throws(AuthFailureError::class)
-                override fun getBody(): ByteArray {
-                    val jacksonObjectMapper = jacksonObjectMapper()
-                    return jacksonObjectMapper.writeValueAsBytes(mRecipeGenerationInfo)
+            HomebrewApiRequestHelper.generateRecipe(mRecipeGenerationInfo, this, object : VolleyCallBack {
+                override fun onSuccess(json: String) {
+                    val recipe: Recipe = jacksonObjectMapper().readValue(json)
+                    viewRecipe(recipe.id)
                 }
-
-                override fun getHeaders(): MutableMap<String, String> {
-                    val headers = HashMap<String, String>()
-                    val accessToken = AuthHelper.sessionClient?.tokens?.accessToken
-                    headers["Authorization"] = "Bearer $accessToken"
-                    return headers
-                }
-            }
-            queue.add(stringRequest)
+            })
         }
 
         return validationResult
+    }
+
+    private fun viewRecipe(recipeId: String) {
+        val recipeViewIntent = Intent(this, RecipeViewActivity::class.java)
+        recipeViewIntent.putExtra(Constants.EXTRA_VIEW_RECIPE, recipeId)
+        startActivity(recipeViewIntent)
     }
 
     private fun validateRecipeGenerationInfo(): RecipeGenerationValidationResult {

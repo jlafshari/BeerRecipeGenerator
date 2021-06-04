@@ -9,13 +9,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Style
+import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
 import com.jlafshari.beerrecipegenerator.R
-import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
+import com.jlafshari.beerrecipegenerator.VolleyCallBack
 
 class BeerStyleFragment : Fragment() {
     private var mCallback: OnRecipeStyleSelectedListener? = null
@@ -39,30 +38,16 @@ class BeerStyleFragment : Fragment() {
     }
 
     private fun loadRecipeStyles(styleSpinner: Spinner) {
-        val queue = Volley.newRequestQueue(this.context)
-        val stringRequest = object : StringRequest(
-            Method.GET, resources.getString(R.string.getAllStylesUrl),
-            {
-                val json = jacksonObjectMapper()
-                val recipeStyles: List<Style> = json.readValue(it)
+        HomebrewApiRequestHelper.getAllStyles(this.requireContext(), object : VolleyCallBack {
+            override fun onSuccess(json: String) {
+                val recipeStyles: List<Style> = jacksonObjectMapper().readValue(json)
                 val adapter = ArrayAdapter(requireContext(),
                     R.layout.support_simple_spinner_dropdown_item,
                     recipeStyles)
                 adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
                 styleSpinner.adapter = adapter
-            },
-            {
-                println(it)
-            })
-        {
-            override fun getHeaders(): MutableMap<String, String> {
-                val headers = HashMap<String, String>()
-                val accessToken = AuthHelper.sessionClient?.tokens?.accessToken
-                headers["Authorization"] = "Bearer $accessToken"
-                return headers
             }
-        }
-        queue.add(stringRequest)
+        })
     }
 
     override fun onAttach(context: Context) {

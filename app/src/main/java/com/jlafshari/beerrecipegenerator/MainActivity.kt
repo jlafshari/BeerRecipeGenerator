@@ -8,15 +8,13 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
-import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,28 +37,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadSavedRecipePreviews(recipeRecyclerView: RecyclerView) {
-        val queue = Volley.newRequestQueue(this)
-        val stringRequest = object :
-            StringRequest(
-            Method.GET, resources.getString(R.string.getAllRecipesUrl),
-            {
-                val json = jacksonObjectMapper()
-                val recipes: List<Recipe> = json.readValue(it)
+        HomebrewApiRequestHelper.getAllRecipes(this, object : VolleyCallBack {
+            override fun onSuccess(json: String) {
+                val recipes: List<Recipe> = jacksonObjectMapper().readValue(json)
                 val recipePreviews = recipes.map { r -> RecipePreview(r.id, r.name, r.styleName) }
                 recipeRecyclerView.adapter = RecipeListAdapter(recipePreviews) { recipePreview -> recipePreviewClicked(recipePreview) }
-            },
-            {
-                println(it)
-            })
-            {
-                override fun getHeaders(): MutableMap<String, String> {
-                    val headers = HashMap<String, String>()
-                    val accessToken = AuthHelper.sessionClient?.tokens?.accessToken
-                    headers["Authorization"] = "Bearer $accessToken"
-                    return headers
-                }
             }
-        queue.add(stringRequest)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

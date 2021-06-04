@@ -1,5 +1,6 @@
 package com.jlafshari.beerrecipegenerator.viewRecipe
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -10,15 +11,12 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipegenerator.*
 import com.jlafshari.beerrecipegenerator.databinding.ActivityRecipeViewBinding
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
-import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 
 class RecipeViewActivity : AppCompatActivity() {
     private var mRecipe: Recipe? = null
@@ -62,25 +60,12 @@ class RecipeViewActivity : AppCompatActivity() {
     }
 
     private fun loadRecipe(recipeId: String, binding: ActivityRecipeViewBinding) {
-        val queue = Volley.newRequestQueue(this)
-        val stringRequest = object : StringRequest(
-            Method.GET,
-            "${resources.getString(R.string.recipeBaseUrl)}/$recipeId",
-            {
-                val json = jacksonObjectMapper()
-                mRecipe = json.readValue(it)
+        HomebrewApiRequestHelper.getRecipe(recipeId, this, object : VolleyCallBack {
+            override fun onSuccess(json: String) {
+                mRecipe = jacksonObjectMapper().readValue(json)
                 loadRecipeView(binding)
-            },
-            { println(it) })
-        {
-            override fun getHeaders(): MutableMap<String, String> {
-                val headers = HashMap<String, String>()
-                val accessToken = AuthHelper.sessionClient?.tokens?.accessToken
-                headers["Authorization"] = "Bearer $accessToken"
-                return headers
             }
-        }
-        queue.add(stringRequest)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -107,26 +92,13 @@ class RecipeViewActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun deleteRecipe() {
-        val queue = Volley.newRequestQueue(this)
-        val stringRequest = object : StringRequest(
-            Method.DELETE,
-            "${resources.getString(R.string.recipeBaseUrl)}/${mRecipe!!.id}",
-            {
-                Toast.makeText(this, "Recipe deleted!", Toast.LENGTH_SHORT).show()
+        HomebrewApiRequestHelper.deleteRecipe(mRecipe!!.id, this, object : VolleyDeleteRequestCallBack {
+            override fun onSuccess(context: Context) {
+                Toast.makeText(context, "Recipe deleted!", Toast.LENGTH_SHORT).show()
 
-                val mainActivityIntent = Intent(this, MainActivity::class.java)
+                val mainActivityIntent = Intent(context, MainActivity::class.java)
                 startActivity(mainActivityIntent)
-            },
-            { println(it) }
-        )
-        {
-            override fun getHeaders(): MutableMap<String, String> {
-                val headers = HashMap<String, String>()
-                val accessToken = AuthHelper.sessionClient?.tokens?.accessToken
-                headers["Authorization"] = "Bearer $accessToken"
-                return headers
             }
-        }
-        queue.add(stringRequest)
+        })
     }
 }
