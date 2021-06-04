@@ -10,7 +10,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -18,6 +17,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipegenerator.databinding.ActivityRecipeViewBinding
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
+import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 
 class RecipeViewActivity : AppCompatActivity() {
     private var mRecipe: Recipe? = null
@@ -62,8 +62,8 @@ class RecipeViewActivity : AppCompatActivity() {
 
     private fun loadRecipe(recipeId: String, binding: ActivityRecipeViewBinding) {
         val queue = Volley.newRequestQueue(this)
-        val stringRequest = StringRequest(
-            Request.Method.GET,
+        val stringRequest = object : StringRequest(
+            Method.GET,
             "${resources.getString(R.string.recipeBaseUrl)}/$recipeId",
             {
                 val json = jacksonObjectMapper()
@@ -71,6 +71,14 @@ class RecipeViewActivity : AppCompatActivity() {
                 loadRecipeView(binding)
             },
             { println(it) })
+        {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                val accessToken = AuthHelper.sessionClient?.tokens?.accessToken
+                headers["Authorization"] = "Bearer $accessToken"
+                return headers
+            }
+        }
         queue.add(stringRequest)
     }
 
@@ -99,7 +107,8 @@ class RecipeViewActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     private fun deleteRecipe() {
         val queue = Volley.newRequestQueue(this)
-        val stringRequest = StringRequest(Request.Method.DELETE,
+        val stringRequest = object : StringRequest(
+            Method.DELETE,
             "${resources.getString(R.string.recipeBaseUrl)}/${mRecipe!!.id}",
             {
                 Toast.makeText(this, "Recipe deleted!", Toast.LENGTH_SHORT).show()
@@ -109,6 +118,14 @@ class RecipeViewActivity : AppCompatActivity() {
             },
             { println(it) }
         )
+        {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                val accessToken = AuthHelper.sessionClient?.tokens?.accessToken
+                headers["Authorization"] = "Bearer $accessToken"
+                return headers
+            }
+        }
         queue.add(stringRequest)
     }
 }

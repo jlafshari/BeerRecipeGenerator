@@ -30,4 +30,19 @@
     <string name="yeastHeading">Yeast</string>
     <string name="yeastIngredient">%1$s (%2$s)</string>
     <string name="recipe_bitterness_heading_fragment">What should the bitterness of the beer be? (The greater the IBU value, the more bitter.)</string>
+
+    <string name="unknown">Unknown error. Check the logs for trace</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="sign_out_success">Signed out of browser session</string>
+    <string name="operation_cancelled">Operation cancelled</string>
+    <string name="authorized">Sign-in authorized</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>

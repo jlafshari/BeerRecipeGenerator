@@ -8,7 +8,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -16,6 +15,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
+import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,8 +39,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadSavedRecipePreviews(recipeRecyclerView: RecyclerView) {
         val queue = Volley.newRequestQueue(this)
-        val stringRequest = StringRequest(
-            Request.Method.GET, resources.getString(R.string.getAllRecipesUrl),
+        val stringRequest = object :
+            StringRequest(
+            Method.GET, resources.getString(R.string.getAllRecipesUrl),
             {
                 val json = jacksonObjectMapper()
                 val recipes: List<Recipe> = json.readValue(it)
@@ -50,6 +51,14 @@ class MainActivity : AppCompatActivity() {
             {
                 println(it)
             })
+            {
+                override fun getHeaders(): MutableMap<String, String> {
+                    val headers = HashMap<String, String>()
+                    val accessToken = AuthHelper.sessionClient?.tokens?.accessToken
+                    headers["Authorization"] = "Bearer $accessToken"
+                    return headers
+                }
+            }
         queue.add(stringRequest)
     }
 

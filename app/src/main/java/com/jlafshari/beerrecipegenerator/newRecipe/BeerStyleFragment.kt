@@ -9,13 +9,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
-import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipegenerator.R
+import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 
 class BeerStyleFragment : Fragment() {
     private var mCallback: OnRecipeStyleSelectedListener? = null
@@ -40,7 +40,8 @@ class BeerStyleFragment : Fragment() {
 
     private fun loadRecipeStyles(styleSpinner: Spinner) {
         val queue = Volley.newRequestQueue(this.context)
-        val stringRequest = StringRequest(Request.Method.GET, resources.getString(R.string.getAllStylesUrl),
+        val stringRequest = object : StringRequest(
+            Method.GET, resources.getString(R.string.getAllStylesUrl),
             {
                 val json = jacksonObjectMapper()
                 val recipeStyles: List<Style> = json.readValue(it)
@@ -53,6 +54,14 @@ class BeerStyleFragment : Fragment() {
             {
                 println(it)
             })
+        {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                val accessToken = AuthHelper.sessionClient?.tokens?.accessToken
+                headers["Authorization"] = "Bearer $accessToken"
+                return headers
+            }
+        }
         queue.add(stringRequest)
     }
 

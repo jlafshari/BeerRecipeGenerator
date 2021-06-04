@@ -29,6 +29,7 @@ import com.jlafshari.beerrecipegenerator.newRecipe.BitternessFragment.Bitterness
 import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.ColorCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.GenerateRecipeFragment.OnGenerateRecipeCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
+import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
     OnRecipeSizeSetListener, AbvCallback, ColorCallback, BitternessCallback, OnGenerateRecipeCallback {
@@ -140,6 +141,13 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
                 override fun getBody(): ByteArray {
                     val jacksonObjectMapper = jacksonObjectMapper()
                     return jacksonObjectMapper.writeValueAsBytes(mRecipeGenerationInfo)
+                }
+
+                override fun getHeaders(): MutableMap<String, String> {
+                    val headers = HashMap<String, String>()
+                    val accessToken = AuthHelper.sessionClient?.tokens?.accessToken
+                    headers["Authorization"] = "Bearer $accessToken"
+                    return headers
                 }
             }
             queue.add(stringRequest)
