@@ -16,6 +16,7 @@ import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
+import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 
 class MainActivity : AppCompatActivity() {
 

@@ -21,7 +21,7 @@ import com.jlafshari.beerrecipecore.StyleThreshold
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.R
-import com.jlafshari.beerrecipegenerator.RecipeViewActivity
+import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityNewRecipeWizardBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.AbvFragment.AbvCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.BeerStyleFragment.OnRecipeStyleSelectedListener

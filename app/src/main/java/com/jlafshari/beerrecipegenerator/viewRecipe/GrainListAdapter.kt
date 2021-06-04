@@ -1,4 +1,4 @@
-package com.jlafshari.beerrecipegenerator
+package com.jlafshari.beerrecipegenerator.viewRecipe
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipecore.FermentableIngredient
+import com.jlafshari.beerrecipegenerator.R
 
 class GrainListAdapter(private val grainList: List<FermentableIngredient>, private val context: Context) :
     RecyclerView.Adapter<GrainListAdapter.ViewHolder>() {
@@ -17,7 +18,8 @@ class GrainListAdapter(private val grainList: List<FermentableIngredient>, priva
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.grain_item_layout, parent,
+        val v = LayoutInflater.from(parent.context).inflate(
+            R.layout.grain_item_layout, parent,
             false)
         return ViewHolder(v)
     }

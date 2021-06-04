@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".RecipeViewActivity"
+                android:name=".viewRecipe.RecipeViewActivity"
                 android:parentActivityName=".MainActivity" />
         <activity
                 android:name=".MainActivity"

@@ -1,4 +1,4 @@
-package com.jlafshari.beerrecipegenerator
+package com.jlafshari.beerrecipegenerator.viewRecipe
 
 import android.content.Intent
 import android.os.Build
@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Recipe
+import com.jlafshari.beerrecipegenerator.*
 import com.jlafshari.beerrecipegenerator.databinding.ActivityRecipeViewBinding
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
