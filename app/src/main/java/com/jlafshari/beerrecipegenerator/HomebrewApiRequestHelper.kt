@@ -97,7 +97,7 @@ object HomebrewApiRequestHelper {
     }
 
     private fun getAuthHeader(): HashMap<String, String> {
-        val accessToken = AuthHelper.sessionClient!!.tokens.accessToken!!
+        val accessToken = AuthHelper.getAccessToken()
         return hashMapOf("Authorization" to "Bearer $accessToken")
     }
 

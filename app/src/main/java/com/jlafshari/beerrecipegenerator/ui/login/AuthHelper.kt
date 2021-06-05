@@ -4,4 +4,5 @@ import com.okta.oidc.clients.sessions.SessionClient
 
 object AuthHelper {
     var sessionClient : SessionClient? = null
+    fun getAccessToken() = sessionClient?.tokens?.accessToken
 }
