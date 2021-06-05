@@ -54,7 +54,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.31")
     implementation("com.android.volley:volley:1.2.0")
     implementation("com.okta.android:oidc-androidx:1.0.17")
-    implementation("androidx.annotation:annotation:1.1.0")
+    implementation("androidx.annotation:annotation:1.2.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     testImplementation("junit:junit:4.13")
