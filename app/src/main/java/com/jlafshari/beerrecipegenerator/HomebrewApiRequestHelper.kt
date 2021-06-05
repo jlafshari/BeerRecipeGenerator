@@ -10,18 +10,24 @@ import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 
 object HomebrewApiRequestHelper {
+    private const val getAllRecipesUrl = "Recipe/GetAll"
+    private const val recipeUrl = "Recipe"
+    private const val generateRecipeUrl = "Recipe/GenerateRecipe"
+    private const val getAllStylesUrl = "Style/GetAll"
+
     fun getAllRecipes(context: Context, callBack: VolleyCallBack) {
-        sendStandardAuthRequest(context.resources.getString(R.string.getAllRecipesUrl), Request.Method.GET,
+        sendStandardAuthRequest(
+            getUrl(getAllRecipesUrl, context), Request.Method.GET,
             context, callBack)
     }
 
     fun getRecipe(recipeId: String, context: Context, callBack: VolleyCallBack) {
-        val url = "${context.resources.getString(R.string.recipeBaseUrl)}/$recipeId"
+        val url = getUrl("$recipeUrl/$recipeId", context)
         sendStandardAuthRequest(url, Request.Method.GET, context, callBack)
     }
 
     fun deleteRecipe(recipeId: String, context: Context, callBack: VolleyDeleteRequestCallBack) {
-        val url = "${context.resources.getString(R.string.recipeBaseUrl)}/$recipeId"
+        val url = getUrl("$recipeUrl/$recipeId", context)
         val queue = Volley.newRequestQueue(context)
         val stringRequest = object :
             StringRequest(
@@ -41,7 +47,7 @@ object HomebrewApiRequestHelper {
     }
 
     fun generateRecipe(recipeGenerationInfo: RecipeGenerationInfo, context: Context, callBack: VolleyCallBack) {
-        val url = context.resources.getString(R.string.generateRecipeUrl)
+        val url = getUrl(generateRecipeUrl, context)
         val queue = Volley.newRequestQueue(context)
         val stringRequest = object :
             StringRequest(
@@ -65,7 +71,8 @@ object HomebrewApiRequestHelper {
     }
 
     fun getAllStyles(context: Context, callBack: VolleyCallBack) {
-        sendStandardAuthRequest(context.resources.getString(R.string.getAllStylesUrl), Request.Method.GET,
+        sendStandardAuthRequest(
+            getUrl(getAllStylesUrl, context), Request.Method.GET,
             context, callBack)
     }
 
@@ -92,6 +99,11 @@ object HomebrewApiRequestHelper {
     private fun getAuthHeader(): HashMap<String, String> {
         val accessToken = AuthHelper.sessionClient!!.tokens.accessToken!!
         return hashMapOf("Authorization" to "Bearer $accessToken")
+    }
+
+    private fun getUrl(urlEnd: String, context: Context) : String {
+        val baseUrl = context.resources.getString(R.string.homebrewApiBaseUrl)
+        return "$baseUrl/$urlEnd"
     }
 }
 
