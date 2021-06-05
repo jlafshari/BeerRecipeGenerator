@@ -4,15 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivityLoginBinding
-import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import com.okta.oidc.*
-import com.okta.oidc.clients.sessions.SessionClient
 import com.okta.oidc.clients.web.WebAuthClient
 import com.okta.oidc.storage.SharedPreferenceStorage
 import com.okta.oidc.util.AuthorizationException
@@ -34,9 +31,6 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val username = binding.username
-        val login = binding.login
-
         config = OIDCConfig.Builder()
             .withJsonFile(this, R.raw.okta_config)
             .create()
@@ -55,7 +49,6 @@ class LoginActivity : AppCompatActivity() {
         webAuthClient.registerCallback(object :
             ResultCallback<AuthorizationStatus, AuthorizationException> {
             override fun onCancel() {
-//                network_progress.hide()
                 showMessage(getString(R.string.operation_cancelled))
             }
 
@@ -64,7 +57,6 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onSuccess(result: AuthorizationStatus) {
-//                network_progress.hide()
                 when (result) {
                     AuthorizationStatus.AUTHORIZED -> signInSuccess()
                     AuthorizationStatus.SIGNED_OUT -> showMessage(getString(R.string.sign_out_success))
@@ -90,7 +82,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signInError(msg: String?, exception: AuthorizationException?) {
-//        network_progress.hide()
         showMessage(msg ?: getString(R.string.unknown))
         Log.d(tag, "onError: ", exception)
     }
@@ -99,8 +90,4 @@ class LoginActivity : AppCompatActivity() {
         val userName = binding.username.text.toString()
         webAuthClient.signIn(this, AuthenticationPayload.Builder().setLoginHint(userName).build())
     }
-
-//    fun getSession(): SessionClient? {
-//        return webAuthClient.sessionClient
-//    }
 }
