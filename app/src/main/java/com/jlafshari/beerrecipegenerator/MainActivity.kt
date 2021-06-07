@@ -54,9 +54,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> showSettings()
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun showSettings(): Boolean {
+        val settingsIntent = Intent(this, SettingsActivity::class.java)
+        startActivity(settingsIntent)
+        return true
     }
 
     @Suppress("UNUSED_PARAMETER")
