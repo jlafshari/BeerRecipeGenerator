@@ -14,8 +14,6 @@ import com.okta.oidc.AuthorizationStatus
 import com.okta.oidc.ResultCallback
 import com.okta.oidc.util.AuthorizationException
 
-const val PREF_STORAGE_WEB: String = "web_client"
-
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding

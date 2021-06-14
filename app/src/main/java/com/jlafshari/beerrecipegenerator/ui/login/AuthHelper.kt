@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.R
 import com.okta.oidc.*
 import com.okta.oidc.clients.web.WebAuthClient
@@ -40,7 +41,7 @@ object AuthHelper {
         webAuthClient = Okta.WebAuthBuilder()
             .withConfig(config)
             .withContext(context)
-            .withStorage(SharedPreferenceStorage(context, PREF_STORAGE_WEB))
+            .withStorage(SharedPreferenceStorage(context, Constants.PREF_STORAGE_WEB))
             .setRequireHardwareBackedKeyStore(false)
             .create()
 
