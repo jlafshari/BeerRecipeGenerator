@@ -13,7 +13,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:minWidth="150dp"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:minWidth="60dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_size" />
 
@@ -53,18 +52,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:minWidth="60dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_abv" />
+            app:layout_constraintStart_toEndOf="@+id/txt_ibu"
+            app:layout_constraintTop_toBottomOf="@+id/txt_size" />
 
     <androidx.cardview.widget.CardView
             android:id="@+id/srmColorCardView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_color" />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/txt_color"
+            app:layout_constraintTop_toBottomOf="@+id/txt_size" />
 
     <TextView
             android:id="@+id/txt_ibu"
@@ -72,20 +69,19 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:minWidth="60dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/srmColorCardView" />
+            app:layout_constraintStart_toEndOf="@+id/txt_abv"
+            app:layout_constraintTop_toBottomOf="@+id/txt_size" />
 
     <TextView
             android:id="@+id/txtIngredientHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:text="@string/ingredientsHeading"
-            android:textSize="16sp"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_ibu" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_abv" />
 
     <TextView
             android:id="@+id/txtGrainHeading"
