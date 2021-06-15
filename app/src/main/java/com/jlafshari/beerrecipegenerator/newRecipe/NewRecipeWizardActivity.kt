@@ -141,7 +141,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
             succeeded = false
             message.appendLine("No beer color selected!")
         }
-        if (mRecipeGenerationInfo.name == null) {
+        if (mRecipeGenerationInfo.name.isNullOrEmpty()) {
             succeeded = false
             message.appendLine("No recipe name given!")
         }
