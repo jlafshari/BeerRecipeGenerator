@@ -17,16 +17,18 @@
             android:layout_marginStart="8dp"/>
 
     <EditText
+            android:id="@+id/recipeSizeEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:id="@+id/recipeSizeEditText"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@+id/recipeSizeHeadingTextView"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:width="150dp"
             android:autofillHints="@string/recipe_size_hint_text"
+            android:ems="10"
             android:hint="@string/recipe_size_hint_text"
-            android:text="@string/recipe_size_gallons_default"/>
+            android:inputType="numberDecimal"
+            android:text="@string/recipe_size_gallons_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recipeSizeHeadingTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
