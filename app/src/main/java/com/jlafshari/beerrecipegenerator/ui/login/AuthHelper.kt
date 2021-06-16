@@ -1,6 +1,5 @@
 package com.jlafshari.beerrecipegenerator.ui.login
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -14,7 +13,6 @@ import com.okta.oidc.util.AuthorizationException
 import java.util.*
 
 
-@SuppressLint("StaticFieldLeak")
 object AuthHelper {
     private lateinit var webAuthClient: WebAuthClient
 
