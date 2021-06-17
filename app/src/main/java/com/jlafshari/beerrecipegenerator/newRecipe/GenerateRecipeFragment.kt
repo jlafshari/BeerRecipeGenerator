@@ -34,10 +34,12 @@ class GenerateRecipeFragment : Fragment() {
 
         val saveButton = view.findViewById<Button>(R.id.button_generate_recipe)
         saveButton.setOnClickListener {
+            saveButton.isEnabled = false
             val recipeValidationResult = mCallback!!.onGenerateRecipe()
             if (!recipeValidationResult.succeeded) {
                 val txtError = view.findViewById<TextView>(R.id.txt_error)
                 txtError.text = recipeValidationResult.message
+                saveButton.isEnabled = true
             }
         }
 
