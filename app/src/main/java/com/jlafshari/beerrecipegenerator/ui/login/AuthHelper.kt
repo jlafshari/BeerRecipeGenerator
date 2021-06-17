@@ -16,7 +16,13 @@ import java.util.*
 object AuthHelper {
     private lateinit var webAuthClient: WebAuthClient
 
-    fun getAccessToken() = webAuthClient.sessionClient?.tokens?.accessToken
+    fun getAccessToken() : String? {
+        if (!webAuthClient.sessionClient.isAuthenticated) {
+            refreshTokens()
+        }
+
+        return webAuthClient.sessionClient?.tokens?.accessToken
+    }
 
     fun getUserName() : String {
         val payload = decodeJWTTokenPayload(webAuthClient.sessionClient?.tokens?.idToken!!)
@@ -56,5 +62,18 @@ object AuthHelper {
 
     fun clearTokens() {
         webAuthClient.sessionClient?.clear()
+    }
+
+    private fun refreshTokens() {
+        webAuthClient.sessionClient.refreshToken(object :
+            RequestCallback<Tokens, AuthorizationException?> {
+            override fun onSuccess(result: Tokens) {
+                println("refreshed token: $result")
+            }
+
+            override fun onError(error: String?, exception: AuthorizationException?) {
+                println("error refreshing token: $error $exception")
+            }
+        })
     }
 }
