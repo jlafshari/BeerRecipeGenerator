@@ -44,4 +44,5 @@
     <string name="sign_out_button_name">Sign out</string>
     <string name="swipe_left_text_hint">‹</string>
     <string name="swipe_right_text_hint">›</string>
+    <string name="loadingIndicator">Loading …</string>
 </resources>

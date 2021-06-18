@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,15 +34,23 @@ class MainActivity : AppCompatActivity() {
             )
         recipeRecyclerView.adapter = RecipeListAdapter(emptyList()) { recipePreview -> recipePreviewClicked(recipePreview) }
 
-        loadSavedRecipePreviews(recipeRecyclerView)
+        val txtLoadingIndicator = binding.root.findViewById<TextView>(R.id.txtLoadingIndicator)
+        loadSavedRecipePreviews(recipeRecyclerView, txtLoadingIndicator)
     }
 
-    private fun loadSavedRecipePreviews(recipeRecyclerView: RecyclerView) {
+    private fun loadSavedRecipePreviews(
+        recipeRecyclerView: RecyclerView,
+        txtLoadingIndicator: TextView
+    ) {
+        recipeRecyclerView.visibility = View.INVISIBLE
+        txtLoadingIndicator.visibility = View.VISIBLE
         HomebrewApiRequestHelper.getAllRecipes(this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
                 val recipes: List<Recipe> = jacksonObjectMapper().readValue(json)
                 val recipePreviews = recipes.map { r -> RecipePreview(r.id, r.name, r.styleName) }
                 recipeRecyclerView.adapter = RecipeListAdapter(recipePreviews) { recipePreview -> recipePreviewClicked(recipePreview) }
+                recipeRecyclerView.visibility = View.VISIBLE
+                txtLoadingIndicator.visibility = View.INVISIBLE
             }
         })
     }

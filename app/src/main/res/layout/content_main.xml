@@ -19,6 +19,17 @@
             android:layout_marginStart="8dp"
             android:textStyle="bold" android:textSize="24sp" android:id="@+id/textView" android:layout_marginTop="4dp"/>
 
+    <TextView
+            android:id="@+id/txtLoadingIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/loadingIndicator"
+            android:textSize="34sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipeRecyclerView"
             app:layout_constraintStart_toStartOf="parent"
