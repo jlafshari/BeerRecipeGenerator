@@ -14,6 +14,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
+import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 
 
@@ -51,6 +52,10 @@ class MainActivity : AppCompatActivity() {
                 recipeRecyclerView.adapter = RecipeListAdapter(recipePreviews) { recipePreview -> recipePreviewClicked(recipePreview) }
                 recipeRecyclerView.visibility = View.VISIBLE
                 txtLoadingIndicator.visibility = View.INVISIBLE
+            }
+
+            override fun onUnauthorizedResponse() {
+                AuthHelper.startLoginActivity(this@MainActivity)
             }
         })
     }

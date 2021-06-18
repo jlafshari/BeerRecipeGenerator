@@ -15,6 +15,7 @@ import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.VolleyCallBack
+import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 
 class BeerStyleFragment : Fragment() {
     private var mCallback: OnRecipeStyleSelectedListener? = null
@@ -46,6 +47,10 @@ class BeerStyleFragment : Fragment() {
                     recipeStyles)
                 adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
                 styleSpinner.adapter = adapter
+            }
+
+            override fun onUnauthorizedResponse() {
+                AuthHelper.startLoginActivity(this@BeerStyleFragment.requireContext())
             }
         })
     }

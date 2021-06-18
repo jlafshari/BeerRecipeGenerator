@@ -86,6 +86,9 @@ object HomebrewApiRequestHelper {
                     callBack.onSuccess(it)
                 },
                 {
+                    if (it?.networkResponse?.statusCode == 401) {
+                        callBack.onUnauthorizedResponse()
+                    }
                     println(it)
                 })
         {
@@ -109,6 +112,7 @@ object HomebrewApiRequestHelper {
 
 interface VolleyCallBack {
     fun onSuccess(json: String)
+    fun onUnauthorizedResponse()
 }
 
 interface VolleyDeleteRequestCallBack {
