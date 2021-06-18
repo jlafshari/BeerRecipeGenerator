@@ -1,8 +1,7 @@
 package com.jlafshari.beerrecipegenerator
 
 import android.content.Context
-import com.android.volley.AuthFailureError
-import com.android.volley.Request
+import com.android.volley.*
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -89,6 +88,9 @@ object HomebrewApiRequestHelper {
                     if (it?.networkResponse?.statusCode == 401) {
                         callBack.onUnauthorizedResponse()
                     }
+                    else {
+                        callBack.onError(it.toString())
+                    }
                     println(it)
                 })
         {
@@ -96,6 +98,7 @@ object HomebrewApiRequestHelper {
                 return getAuthHeader()
             }
         }
+        stringRequest.retryPolicy = DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         queue.add(stringRequest)
     }
 
@@ -113,6 +116,7 @@ object HomebrewApiRequestHelper {
 interface VolleyCallBack {
     fun onSuccess(json: String)
     fun onUnauthorizedResponse()
+    fun onError(errorMessage: String)
 }
 
 interface VolleyDeleteRequestCallBack {

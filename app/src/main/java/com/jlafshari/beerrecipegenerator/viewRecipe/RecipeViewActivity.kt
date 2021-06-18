@@ -17,6 +17,7 @@ import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipegenerator.*
 import com.jlafshari.beerrecipegenerator.databinding.ActivityRecipeViewBinding
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
+import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 
 class RecipeViewActivity : AppCompatActivity() {
     private var mRecipe: Recipe? = null
@@ -64,6 +65,14 @@ class RecipeViewActivity : AppCompatActivity() {
             override fun onSuccess(json: String) {
                 mRecipe = jacksonObjectMapper().readValue(json)
                 loadRecipeView(binding)
+            }
+
+            override fun onUnauthorizedResponse() {
+                AuthHelper.startLoginActivity(this@RecipeViewActivity)
+            }
+
+            override fun onError(errorMessage: String) {
+                Toast.makeText(this@RecipeViewActivity, errorMessage, Toast.LENGTH_LONG).show()
             }
         })
     }

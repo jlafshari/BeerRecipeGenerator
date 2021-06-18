@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -23,6 +24,7 @@ import com.jlafshari.beerrecipegenerator.newRecipe.BitternessFragment.Bitterness
 import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.ColorCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.GenerateRecipeFragment.OnGenerateRecipeCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
+import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
@@ -121,6 +123,14 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
                 override fun onSuccess(json: String) {
                     val recipe: Recipe = jacksonObjectMapper().readValue(json)
                     viewRecipe(recipe.id)
+                }
+
+                override fun onUnauthorizedResponse() {
+                    AuthHelper.startLoginActivity(this@NewRecipeWizardActivity)
+                }
+
+                override fun onError(errorMessage: String) {
+                    Toast.makeText(this@NewRecipeWizardActivity, errorMessage, Toast.LENGTH_LONG).show()
                 }
             })
         }

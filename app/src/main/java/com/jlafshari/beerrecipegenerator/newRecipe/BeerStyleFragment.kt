@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -51,6 +52,10 @@ class BeerStyleFragment : Fragment() {
 
             override fun onUnauthorizedResponse() {
                 AuthHelper.startLoginActivity(this@BeerStyleFragment.requireContext())
+            }
+
+            override fun onError(errorMessage: String) {
+                Toast.makeText(this@BeerStyleFragment.requireContext(), errorMessage, Toast.LENGTH_LONG).show()
             }
         })
     }
