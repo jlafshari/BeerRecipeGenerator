@@ -25,10 +25,15 @@ object AuthHelper {
         return webAuthClient.sessionClient?.tokens?.accessToken
     }
 
-    fun getUserName() : String {
-        val payload = decodeJWTTokenPayload(webAuthClient.sessionClient?.tokens?.idToken!!)
-        val user: User = jacksonObjectMapper().readValue(payload)
-        return user.name
+    fun getUserName() : String? {
+        val idToken = webAuthClient.sessionClient?.tokens?.idToken
+        return if (idToken != null) {
+            val payload = decodeJWTTokenPayload(idToken)
+            val user: User = jacksonObjectMapper().readValue(payload)
+            user.name
+        } else {
+            null
+        }
     }
 
     private fun decodeJWTTokenPayload(token: String): String {
