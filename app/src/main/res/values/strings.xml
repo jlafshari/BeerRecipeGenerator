@@ -32,11 +32,9 @@
     <string name="recipe_bitterness_heading_fragment">What should the bitterness of the beer be? (The greater the IBU value, the more bitter.)</string>
 
     <string name="unknown">Unknown error. Check the logs for trace</string>
-    <string name="dismiss">Dismiss</string>
     <string name="sign_out_success">Signed out</string>
     <string name="operation_cancelled">Operation cancelled</string>
-    <string name="authorized">Sign-in authorized</string>
-    <string name="title_activity_login">Login</string>
+    <string name="authorized">Signed in</string>
     <string name="prompt_email">Email</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="title_activity_settings">Settings</string>
