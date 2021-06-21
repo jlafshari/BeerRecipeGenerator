@@ -57,8 +57,12 @@ class LoginActivity : AppCompatActivity() {
 
     private fun signInSuccess() {
         showMessage(getString(R.string.authorized))
+
         val mainIntent = Intent(this, MainActivity::class.java)
         startActivity(mainIntent)
+
+        val loginButton = binding.login
+        loginButton.isEnabled = true
     }
 
     private fun signInError(msg: String?, exception: AuthorizationException?) {
@@ -67,6 +71,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun signIn(view: View) {
+        val loginButton = binding.login
+        loginButton.isEnabled = false
+
         val userName = binding.username.text.toString()
         AuthHelper.signIn(userName, this)
     }
