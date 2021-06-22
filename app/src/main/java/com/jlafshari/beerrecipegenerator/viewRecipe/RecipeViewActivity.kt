@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -109,5 +110,11 @@ class RecipeViewActivity : AppCompatActivity() {
                 startActivity(mainActivityIntent)
             }
         })
+    }
+
+    fun editRecipe(view: View) {
+        val editRecipeIntent = Intent(this, EditRecipeActivity::class.java)
+        editRecipeIntent.putExtra(Constants.EXTRA_EDIT_RECIPE, mRecipe!!.id)
+        startActivity(editRecipeIntent)
     }
 }
