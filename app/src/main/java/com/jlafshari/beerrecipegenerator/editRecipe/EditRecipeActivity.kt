@@ -1,21 +1,33 @@
-package com.jlafshari.beerrecipegenerator
+package com.jlafshari.beerrecipegenerator.editRecipe
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Recipe
+import com.jlafshari.beerrecipegenerator.Constants
+import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
+import com.jlafshari.beerrecipegenerator.VolleyCallBack
 import com.jlafshari.beerrecipegenerator.databinding.ActivityEditRecipeBinding
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 
 class EditRecipeActivity : AppCompatActivity() {
-    private var mRecipe: Recipe? = null
+    private lateinit var mRecipe: Recipe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityEditRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.grainEditRecyclerView.layoutManager = LinearLayoutManager(
+            this,
+            RecyclerView.VERTICAL,
+            false
+        )
+        binding.grainEditRecyclerView.adapter = GrainEditListAdapter(emptyList(), this)
 
         val recipeId = intent.getStringExtra(Constants.EXTRA_EDIT_RECIPE)
         loadRecipe(recipeId!!, binding)
@@ -39,6 +51,8 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     private fun loadRecipeView(binding: ActivityEditRecipeBinding) {
-        binding.txtRecipeName.text = mRecipe!!.name
+        binding.txtRecipeName.text.clear()
+        binding.txtRecipeName.text.insert(0, mRecipe.name)
+        binding.grainEditRecyclerView.adapter = GrainEditListAdapter(mRecipe.fermentableIngredients, this)
     }
 }

@@ -44,4 +44,6 @@
     <string name="swipe_right_text_hint">›</string>
     <string name="loadingIndicator">Loading …</string>
     <string name="edit_recipe_button">Edit …</string>
+    <string name="grainPoundsHint">Malt lbs</string>
+    <string name="grainAmountUnit">lbs</string>
 </resources>

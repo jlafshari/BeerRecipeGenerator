@@ -17,6 +17,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipegenerator.*
 import com.jlafshari.beerrecipegenerator.databinding.ActivityRecipeViewBinding
+import com.jlafshari.beerrecipegenerator.editRecipe.EditRecipeActivity
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 
