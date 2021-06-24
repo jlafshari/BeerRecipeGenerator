@@ -14,6 +14,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup">
+        <activity android:name=".editRecipe.AddGrainActivity" />
         <activity android:name=".editRecipe.EditRecipeActivity" />
         <activity
                 android:name=".SettingsActivity"

@@ -46,4 +46,5 @@
     <string name="edit_recipe_button">Edit …</string>
     <string name="grainPoundsHint">Malt lbs</string>
     <string name="grainAmountUnit">lbs</string>
+    <string name="addGrainHeading">Add Grain</string>
 </resources>

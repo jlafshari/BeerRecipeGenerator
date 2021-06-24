@@ -1,8 +1,10 @@
 package com.jlafshari.beerrecipegenerator.editRecipe
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -53,6 +55,12 @@ class EditRecipeActivity : AppCompatActivity() {
     private fun loadRecipeView(binding: ActivityEditRecipeBinding) {
         binding.txtRecipeName.text.clear()
         binding.txtRecipeName.text.insert(0, mRecipe.name)
-        binding.grainEditRecyclerView.adapter = GrainEditListAdapter(mRecipe.fermentableIngredients, this)
+        binding.grainEditRecyclerView.adapter = GrainEditListAdapter(mRecipe.fermentableIngredients,
+            this)
+    }
+
+    fun addGrain(view: View) {
+        val addGrainIntent = Intent(this, AddGrainActivity::class.java)
+        startActivity(addGrainIntent)
     }
 }
