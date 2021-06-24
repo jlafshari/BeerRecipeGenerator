@@ -15,7 +15,7 @@
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup">
         <activity android:name=".editRecipe.AddGrainActivity" />
-        <activity android:name=".editRecipe.EditRecipeActivity" />
+        <activity android:name=".editRecipe.EditRecipeActivity" android:launchMode="singleTask" />
         <activity
                 android:name=".SettingsActivity"
                 android:label="@string/title_activity_settings"

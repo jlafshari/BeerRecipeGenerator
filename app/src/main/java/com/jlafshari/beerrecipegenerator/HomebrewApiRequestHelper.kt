@@ -82,6 +82,11 @@ object HomebrewApiRequestHelper {
             context, callBack)
     }
 
+    fun getFermentable(fermentableId: String, context: Context, callBack: VolleyCallBack) {
+        val url = getUrl("Fermentable/$fermentableId", context)
+        sendStandardAuthRequest(url, Request.Method.GET, context, callBack)
+    }
+
     private fun sendStandardAuthRequest(url: String, httpMethod: Int,
                                         context: Context, callBack: VolleyCallBack) {
         val queue = Volley.newRequestQueue(context)

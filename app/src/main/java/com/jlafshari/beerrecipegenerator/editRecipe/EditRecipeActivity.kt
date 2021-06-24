@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.jlafshari.beerrecipecore.Fermentable
+import com.jlafshari.beerrecipecore.FermentableIngredient
 import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
@@ -18,10 +20,11 @@ import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 
 class EditRecipeActivity : AppCompatActivity() {
     private lateinit var mRecipe: Recipe
+    private lateinit var binding: ActivityEditRecipeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityEditRecipeBinding.inflate(layoutInflater)
+        binding = ActivityEditRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.grainEditRecyclerView.layoutManager = LinearLayoutManager(
@@ -61,6 +64,39 @@ class EditRecipeActivity : AppCompatActivity() {
 
     fun addGrain(view: View) {
         val addGrainIntent = Intent(this, AddGrainActivity::class.java)
+        addGrainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(addGrainIntent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        val fermentableId = intent?.getStringExtra(Constants.EXTRA_ADD_GRAIN)
+        if (fermentableId != null) {
+            addGrainToRecipe(fermentableId)
+        }
+    }
+
+    private fun addGrainToRecipe(fermentableId: String) {
+        HomebrewApiRequestHelper.getFermentable(fermentableId, this, object : VolleyCallBack {
+            override fun onSuccess(json: String) {
+                val fermentable = jacksonObjectMapper().readValue<Fermentable>(json)
+                addFermentableIngredientToRecipe(fermentable)
+            }
+
+            override fun onUnauthorizedResponse() {
+                AuthHelper.startLoginActivity(this@EditRecipeActivity)
+            }
+
+            override fun onError(errorMessage: String) {
+                Toast.makeText(this@EditRecipeActivity, errorMessage, Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    private fun addFermentableIngredientToRecipe(fermentable: Fermentable) {
+        val fermentableIngredient = FermentableIngredient(1.0, fermentable.name)
+        mRecipe.fermentableIngredients.add(fermentableIngredient)
+        binding.grainEditRecyclerView.adapter = GrainEditListAdapter(mRecipe.fermentableIngredients,
+            this)
     }
 }

@@ -1,6 +1,5 @@
 package com.jlafshari.beerrecipegenerator.editRecipe
 
-import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,7 @@ import com.jlafshari.beerrecipecore.Fermentable
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
 
-class GrainSelectorListAdapter(private val grainList: List<Fermentable>, private val context: Context) :
+class GrainSelectorListAdapter(private val grainList: List<Fermentable>, private val clickListener: (Fermentable) -> Unit) :
     RecyclerView.Adapter<GrainSelectorListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,6 +32,7 @@ class GrainSelectorListAdapter(private val grainList: List<Fermentable>, private
             holder.colorCardView.setCardBackgroundColor(Color.TRANSPARENT)
         }
         holder.txtMaltCategory.text = grain.maltCategory
+        holder.bind(grain, clickListener)
     }
 
     override fun getItemCount() = grainList.size
@@ -42,5 +42,9 @@ class GrainSelectorListAdapter(private val grainList: List<Fermentable>, private
         val txtGrainDescription: TextView = itemView.findViewById(R.id.txtGrainDescription)
         val colorCardView : CardView = itemView.findViewById(R.id.colorCardView)
         val txtMaltCategory : TextView = itemView.findViewById(R.id.txtMaltCategory)
+
+        fun bind(fermentable: Fermentable, clickListener: (Fermentable) -> Unit) {
+            itemView.setOnClickListener { clickListener(fermentable) }
+        }
     }
 }
