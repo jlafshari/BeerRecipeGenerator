@@ -2,8 +2,13 @@ package com.jlafshari.beerrecipegenerator.srmColors
 import android.graphics.Color
 
 object Colors {
-    fun getColor(srmColor: Int): SrmColor {
-        return srmColors.find { it.srmColor == srmColor }!!
+    fun getColor(srmColor: Int): SrmColor? {
+        val maxColor = srmColors.maxOf { it.srmColor }
+        return if (srmColor >= maxColor) {
+            srmColors.find { it.srmColor == maxColor }
+        } else {
+            srmColors.find { it.srmColor == srmColor }
+        }
     }
 
     fun getColorsInRange(startingSrmColor: Int, endingSrmColor: Int): List<SrmColor> {
