@@ -32,10 +32,15 @@ class EditRecipeActivity : AppCompatActivity() {
             RecyclerView.VERTICAL,
             false
         )
-        binding.grainEditRecyclerView.adapter = GrainEditListAdapter(emptyList(), this)
+        setGrainEditRecyclerView(emptyList())
 
         val recipeId = intent.getStringExtra(Constants.EXTRA_EDIT_RECIPE)
         loadRecipe(recipeId!!, binding)
+    }
+
+    private fun grainAmountChangedListener(amount: Double, fermentableId: String) {
+        val fermentableIngredient = mRecipe.fermentableIngredients.find { it.fermentableId == fermentableId }!!
+        fermentableIngredient.amount = amount
     }
 
     private fun loadRecipe(recipeId: String, binding: ActivityEditRecipeBinding) {
@@ -58,8 +63,12 @@ class EditRecipeActivity : AppCompatActivity() {
     private fun loadRecipeView(binding: ActivityEditRecipeBinding) {
         binding.txtRecipeName.text.clear()
         binding.txtRecipeName.text.insert(0, mRecipe.name)
-        binding.grainEditRecyclerView.adapter = GrainEditListAdapter(mRecipe.fermentableIngredients,
-            this)
+        setGrainEditRecyclerView(mRecipe.fermentableIngredients)
+    }
+
+    private fun setGrainEditRecyclerView(grainList: List<FermentableIngredient>) {
+        binding.grainEditRecyclerView.adapter = GrainEditListAdapter(grainList, this) {
+                a, f -> grainAmountChangedListener(a, f) }
     }
 
     fun addGrain(view: View) {
@@ -94,9 +103,8 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     private fun addFermentableIngredientToRecipe(fermentable: Fermentable) {
-        val fermentableIngredient = FermentableIngredient(1.0, fermentable.name)
+        val fermentableIngredient = FermentableIngredient(1.0, fermentable.name, fermentable.id)
         mRecipe.fermentableIngredients.add(fermentableIngredient)
-        binding.grainEditRecyclerView.adapter = GrainEditListAdapter(mRecipe.fermentableIngredients,
-            this)
+        setGrainEditRecyclerView(mRecipe.fermentableIngredients)
     }
 }
