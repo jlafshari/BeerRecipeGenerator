@@ -1,11 +1,14 @@
 package com.jlafshari.beerrecipegenerator
 
 import android.content.Context
-import com.android.volley.*
+import com.android.volley.AuthFailureError
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
+import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 
 object HomebrewApiRequestHelper {
@@ -64,6 +67,30 @@ object HomebrewApiRequestHelper {
             @Throws(AuthFailureError::class)
             override fun getBody(): ByteArray =
                 jacksonObjectMapper().writeValueAsBytes(recipeGenerationInfo)
+
+            override fun getHeaders(): MutableMap<String, String> = getAuthHeader()
+        }
+        queue.add(stringRequest)
+    }
+
+    fun updateRecipe(recipeId: String, recipeUpdateInfo: RecipeUpdateInfo, context: Context, callBack: VolleyCallBack) {
+        val url = getUrl("$recipeUrl/$recipeId", context)
+        val queue = Volley.newRequestQueue(context)
+        val stringRequest = object :
+            StringRequest(
+                Method.PATCH, url,
+                {
+                    callBack.onSuccess(it)
+                },
+                {
+                    println(it)
+                })
+        {
+            override fun getBodyContentType(): String = "application/json"
+
+            @Throws(AuthFailureError::class)
+            override fun getBody(): ByteArray =
+                jacksonObjectMapper().writeValueAsBytes(recipeUpdateInfo)
 
             override fun getHeaders(): MutableMap<String, String> = getAuthHeader()
         }

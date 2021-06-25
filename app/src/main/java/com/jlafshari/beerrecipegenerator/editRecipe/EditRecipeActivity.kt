@@ -2,6 +2,8 @@ package com.jlafshari.beerrecipegenerator.editRecipe
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,14 +14,17 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Fermentable
 import com.jlafshari.beerrecipecore.FermentableIngredient
 import com.jlafshari.beerrecipecore.Recipe
+import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
 import com.jlafshari.beerrecipegenerator.VolleyCallBack
 import com.jlafshari.beerrecipegenerator.databinding.ActivityEditRecipeBinding
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
+import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 
 class EditRecipeActivity : AppCompatActivity() {
-    private lateinit var mRecipe: Recipe
+    private lateinit var mRecipeId: String
+    private lateinit var mRecipeUpdateInfo: RecipeUpdateInfo
     private lateinit var binding: ActivityEditRecipeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,14 +44,17 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     private fun grainAmountChangedListener(amount: Double, fermentableId: String) {
-        val fermentableIngredient = mRecipe.fermentableIngredients.find { it.fermentableId == fermentableId }!!
+        val fermentableIngredient = mRecipeUpdateInfo.fermentableIngredients.find {
+            it.fermentableId == fermentableId }!!
         fermentableIngredient.amount = amount
     }
 
     private fun loadRecipe(recipeId: String, binding: ActivityEditRecipeBinding) {
         HomebrewApiRequestHelper.getRecipe(recipeId, this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
-                mRecipe = jacksonObjectMapper().readValue(json)
+                val recipe: Recipe = jacksonObjectMapper().readValue(json)
+                mRecipeId = recipe.id
+                mRecipeUpdateInfo = RecipeUpdateInfo(recipe.name, recipe.fermentableIngredients)
                 loadRecipeView(binding)
             }
 
@@ -62,8 +70,16 @@ class EditRecipeActivity : AppCompatActivity() {
 
     private fun loadRecipeView(binding: ActivityEditRecipeBinding) {
         binding.txtRecipeName.text.clear()
-        binding.txtRecipeName.text.insert(0, mRecipe.name)
-        setGrainEditRecyclerView(mRecipe.fermentableIngredients)
+        binding.txtRecipeName.text.insert(0, mRecipeUpdateInfo.name)
+        binding.txtRecipeName.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(recipeNameEditText: Editable?) {
+                mRecipeUpdateInfo.name = recipeNameEditText.toString()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+        setGrainEditRecyclerView(mRecipeUpdateInfo.fermentableIngredients)
     }
 
     private fun setGrainEditRecyclerView(grainList: List<FermentableIngredient>) {
@@ -104,7 +120,27 @@ class EditRecipeActivity : AppCompatActivity() {
 
     private fun addFermentableIngredientToRecipe(fermentable: Fermentable) {
         val fermentableIngredient = FermentableIngredient(1.0, fermentable.name, fermentable.id)
-        mRecipe.fermentableIngredients.add(fermentableIngredient)
-        setGrainEditRecyclerView(mRecipe.fermentableIngredients)
+        mRecipeUpdateInfo.fermentableIngredients.add(fermentableIngredient)
+        setGrainEditRecyclerView(mRecipeUpdateInfo.fermentableIngredients)
+    }
+
+    fun updateRecipe(view: View) {
+        val recipeUpdateInfo = RecipeUpdateInfo(mRecipeUpdateInfo.name, mRecipeUpdateInfo.fermentableIngredients)
+
+        HomebrewApiRequestHelper.updateRecipe(mRecipeId, recipeUpdateInfo, this, object : VolleyCallBack {
+            override fun onSuccess(json: String) {
+                val recipeViewIntent = Intent(this@EditRecipeActivity, RecipeViewActivity::class.java)
+                recipeViewIntent.putExtra(Constants.EXTRA_VIEW_RECIPE, mRecipeId)
+                startActivity(recipeViewIntent)
+            }
+
+            override fun onUnauthorizedResponse() {
+                AuthHelper.startLoginActivity(this@EditRecipeActivity)
+            }
+
+            override fun onError(errorMessage: String) {
+                Toast.makeText(this@EditRecipeActivity, errorMessage, Toast.LENGTH_LONG).show()
+            }
+        })
     }
 }
