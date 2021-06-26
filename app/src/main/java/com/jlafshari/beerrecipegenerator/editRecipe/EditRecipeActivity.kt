@@ -40,7 +40,7 @@ class EditRecipeActivity : AppCompatActivity() {
         setGrainEditRecyclerView(emptyList())
 
         val recipeId = intent.getStringExtra(Constants.EXTRA_EDIT_RECIPE)
-        loadRecipe(recipeId!!, binding)
+        loadRecipe(recipeId!!)
     }
 
     private fun grainAmountChangedListener(amount: Double, fermentableId: String) {
@@ -54,13 +54,13 @@ class EditRecipeActivity : AppCompatActivity() {
         setGrainEditRecyclerView(mRecipeUpdateInfo.fermentableIngredients)
     }
 
-    private fun loadRecipe(recipeId: String, binding: ActivityEditRecipeBinding) {
+    private fun loadRecipe(recipeId: String) {
         HomebrewApiRequestHelper.getRecipe(recipeId, this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
                 val recipe: Recipe = jacksonObjectMapper().readValue(json)
                 mRecipeId = recipe.id
                 mRecipeUpdateInfo = RecipeUpdateInfo(recipe.name, recipe.fermentableIngredients)
-                loadRecipeView(binding)
+                loadRecipeView()
             }
 
             override fun onUnauthorizedResponse() {
@@ -73,7 +73,7 @@ class EditRecipeActivity : AppCompatActivity() {
         })
     }
 
-    private fun loadRecipeView(binding: ActivityEditRecipeBinding) {
+    private fun loadRecipeView() {
         binding.txtRecipeName.text.clear()
         binding.txtRecipeName.text.insert(0, mRecipeUpdateInfo.name)
         binding.txtRecipeName.addTextChangedListener(object : TextWatcher {
