@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +19,7 @@ import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
+import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.VolleyCallBack
 import com.jlafshari.beerrecipegenerator.databinding.ActivityEditRecipeBinding
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
@@ -41,6 +44,25 @@ class EditRecipeActivity : AppCompatActivity() {
 
         val recipeId = intent.getStringExtra(Constants.EXTRA_EDIT_RECIPE)
         loadRecipe(recipeId!!)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_edit_recipe, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        if (id == R.id.action_cancel_edit) {
+            cancelEditRecipe()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun cancelEditRecipe() {
+        goBackToRecipeView()
     }
 
     private fun grainAmountChangedListener(amount: Double, fermentableId: String) {
@@ -135,9 +157,7 @@ class EditRecipeActivity : AppCompatActivity() {
 
         HomebrewApiRequestHelper.updateRecipe(mRecipeId, recipeUpdateInfo, this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
-                val recipeViewIntent = Intent(this@EditRecipeActivity, RecipeViewActivity::class.java)
-                recipeViewIntent.putExtra(Constants.EXTRA_VIEW_RECIPE, mRecipeId)
-                startActivity(recipeViewIntent)
+                goBackToRecipeView()
             }
 
             override fun onUnauthorizedResponse() {
@@ -148,5 +168,11 @@ class EditRecipeActivity : AppCompatActivity() {
                 Toast.makeText(this@EditRecipeActivity, errorMessage, Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    private fun goBackToRecipeView() {
+        val recipeViewIntent = Intent(this, RecipeViewActivity::class.java)
+        recipeViewIntent.putExtra(Constants.EXTRA_VIEW_RECIPE, mRecipeId)
+        startActivity(recipeViewIntent)
     }
 }

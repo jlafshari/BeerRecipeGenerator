@@ -116,6 +116,7 @@ class RecipeViewActivity : AppCompatActivity() {
     fun editRecipe(view: View) {
         val editRecipeIntent = Intent(this, EditRecipeActivity::class.java)
         editRecipeIntent.putExtra(Constants.EXTRA_EDIT_RECIPE, mRecipe!!.id)
+        editRecipeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(editRecipeIntent)
     }
 }
