@@ -48,4 +48,5 @@
     <string name="grainAmountUnit">lbs</string>
     <string name="addGrainHeading">Add Grain</string>
     <string name="btnUpdateRecipe">Update</string>
+    <string name="deleteText">Delete</string>
 </resources>

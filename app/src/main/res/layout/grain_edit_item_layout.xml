@@ -4,6 +4,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+    <Button
+            android:id="@+id/btnDeleteGrain"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_weight="0"
+            android:width="70dp"
+            android:text="@string/deleteText"
+            android:textAllCaps="false" />
+
     <EditText
             android:id="@+id/txtGrainAmountEdit"
             android:layout_width="wrap_content"
@@ -23,5 +32,5 @@
             android:id="@+id/txtGrainEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="3" />
 </LinearLayout>

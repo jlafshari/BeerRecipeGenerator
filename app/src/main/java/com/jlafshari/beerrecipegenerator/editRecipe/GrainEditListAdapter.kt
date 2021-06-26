@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +15,8 @@ import com.jlafshari.beerrecipegenerator.R
 
 class GrainEditListAdapter(private val grainList: List<FermentableIngredient>,
                            private val context: Context,
-                           private val amountChangedListener: (amount: Double, fermentableId: String) -> Unit) :
+                           private val amountChangedListener: (amount: Double, fermentableId: String) -> Unit,
+                           private val deleteGrainListener: (fermentableId: String) -> Unit) :
     RecyclerView.Adapter<GrainEditListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,6 +40,7 @@ class GrainEditListAdapter(private val grainList: List<FermentableIngredient>,
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+        holder.btnDeleteGrain.setOnClickListener { deleteGrainListener(grain.fermentableId) }
     }
 
     override fun getItemCount() = grainList.size
@@ -45,5 +48,6 @@ class GrainEditListAdapter(private val grainList: List<FermentableIngredient>,
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtGrainAmount: EditText = itemView.findViewById(R.id.txtGrainAmountEdit)
         val txtGrain: TextView = itemView.findViewById(R.id.txtGrainEdit)
+        val btnDeleteGrain: Button = itemView.findViewById(R.id.btnDeleteGrain)
     }
 }
