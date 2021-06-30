@@ -17,29 +17,28 @@ import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 
 class AddGrainActivity : AppCompatActivity() {
     private lateinit var mFermentables: List<Fermentable>
+    private lateinit var mBinding: ActivityAddGrainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityAddGrainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        mBinding = ActivityAddGrainBinding.inflate(layoutInflater)
+        setContentView(mBinding.root)
 
-        binding.grainSelectorRecyclerView.layoutManager = LinearLayoutManager(
+        mBinding.grainSelectorRecyclerView.layoutManager = LinearLayoutManager(
             this,
             RecyclerView.VERTICAL,
             false
         )
-        binding.grainSelectorRecyclerView.adapter = GrainSelectorListAdapter(emptyList()) {
-                fermentable -> grainClicked(fermentable) }
+        setGrainSelectorView(emptyList())
 
-        loadFermentables(binding)
+        loadFermentables()
     }
 
-    private fun loadFermentables(binding: ActivityAddGrainBinding) {
+    private fun loadFermentables() {
         HomebrewApiRequestHelper.getAllFermentables(this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
                 mFermentables = jacksonObjectMapper().readValue(json)
-                binding.grainSelectorRecyclerView.adapter = GrainSelectorListAdapter(mFermentables) {
-                        fermentable -> grainClicked(fermentable) }
+                setGrainSelectorView(mFermentables)
             }
 
             override fun onUnauthorizedResponse() {
@@ -50,6 +49,11 @@ class AddGrainActivity : AppCompatActivity() {
                 Toast.makeText(this@AddGrainActivity, errorMessage, Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    private fun setGrainSelectorView(grainList: List<Fermentable>) {
+        mBinding.grainSelectorRecyclerView.adapter = GrainSelectorListAdapter(grainList) {
+                fermentable -> grainClicked(fermentable) }
     }
 
     private fun grainClicked(fermentable: Fermentable) {
