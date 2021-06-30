@@ -43,7 +43,8 @@ class AddGrainActivity : AppCompatActivity() {
         )
         setGrainSelectorView(emptyList())
 
-        loadFermentables()
+        val grainsToExclude = intent.getStringArrayExtra(Constants.EXTRA_ADD_GRAIN_GRAINS_TO_EXCLUDE)!!
+        loadFermentables(grainsToExclude)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -62,10 +63,11 @@ class AddGrainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun loadFermentables() {
+    private fun loadFermentables(grainsToExclude: Array<String>) {
         HomebrewApiRequestHelper.getAllFermentables(this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
-                mFermentables = jacksonObjectMapper().readValue(json)
+                mFermentables = jacksonObjectMapper().readValue<List<Fermentable>>(json)
+                    .filter { !grainsToExclude.contains(it.id) }
                 setGrainSelectorView(mFermentables)
             }
 

@@ -118,6 +118,8 @@ class EditRecipeActivity : AppCompatActivity() {
     fun addGrain(view: View) {
         val addGrainIntent = Intent(this, AddGrainActivity::class.java)
         addGrainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        addGrainIntent.putExtra(Constants.EXTRA_ADD_GRAIN_GRAINS_TO_EXCLUDE,
+            mRecipeUpdateInfo.fermentableIngredients.map { it.fermentableId }.toTypedArray())
         startActivity(addGrainIntent)
     }
 
