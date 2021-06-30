@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +15,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Fermentable
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
+import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.VolleyCallBack
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAddGrainBinding
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
@@ -41,6 +44,22 @@ class AddGrainActivity : AppCompatActivity() {
         setGrainSelectorView(emptyList())
 
         loadFermentables()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_add_grain, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        if (id == R.id.action_cancel_add_grain) {
+            val editRecipeIntent = Intent(this, EditRecipeActivity::class.java)
+            startActivity(editRecipeIntent)
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun loadFermentables() {
