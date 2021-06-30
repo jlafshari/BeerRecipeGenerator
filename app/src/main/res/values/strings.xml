@@ -49,4 +49,5 @@
     <string name="addGrainHeading">Add Grain</string>
     <string name="btnUpdateRecipe">Update</string>
     <string name="deleteText">Delete</string>
+    <string name="searchHintText">Search …</string>
 </resources>

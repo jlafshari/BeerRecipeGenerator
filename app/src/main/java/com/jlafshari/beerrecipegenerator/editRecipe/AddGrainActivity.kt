@@ -2,6 +2,8 @@ package com.jlafshari.beerrecipegenerator.editRecipe
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +25,13 @@ class AddGrainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mBinding = ActivityAddGrainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
+
+        mBinding.txtGrainSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) = searchGrains()
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
 
         mBinding.grainSelectorRecyclerView.layoutManager = LinearLayoutManager(
             this,
@@ -60,5 +69,13 @@ class AddGrainActivity : AppCompatActivity() {
         val editRecipeIntent = Intent(this, EditRecipeActivity::class.java)
         editRecipeIntent.putExtra(Constants.EXTRA_ADD_GRAIN, fermentable.id)
         startActivity(editRecipeIntent)
+    }
+
+    fun searchGrains() {
+        if (!this::mFermentables.isInitialized) return
+
+        val searchText = mBinding.txtGrainSearch.text.toString()
+        val grainsMatched = mFermentables.filter { it.name.contains(searchText, true) }
+        setGrainSelectorView(grainsMatched)
     }
 }
