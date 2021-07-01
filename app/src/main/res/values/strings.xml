@@ -50,4 +50,8 @@
     <string name="btnUpdateRecipe">Update</string>
     <string name="deleteText">Delete</string>
     <string name="searchHintText">Search …</string>
+    <string name="hopOuncesHint">Hop oz.</string>
+    <string name="hopAmountUnit">oz</string>
+    <string name="hopAdditionTimeHint">minutes</string>
+    <string name="hopAdditionTimeUnit">min.</string>
 </resources>

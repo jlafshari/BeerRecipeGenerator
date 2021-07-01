@@ -6,5 +6,5 @@ data class Recipe(val id: String,
                   val styleName: String,
                   val projectedOutcome: RecipeProjectedOutcome,
                   val fermentableIngredients: MutableList<FermentableIngredient>,
-                  val hopIngredients: List<HopIngredient>,
+                  val hopIngredients: MutableList<HopIngredient>,
                   val yeastIngredient: YeastIngredient)

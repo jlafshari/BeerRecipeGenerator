@@ -13,10 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.jlafshari.beerrecipecore.Fermentable
-import com.jlafshari.beerrecipecore.FermentableIngredient
-import com.jlafshari.beerrecipecore.Recipe
-import com.jlafshari.beerrecipecore.RecipeUpdateInfo
+import com.jlafshari.beerrecipecore.*
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
 import com.jlafshari.beerrecipegenerator.R
@@ -41,6 +38,11 @@ class EditRecipeActivity : AppCompatActivity() {
             false
         )
         setGrainEditRecyclerView(emptyList())
+        binding.hopEditRecyclerView.layoutManager = LinearLayoutManager(
+            this,
+            RecyclerView.VERTICAL,
+            false)
+        setHopEditRecyclerView(emptyList())
 
         val recipeId = intent.getStringExtra(Constants.EXTRA_EDIT_RECIPE)
         loadRecipe(recipeId!!)
@@ -81,7 +83,7 @@ class EditRecipeActivity : AppCompatActivity() {
             override fun onSuccess(json: String) {
                 val recipe: Recipe = jacksonObjectMapper().readValue(json)
                 mRecipeId = recipe.id
-                mRecipeUpdateInfo = RecipeUpdateInfo(recipe.name, recipe.fermentableIngredients)
+                mRecipeUpdateInfo = RecipeUpdateInfo(recipe.name, recipe.fermentableIngredients, recipe.hopIngredients)
                 loadRecipeView()
             }
 
@@ -107,12 +109,17 @@ class EditRecipeActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
         setGrainEditRecyclerView(mRecipeUpdateInfo.fermentableIngredients)
+        setHopEditRecyclerView(mRecipeUpdateInfo.hopIngredients)
     }
 
     private fun setGrainEditRecyclerView(grainList: List<FermentableIngredient>) {
         binding.grainEditRecyclerView.adapter = GrainEditListAdapter(grainList, this,
             { a, f -> grainAmountChangedListener(a, f) },
             { f -> deleteGrainListener(f) })
+    }
+
+    private fun setHopEditRecyclerView(hopIngredients: List<HopIngredient>) {
+        binding.hopEditRecyclerView.adapter = HopEditListAdapter(hopIngredients)
     }
 
     fun addGrain(view: View) {
@@ -155,7 +162,9 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     fun updateRecipe(view: View) {
-        val recipeUpdateInfo = RecipeUpdateInfo(mRecipeUpdateInfo.name, mRecipeUpdateInfo.fermentableIngredients)
+        //TODO: why make this instance? can't I just use mRecipeUpdateInfo?
+        val recipeUpdateInfo = RecipeUpdateInfo(mRecipeUpdateInfo.name, mRecipeUpdateInfo.fermentableIngredients,
+            mRecipeUpdateInfo.hopIngredients)
 
         HomebrewApiRequestHelper.updateRecipe(mRecipeId, recipeUpdateInfo, this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
