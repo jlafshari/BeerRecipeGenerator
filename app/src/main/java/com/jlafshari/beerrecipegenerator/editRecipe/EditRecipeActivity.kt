@@ -162,11 +162,7 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     fun updateRecipe(view: View) {
-        //TODO: why make this instance? can't I just use mRecipeUpdateInfo?
-        val recipeUpdateInfo = RecipeUpdateInfo(mRecipeUpdateInfo.name, mRecipeUpdateInfo.fermentableIngredients,
-            mRecipeUpdateInfo.hopIngredients)
-
-        HomebrewApiRequestHelper.updateRecipe(mRecipeId, recipeUpdateInfo, this, object : VolleyCallBack {
+        HomebrewApiRequestHelper.updateRecipe(mRecipeId, mRecipeUpdateInfo, this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
                 goBackToRecipeView()
             }
