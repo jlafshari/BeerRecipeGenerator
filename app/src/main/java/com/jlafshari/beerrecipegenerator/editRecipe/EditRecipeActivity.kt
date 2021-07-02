@@ -73,6 +73,11 @@ class EditRecipeActivity : AppCompatActivity() {
         fermentableIngredient.amount = amount
     }
 
+    private fun hopAmountChangedListener(amount: Double, hopId: String) {
+        val hopIngredient = mRecipeUpdateInfo.hopIngredients.find { it.hopId == hopId }!!
+        hopIngredient.amount = amount
+    }
+
     private fun deleteGrainListener(fermentableId: String) {
         mRecipeUpdateInfo.fermentableIngredients.removeIf { it.fermentableId == fermentableId }
         setGrainEditRecyclerView(mRecipeUpdateInfo.fermentableIngredients)
@@ -124,7 +129,9 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     private fun setHopEditRecyclerView(hopIngredients: List<HopIngredient>) {
-        binding.hopEditRecyclerView.adapter = HopEditListAdapter(hopIngredients, { h -> deleteHopListener(h) })
+        binding.hopEditRecyclerView.adapter = HopEditListAdapter(hopIngredients,
+            { a, h -> hopAmountChangedListener(a, h) },
+            { h -> deleteHopListener(h) })
     }
 
     fun addGrain(view: View) {

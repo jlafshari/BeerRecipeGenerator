@@ -1,5 +1,7 @@
 package com.jlafshari.beerrecipegenerator.editRecipe
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import com.jlafshari.beerrecipecore.HopIngredient
 import com.jlafshari.beerrecipegenerator.R
 
 class HopEditListAdapter(private val hopList: List<HopIngredient>,
+                         private val amountChangedListener: (amount: Double, fermentableId: String) -> Unit,
                          private val deleteHopListener: (hopId: String) -> Unit) :
     RecyclerView.Adapter<HopEditListAdapter.ViewHolder>() {
 
@@ -25,6 +28,17 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>,
         holder.txtHopAmount.text.insert(0, hop.amount.toString())
         holder.txtHopAdditionTime.text.insert(0, hop.boilAdditionTime.toString())
         holder.txtHop.text = hop.name
+        holder.txtHopAmount.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(hopAmountEditText: Editable?) {
+                val amount = hopAmountEditText.toString().toDoubleOrNull()
+                if (amount != null) {
+                    amountChangedListener(amount, hop.hopId)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
         holder.btnDeleteHop.setOnClickListener { deleteHopListener(hop.hopId) }
     }
 
