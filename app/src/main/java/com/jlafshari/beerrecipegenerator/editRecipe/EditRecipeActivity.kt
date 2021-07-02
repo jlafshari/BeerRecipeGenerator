@@ -78,6 +78,11 @@ class EditRecipeActivity : AppCompatActivity() {
         hopIngredient.amount = amount
     }
 
+    private fun hopBoilAdditionTimeChangedListener(boilAdditionTime: Int, hopId: String) {
+        val hopIngredient = mRecipeUpdateInfo.hopIngredients.find { it.hopId == hopId }!!
+        hopIngredient.boilAdditionTime = boilAdditionTime
+    }
+
     private fun deleteGrainListener(fermentableId: String) {
         mRecipeUpdateInfo.fermentableIngredients.removeIf { it.fermentableId == fermentableId }
         setGrainEditRecyclerView(mRecipeUpdateInfo.fermentableIngredients)
@@ -131,6 +136,7 @@ class EditRecipeActivity : AppCompatActivity() {
     private fun setHopEditRecyclerView(hopIngredients: List<HopIngredient>) {
         binding.hopEditRecyclerView.adapter = HopEditListAdapter(hopIngredients,
             { a, h -> hopAmountChangedListener(a, h) },
+            { t, h -> hopBoilAdditionTimeChangedListener(t, h) },
             { h -> deleteHopListener(h) })
     }
 

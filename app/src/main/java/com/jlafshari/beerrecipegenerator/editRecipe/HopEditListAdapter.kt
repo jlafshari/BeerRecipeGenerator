@@ -13,8 +13,9 @@ import com.jlafshari.beerrecipecore.HopIngredient
 import com.jlafshari.beerrecipegenerator.R
 
 class HopEditListAdapter(private val hopList: List<HopIngredient>,
-                         private val amountChangedListener: (amount: Double, fermentableId: String) -> Unit,
-                         private val deleteHopListener: (hopId: String) -> Unit) :
+     private val amountChangedListener: (amount: Double, fermentableId: String) -> Unit,
+     private val hopBoilAdditionTimeChangedListener: (boilAdditionTime: Int, hopId: String) -> Unit,
+     private val deleteHopListener: (hopId: String) -> Unit) :
     RecyclerView.Adapter<HopEditListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,6 +28,16 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>,
         val hop = hopList[position]
         holder.txtHopAmount.text.insert(0, hop.amount.toString())
         holder.txtHopAdditionTime.text.insert(0, hop.boilAdditionTime.toString())
+        holder.txtHopAdditionTime.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(hopBoilAdditionTimeEditText: Editable?) {
+                val boilAdditionTime = hopBoilAdditionTimeEditText.toString().toIntOrNull()
+                if (boilAdditionTime != null)
+                    hopBoilAdditionTimeChangedListener(boilAdditionTime, hop.hopId)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
         holder.txtHop.text = hop.name
         holder.txtHopAmount.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(hopAmountEditText: Editable?) {
