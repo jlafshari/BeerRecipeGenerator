@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipecore.HopIngredient
 import com.jlafshari.beerrecipegenerator.R
 
-class HopEditListAdapter(private val hopList: List<HopIngredient>) :
+class HopEditListAdapter(private val hopList: List<HopIngredient>,
+                         private val deleteHopListener: (hopId: String) -> Unit) :
     RecyclerView.Adapter<HopEditListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,6 +25,7 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>) :
         holder.txtHopAmount.text.insert(0, hop.amount.toString())
         holder.txtHopAdditionTime.text.insert(0, hop.boilAdditionTime.toString())
         holder.txtHop.text = hop.name
+        holder.btnDeleteHop.setOnClickListener { deleteHopListener(hop.hopId) }
     }
 
     override fun getItemCount() = hopList.size

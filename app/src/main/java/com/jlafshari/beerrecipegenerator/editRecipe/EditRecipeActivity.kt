@@ -78,6 +78,11 @@ class EditRecipeActivity : AppCompatActivity() {
         setGrainEditRecyclerView(mRecipeUpdateInfo.fermentableIngredients)
     }
 
+    private fun deleteHopListener(hopId: String) {
+        mRecipeUpdateInfo.hopIngredients.removeIf { it.hopId == hopId }
+        setHopEditRecyclerView(mRecipeUpdateInfo.hopIngredients)
+    }
+
     private fun loadRecipe(recipeId: String) {
         HomebrewApiRequestHelper.getRecipe(recipeId, this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
@@ -119,7 +124,7 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     private fun setHopEditRecyclerView(hopIngredients: List<HopIngredient>) {
-        binding.hopEditRecyclerView.adapter = HopEditListAdapter(hopIngredients)
+        binding.hopEditRecyclerView.adapter = HopEditListAdapter(hopIngredients, { h -> deleteHopListener(h) })
     }
 
     fun addGrain(view: View) {
