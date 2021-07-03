@@ -54,4 +54,5 @@
     <string name="hopAmountUnit">oz</string>
     <string name="hopAdditionTimeHint">minutes</string>
     <string name="hopAdditionTimeUnit">min.</string>
+    <string name="addHopHeading">Add Hop</string>
 </resources>

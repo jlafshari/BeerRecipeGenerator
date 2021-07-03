@@ -148,6 +148,12 @@ class EditRecipeActivity : AppCompatActivity() {
         startActivity(addGrainIntent)
     }
 
+    fun addHop(view: View) {
+        val addHopIntent = Intent(this, AddHopActivity::class.java)
+        addHopIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(addHopIntent)
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         val fermentableId = intent?.getStringExtra(Constants.EXTRA_ADD_GRAIN)

@@ -17,6 +17,7 @@ object HomebrewApiRequestHelper {
     private const val generateRecipeUrl = "Recipe/GenerateRecipe"
     private const val getAllStylesUrl = "Style/GetAll"
     private const val getAllFermentablesUrl = "Fermentable/GetAll"
+    private const val getAllHopsUrl = "Hop/GetAll"
 
     fun getAllRecipes(context: Context, callBack: VolleyCallBack) {
         sendStandardAuthRequest(
@@ -112,6 +113,12 @@ object HomebrewApiRequestHelper {
     fun getFermentable(fermentableId: String, context: Context, callBack: VolleyCallBack) {
         val url = getUrl("Fermentable/$fermentableId", context)
         sendStandardAuthRequest(url, Request.Method.GET, context, callBack)
+    }
+
+    fun getAllHops(context: Context, callBack: VolleyCallBack) {
+        sendStandardAuthRequest(
+            getUrl(getAllHopsUrl, context), Request.Method.GET,
+            context, callBack)
     }
 
     private fun sendStandardAuthRequest(url: String, httpMethod: Int,
