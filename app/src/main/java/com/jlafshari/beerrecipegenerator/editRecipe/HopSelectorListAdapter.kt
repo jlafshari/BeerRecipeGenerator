@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipecore.Hop
 import com.jlafshari.beerrecipegenerator.R
 
-class HopSelectorListAdapter(private val hopList: List<Hop>) :
+class HopSelectorListAdapter(private val hopList: List<Hop>,
+                             private val clickListener: (Hop) -> Unit) :
     RecyclerView.Adapter<HopSelectorListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -20,11 +21,16 @@ class HopSelectorListAdapter(private val hopList: List<Hop>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val hop = hopList[position]
         holder.txtHopName.text = hop.name
+        holder.bind(hop, clickListener)
     }
 
     override fun getItemCount() = hopList.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtHopName: TextView = itemView.findViewById(R.id.txtHopSelectName)
+
+        fun bind(hop: Hop, clickListener: (Hop) -> Unit) {
+            itemView.setOnClickListener { clickListener(hop) }
+        }
     }
 }

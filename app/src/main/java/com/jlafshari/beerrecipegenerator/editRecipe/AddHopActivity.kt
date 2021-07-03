@@ -1,5 +1,6 @@
 package com.jlafshari.beerrecipegenerator.editRecipe
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Hop
+import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
 import com.jlafshari.beerrecipegenerator.VolleyCallBack
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAddHopBinding
@@ -49,6 +51,13 @@ class AddHopActivity : AppCompatActivity() {
     }
 
     private fun setHopSelectorView(hopList: List<Hop>) {
-        mBinding.hopSelectorRecyclerView.adapter = HopSelectorListAdapter(hopList)
+        mBinding.hopSelectorRecyclerView.adapter = HopSelectorListAdapter(hopList) {
+                hop -> hopClicked(hop) }
+    }
+
+    private fun hopClicked(hop: Hop) {
+        val editRecipeIntent = Intent(this, EditRecipeActivity::class.java)
+        editRecipeIntent.putExtra(Constants.EXTRA_ADD_HOP, hop.id)
+        startActivity(editRecipeIntent)
     }
 }

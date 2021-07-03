@@ -121,6 +121,11 @@ object HomebrewApiRequestHelper {
             context, callBack)
     }
 
+    fun getHop(hopId: String, context: Context, callBack: VolleyCallBack) {
+        val url = getUrl("Hop/$hopId", context)
+        sendStandardAuthRequest(url, Request.Method.GET, context, callBack)
+    }
+
     private fun sendStandardAuthRequest(url: String, httpMethod: Int,
                                         context: Context, callBack: VolleyCallBack) {
         val queue = Volley.newRequestQueue(context)

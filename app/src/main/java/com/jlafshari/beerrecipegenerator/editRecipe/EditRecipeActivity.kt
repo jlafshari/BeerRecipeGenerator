@@ -160,6 +160,26 @@ class EditRecipeActivity : AppCompatActivity() {
         if (fermentableId != null) {
             addGrainToRecipe(fermentableId)
         }
+
+        val hopId = intent?.getStringExtra(Constants.EXTRA_ADD_HOP)
+        if (hopId != null) addHopToRecipe(hopId)
+    }
+
+    private fun addHopToRecipe(hopId: String) {
+        HomebrewApiRequestHelper.getHop(hopId, this, object : VolleyCallBack {
+            override fun onSuccess(json: String) {
+                val hop = jacksonObjectMapper().readValue<Hop>(json)
+                addHopIngredientToRecipe(hop)
+            }
+
+            override fun onUnauthorizedResponse() {
+                AuthHelper.startLoginActivity(this@EditRecipeActivity)
+            }
+
+            override fun onError(errorMessage: String) {
+                Toast.makeText(this@EditRecipeActivity, errorMessage, Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     private fun addGrainToRecipe(fermentableId: String) {
@@ -177,6 +197,12 @@ class EditRecipeActivity : AppCompatActivity() {
                 Toast.makeText(this@EditRecipeActivity, errorMessage, Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    private fun addHopIngredientToRecipe(hop: Hop) {
+        val hopIngredient = HopIngredient(hop.name, 1.0, 1, hop.id)
+        mRecipeUpdateInfo.hopIngredients.add(hopIngredient)
+        setHopEditRecyclerView(mRecipeUpdateInfo.hopIngredients)
     }
 
     private fun addFermentableIngredientToRecipe(fermentable: Fermentable) {
