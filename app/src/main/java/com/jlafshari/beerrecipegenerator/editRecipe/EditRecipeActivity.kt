@@ -73,8 +73,8 @@ class EditRecipeActivity : AppCompatActivity() {
         fermentableIngredient.amount = amount
     }
 
-    private fun hopAmountChangedListener(amount: Double, hopId: String) {
-        val hopIngredient = mRecipeUpdateInfo.hopIngredients.find { it.hopId == hopId }!!
+    private fun hopAmountChangedListener(amount: Double, index: Int) {
+        val hopIngredient = mRecipeUpdateInfo.hopIngredients[index]
         hopIngredient.amount = amount
     }
 
