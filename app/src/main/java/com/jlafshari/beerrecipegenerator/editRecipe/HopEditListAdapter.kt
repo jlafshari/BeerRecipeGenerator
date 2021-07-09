@@ -14,7 +14,7 @@ import com.jlafshari.beerrecipegenerator.R
 
 class HopEditListAdapter(private val hopList: List<HopIngredient>,
      private val amountChangedListener: (amount: Double, fermentableId: String) -> Unit,
-     private val hopBoilAdditionTimeChangedListener: (boilAdditionTime: Int, hopId: String) -> Unit,
+     private val hopBoilAdditionTimeChangedListener: (boilAdditionTime: Int, index: Int) -> Unit,
      private val deleteHopListener: (hopId: String) -> Unit) :
     RecyclerView.Adapter<HopEditListAdapter.ViewHolder>() {
 
@@ -32,7 +32,7 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>,
             override fun afterTextChanged(hopBoilAdditionTimeEditText: Editable?) {
                 val boilAdditionTime = hopBoilAdditionTimeEditText.toString().toIntOrNull()
                 if (boilAdditionTime != null)
-                    hopBoilAdditionTimeChangedListener(boilAdditionTime, hop.hopId)
+                    hopBoilAdditionTimeChangedListener(boilAdditionTime, position)
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

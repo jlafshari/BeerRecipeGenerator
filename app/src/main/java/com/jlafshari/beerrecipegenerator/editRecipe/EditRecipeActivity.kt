@@ -78,8 +78,8 @@ class EditRecipeActivity : AppCompatActivity() {
         hopIngredient.amount = amount
     }
 
-    private fun hopBoilAdditionTimeChangedListener(boilAdditionTime: Int, hopId: String) {
-        val hopIngredient = mRecipeUpdateInfo.hopIngredients.find { it.hopId == hopId }!!
+    private fun hopBoilAdditionTimeChangedListener(boilAdditionTime: Int, index: Int) {
+        val hopIngredient = mRecipeUpdateInfo.hopIngredients[index]
         hopIngredient.boilAdditionTime = boilAdditionTime
     }
 
