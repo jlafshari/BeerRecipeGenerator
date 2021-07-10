@@ -2,6 +2,8 @@ package com.jlafshari.beerrecipegenerator.editRecipe
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +13,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Hop
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
+import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.VolleyCallBack
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAddHopBinding
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
@@ -31,6 +34,22 @@ class AddHopActivity : AppCompatActivity() {
         setHopSelectorView(emptyList())
 
         loadHops()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_add_hop, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        if (id == R.id.action_cancel_add_hop) {
+            val editRecipeIntent = Intent(this, EditRecipeActivity::class.java)
+            startActivity(editRecipeIntent)
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun loadHops() {
