@@ -21,6 +21,7 @@ class HopSelectorListAdapter(private val hopList: List<Hop>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val hop = hopList[position]
         holder.txtHopName.text = hop.name
+        holder.txtHopDescription.text = hop.notes
         holder.bind(hop, clickListener)
     }
 
@@ -28,6 +29,7 @@ class HopSelectorListAdapter(private val hopList: List<Hop>,
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtHopName: TextView = itemView.findViewById(R.id.txtHopSelectName)
+        val txtHopDescription: TextView = itemView.findViewById(R.id.txtHopDescription)
 
         fun bind(hop: Hop, clickListener: (Hop) -> Unit) {
             itemView.setOnClickListener { clickListener(hop) }
