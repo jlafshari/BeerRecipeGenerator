@@ -2,6 +2,8 @@ package com.jlafshari.beerrecipegenerator.editRecipe
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -26,6 +28,13 @@ class AddHopActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mBinding = ActivityAddHopBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
+
+        mBinding.txtHopSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) = searchHops()
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
 
         mBinding.hopSelectorRecyclerView.layoutManager = LinearLayoutManager(
             this,
@@ -78,5 +87,13 @@ class AddHopActivity : AppCompatActivity() {
         val editRecipeIntent = Intent(this, EditRecipeActivity::class.java)
         editRecipeIntent.putExtra(Constants.EXTRA_ADD_HOP, hop.id)
         startActivity(editRecipeIntent)
+    }
+
+    private fun searchHops() {
+        if (!this::mHops.isInitialized) return
+
+        val searchText = mBinding.txtHopSearch.text.toString()
+        val hopsMatched = mHops.filter { it.name.contains(searchText, true) }
+        setHopSelectorView(hopsMatched)
     }
 }
