@@ -212,6 +212,12 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     fun updateRecipe(view: View) {
+        val validationResult = validateRecipe()
+        if (!validationResult.succeeded) {
+            binding.txtErrorMsg.text = validationResult.message
+            return
+        }
+
         HomebrewApiRequestHelper.updateRecipe(mRecipeId, mRecipeUpdateInfo, this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
                 goBackToRecipeView()
@@ -225,6 +231,25 @@ class EditRecipeActivity : AppCompatActivity() {
                 Toast.makeText(this@EditRecipeActivity, errorMessage, Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    private fun validateRecipe() : RecipeUpdateValidationResult {
+        val identicalHopIngredients = mRecipeUpdateInfo.hopIngredients.groupBy { listOf(it.hopId,
+            it.boilAdditionTime) }.filter { it.value.size > 1 }
+        var isRecipeValid = true
+
+        var message: String? = null
+        if (identicalHopIngredients.any()) {
+            isRecipeValid = false
+            message = "Hops of same variety are added to boil at same time!"
+
+            for (identicalHopIngredient in identicalHopIngredients) {
+                val ingredient = identicalHopIngredient.value.first()
+                message += "${System.lineSeparator()}${ingredient.name}: ${ingredient.boilAdditionTime}"
+            }
+        }
+
+        return RecipeUpdateValidationResult(isRecipeValid, message)
     }
 
     private fun goBackToRecipeView() {
