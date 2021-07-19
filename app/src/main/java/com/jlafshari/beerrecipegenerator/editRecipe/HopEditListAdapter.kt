@@ -15,7 +15,7 @@ import com.jlafshari.beerrecipegenerator.R
 class HopEditListAdapter(private val hopList: List<HopIngredient>,
      private val amountChangedListener: (amount: Double, index: Int) -> Unit,
      private val hopBoilAdditionTimeChangedListener: (boilAdditionTime: Int, index: Int) -> Unit,
-     private val deleteHopListener: (hopId: String) -> Unit) :
+     private val deleteHopListener: (index: Int) -> Unit) :
     RecyclerView.Adapter<HopEditListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -50,7 +50,7 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>,
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-        holder.btnDeleteHop.setOnClickListener { deleteHopListener(hop.hopId) }
+        holder.btnDeleteHop.setOnClickListener { deleteHopListener(position) }
     }
 
     override fun getItemCount() = hopList.size

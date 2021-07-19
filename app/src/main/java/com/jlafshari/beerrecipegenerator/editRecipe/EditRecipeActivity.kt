@@ -88,8 +88,8 @@ class EditRecipeActivity : AppCompatActivity() {
         setGrainEditRecyclerView(mRecipeUpdateInfo.fermentableIngredients)
     }
 
-    private fun deleteHopListener(hopId: String) {
-        mRecipeUpdateInfo.hopIngredients.removeIf { it.hopId == hopId }
+    private fun deleteHopListener(index: Int) {
+        mRecipeUpdateInfo.hopIngredients.removeAt(index)
         setHopEditRecyclerView(mRecipeUpdateInfo.hopIngredients)
     }
 
