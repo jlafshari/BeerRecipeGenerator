@@ -238,18 +238,25 @@ class EditRecipeActivity : AppCompatActivity() {
             it.boilAdditionTime) }.filter { it.value.size > 1 }
         var isRecipeValid = true
 
-        var message: String? = null
+        val message = StringBuilder()
         if (identicalHopIngredients.any()) {
             isRecipeValid = false
-            message = "Hops of same variety are added to boil at same time!"
+            message.appendLine("Hops of same variety are added to boil at same time!")
 
             for (identicalHopIngredient in identicalHopIngredients) {
                 val ingredient = identicalHopIngredient.value.first()
-                message += "${System.lineSeparator()}${ingredient.name}: ${ingredient.boilAdditionTime}"
+                message.appendLine("${ingredient.name}: ${ingredient.boilAdditionTime}")
             }
         }
 
-        return RecipeUpdateValidationResult(isRecipeValid, message)
+        for (hopIngredient in mRecipeUpdateInfo.hopIngredients) {
+            if (hopIngredient.boilAdditionTime > Constants.BOIL_DURATION_TIME_DEFAULT) {
+                isRecipeValid = false
+                message.appendLine("Hop ingredient ${hopIngredient.amount} oz ${hopIngredient.name} (${hopIngredient.boilAdditionTime}) is added to boil for longer than 60 min. boil")
+            }
+        }
+
+        return RecipeUpdateValidationResult(isRecipeValid, message.toString())
     }
 
     private fun goBackToRecipeView() {
