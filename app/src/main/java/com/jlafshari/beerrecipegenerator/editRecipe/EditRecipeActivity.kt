@@ -252,7 +252,8 @@ class EditRecipeActivity : AppCompatActivity() {
         for (hopIngredient in mRecipeUpdateInfo.hopIngredients) {
             if (hopIngredient.boilAdditionTime > Constants.BOIL_DURATION_TIME_DEFAULT) {
                 isRecipeValid = false
-                message.appendLine("Hop ingredient ${hopIngredient.amount} oz ${hopIngredient.name} (${hopIngredient.boilAdditionTime}) is added to boil for longer than 60 min. boil")
+                message.appendLine(
+                "Hop ingredient ${hopIngredient.amount} oz ${hopIngredient.name} (${hopIngredient.boilAdditionTime} min.) is added to boil for longer than ${Constants.BOIL_DURATION_TIME_DEFAULT} min. boil")
             }
         }
 
