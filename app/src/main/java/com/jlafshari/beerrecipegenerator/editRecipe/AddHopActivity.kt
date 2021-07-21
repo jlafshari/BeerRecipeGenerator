@@ -19,10 +19,16 @@ import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.VolleyCallBack
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAddHopBinding
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AddHopActivity : AppCompatActivity() {
     private lateinit var mHops: List<Hop>
     private lateinit var mBinding: ActivityAddHopBinding
+
+    @Inject
+    lateinit var requestHelper: HomebrewApiRequestHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +68,7 @@ class AddHopActivity : AppCompatActivity() {
     }
 
     private fun loadHops() {
-        HomebrewApiRequestHelper.getAllHops(this, object : VolleyCallBack {
+        requestHelper.getAllHops(this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
                 mHops = jacksonObjectMapper().readValue(json)
                 setHopSelectorView(mHops)

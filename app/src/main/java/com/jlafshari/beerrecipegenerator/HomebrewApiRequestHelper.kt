@@ -10,14 +10,9 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
+import javax.inject.Inject
 
-object HomebrewApiRequestHelper {
-    private const val getAllRecipesUrl = "Recipe/GetAll"
-    private const val recipeUrl = "Recipe"
-    private const val generateRecipeUrl = "Recipe/GenerateRecipe"
-    private const val getAllStylesUrl = "Style/GetAll"
-    private const val getAllFermentablesUrl = "Fermentable/GetAll"
-    private const val getAllHopsUrl = "Hop/GetAll"
+class HomebrewApiRequestHelper @Inject constructor() {
 
     fun getAllRecipes(context: Context, callBack: VolleyCallBack) {
         sendStandardAuthRequest(
@@ -161,6 +156,15 @@ object HomebrewApiRequestHelper {
     private fun getUrl(urlEnd: String, context: Context) : String {
         val baseUrl = context.resources.getString(R.string.homebrewApiBaseUrl)
         return "$baseUrl/$urlEnd"
+    }
+
+    companion object {
+        private const val getAllRecipesUrl = "Recipe/GetAll"
+        private const val recipeUrl = "Recipe"
+        private const val generateRecipeUrl = "Recipe/GenerateRecipe"
+        private const val getAllStylesUrl = "Style/GetAll"
+        private const val getAllFermentablesUrl = "Fermentable/GetAll"
+        private const val getAllHopsUrl = "Hop/GetAll"
     }
 }
 

@@ -1,10 +1,12 @@
-import java.util.Properties
 import java.io.FileInputStream
+import java.util.*
 
 plugins {
     id("com.android.application")
     kotlin("android")
     id("kotlin-android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 val localProperties = Properties()
@@ -57,6 +59,8 @@ dependencies {
     implementation("androidx.annotation:annotation:1.2.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    implementation("com.google.dagger:hilt-android:${project.rootProject.ext["hiltVersion"]}")
+    kapt("com.google.dagger:hilt-android-compiler:${project.rootProject.ext["hiltVersion"]}")
     implementation("io.jsonwebtoken:jjwt:0.9.1")
     testImplementation("junit:junit:4.13")
     androidTestImplementation("androidx.test.ext:junit:1.1.2")

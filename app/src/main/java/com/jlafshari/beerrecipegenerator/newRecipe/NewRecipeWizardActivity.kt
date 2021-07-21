@@ -26,12 +26,18 @@ import com.jlafshari.beerrecipegenerator.newRecipe.GenerateRecipeFragment.OnGene
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
     OnRecipeSizeSetListener, AbvCallback, ColorCallback, BitternessCallback, OnGenerateRecipeCallback {
 
     private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
     private var mStyle: Style? = null
+
+    @Inject
+    lateinit var requestHelper: HomebrewApiRequestHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,7 +125,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         val validationResult = validateRecipeGenerationInfo()
 
         if (validationResult.succeeded) {
-            HomebrewApiRequestHelper.generateRecipe(mRecipeGenerationInfo, this, object : VolleyCallBack {
+            requestHelper.generateRecipe(mRecipeGenerationInfo, this, object : VolleyCallBack {
                 override fun onSuccess(json: String) {
                     val recipe: Recipe = jacksonObjectMapper().readValue(json)
                     viewRecipe(recipe.id)

@@ -17,9 +17,15 @@ import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.VolleyCallBack
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class BeerStyleFragment : Fragment() {
     private var mCallback: OnRecipeStyleSelectedListener? = null
+
+    @Inject
+    lateinit var requestHelper: HomebrewApiRequestHelper
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_beer_style, container, false)
@@ -40,7 +46,7 @@ class BeerStyleFragment : Fragment() {
     }
 
     private fun loadRecipeStyles(styleSpinner: Spinner) {
-        HomebrewApiRequestHelper.getAllStyles(this.requireContext(), object : VolleyCallBack {
+        requestHelper.getAllStyles(this.requireContext(), object : VolleyCallBack {
             override fun onSuccess(json: String) {
                 val recipeStyles: List<Style> = jacksonObjectMapper().readValue(json)
                 val adapter = ArrayAdapter(requireContext(),

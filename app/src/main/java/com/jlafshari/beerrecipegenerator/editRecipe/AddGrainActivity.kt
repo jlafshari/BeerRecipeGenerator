@@ -19,10 +19,16 @@ import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.VolleyCallBack
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAddGrainBinding
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AddGrainActivity : AppCompatActivity() {
     private lateinit var mFermentables: List<Fermentable>
     private lateinit var mBinding: ActivityAddGrainBinding
+
+    @Inject
+    lateinit var requestHelper: HomebrewApiRequestHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +70,7 @@ class AddGrainActivity : AppCompatActivity() {
     }
 
     private fun loadFermentables(grainsToExclude: Array<String>) {
-        HomebrewApiRequestHelper.getAllFermentables(this, object : VolleyCallBack {
+        requestHelper.getAllFermentables(this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
                 mFermentables = jacksonObjectMapper().readValue<List<Fermentable>>(json)
                     .filter { !grainsToExclude.contains(it.id) }

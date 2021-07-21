@@ -20,9 +20,15 @@ import com.jlafshari.beerrecipegenerator.databinding.ActivityRecipeViewBinding
 import com.jlafshari.beerrecipegenerator.editRecipe.EditRecipeActivity
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class RecipeViewActivity : AppCompatActivity() {
     private var mRecipe: Recipe? = null
+
+    @Inject
+    lateinit var requestHelper: HomebrewApiRequestHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +69,7 @@ class RecipeViewActivity : AppCompatActivity() {
     }
 
     private fun loadRecipe(recipeId: String, binding: ActivityRecipeViewBinding) {
-        HomebrewApiRequestHelper.getRecipe(recipeId, this, object : VolleyCallBack {
+        requestHelper.getRecipe(recipeId, this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
                 mRecipe = jacksonObjectMapper().readValue(json)
                 loadRecipeView(binding)
@@ -107,7 +113,7 @@ class RecipeViewActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun deleteRecipe() {
-        HomebrewApiRequestHelper.deleteRecipe(mRecipe!!.id, this, object : VolleyDeleteRequestCallBack {
+        requestHelper.deleteRecipe(mRecipe!!.id, this, object : VolleyDeleteRequestCallBack {
             override fun onSuccess(context: Context) {
                 Toast.makeText(context, "Recipe deleted!", Toast.LENGTH_SHORT).show()
 

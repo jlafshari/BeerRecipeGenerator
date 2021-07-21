@@ -17,9 +17,14 @@ import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var requestHelper: HomebrewApiRequestHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         recipeRecyclerView.visibility = View.INVISIBLE
         txtLoadingIndicator.visibility = View.VISIBLE
-        HomebrewApiRequestHelper.getAllRecipes(this, object : VolleyCallBack {
+        requestHelper.getAllRecipes(this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
                 val recipes: List<Recipe> = jacksonObjectMapper().readValue(json)
                 val recipePreviews = recipes.map { r -> RecipePreview(r.id, r.name, r.styleName) }

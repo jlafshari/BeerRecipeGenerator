@@ -21,11 +21,17 @@ import com.jlafshari.beerrecipegenerator.VolleyCallBack
 import com.jlafshari.beerrecipegenerator.databinding.ActivityEditRecipeBinding
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class EditRecipeActivity : AppCompatActivity() {
     private lateinit var mRecipeId: String
     private lateinit var mRecipeUpdateInfo: RecipeUpdateInfo
     private lateinit var binding: ActivityEditRecipeBinding
+
+    @Inject
+    lateinit var requestHelper: HomebrewApiRequestHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,7 +100,7 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     private fun loadRecipe(recipeId: String) {
-        HomebrewApiRequestHelper.getRecipe(recipeId, this, object : VolleyCallBack {
+        requestHelper.getRecipe(recipeId, this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
                 val recipe: Recipe = jacksonObjectMapper().readValue(json)
                 mRecipeId = recipe.id
@@ -166,7 +172,7 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     private fun addHopToRecipe(hopId: String) {
-        HomebrewApiRequestHelper.getHop(hopId, this, object : VolleyCallBack {
+        requestHelper.getHop(hopId, this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
                 val hop = jacksonObjectMapper().readValue<Hop>(json)
                 addHopIngredientToRecipe(hop)
@@ -183,7 +189,7 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     private fun addGrainToRecipe(fermentableId: String) {
-        HomebrewApiRequestHelper.getFermentable(fermentableId, this, object : VolleyCallBack {
+        requestHelper.getFermentable(fermentableId, this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
                 val fermentable = jacksonObjectMapper().readValue<Fermentable>(json)
                 addFermentableIngredientToRecipe(fermentable)
@@ -218,7 +224,7 @@ class EditRecipeActivity : AppCompatActivity() {
             return
         }
 
-        HomebrewApiRequestHelper.updateRecipe(mRecipeId, mRecipeUpdateInfo, this, object : VolleyCallBack {
+        requestHelper.updateRecipe(mRecipeId, mRecipeUpdateInfo, this, object : VolleyCallBack {
             override fun onSuccess(json: String) {
                 goBackToRecipeView()
             }
