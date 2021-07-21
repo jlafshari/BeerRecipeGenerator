@@ -70,6 +70,7 @@ class LoginActivity : AppCompatActivity() {
         Log.d(tag, "onError: ", exception)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun signIn(view: View) {
         val loginButton = binding.login
         loginButton.isEnabled = false

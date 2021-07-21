@@ -147,6 +147,7 @@ class EditRecipeActivity : AppCompatActivity() {
             { h -> deleteHopListener(h) })
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun addGrain(view: View) {
         val addGrainIntent = Intent(this, AddGrainActivity::class.java)
         addGrainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -155,6 +156,7 @@ class EditRecipeActivity : AppCompatActivity() {
         startActivity(addGrainIntent)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun addHop(view: View) {
         val addHopIntent = Intent(this, AddHopActivity::class.java)
         addHopIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -218,6 +220,7 @@ class EditRecipeActivity : AppCompatActivity() {
         setGrainEditRecyclerView(mRecipeUpdateInfo.fermentableIngredients)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun updateRecipe(view: View) {
         val validationResult = validateRecipe()
         if (!validationResult.succeeded) {

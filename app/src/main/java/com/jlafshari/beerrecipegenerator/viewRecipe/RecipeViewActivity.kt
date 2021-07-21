@@ -123,6 +123,7 @@ class RecipeViewActivity : AppCompatActivity() {
         })
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun editRecipe(view: View) {
         val editRecipeIntent = Intent(this, EditRecipeActivity::class.java)
         editRecipeIntent.putExtra(Constants.EXTRA_EDIT_RECIPE, mRecipe.id)

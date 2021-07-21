@@ -28,6 +28,7 @@ class SettingsActivity : AppCompatActivity() {
         startActivity(mainActivityIntent)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun signOut(view: View) {
         val loginActivityIntent = Intent(this, LoginActivity::class.java)
         loginActivityIntent.putExtra(Constants.EXTRA_SIGN_OUT, true)
