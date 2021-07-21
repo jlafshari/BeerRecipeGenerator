@@ -1,6 +1,5 @@
 package com.jlafshari.beerrecipegenerator.editRecipe
 
-import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -13,10 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipecore.FermentableIngredient
 import com.jlafshari.beerrecipegenerator.R
 
-class GrainEditListAdapter(private val grainList: List<FermentableIngredient>,
-                           private val context: Context,
-                           private val amountChangedListener: (amount: Double, fermentableId: String) -> Unit,
-                           private val deleteGrainListener: (fermentableId: String) -> Unit) :
+class GrainEditListAdapter(
+    private val grainList: List<FermentableIngredient>,
+    private val amountChangedListener: (amount: Double, fermentableId: String) -> Unit,
+    private val deleteGrainListener: (fermentableId: String) -> Unit
+) :
     RecyclerView.Adapter<GrainEditListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

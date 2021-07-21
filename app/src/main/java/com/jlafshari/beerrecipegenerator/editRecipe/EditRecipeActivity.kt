@@ -134,9 +134,10 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     private fun setGrainEditRecyclerView(grainList: List<FermentableIngredient>) {
-        binding.grainEditRecyclerView.adapter = GrainEditListAdapter(grainList, this,
-            { a, f -> grainAmountChangedListener(a, f) },
-            { f -> deleteGrainListener(f) })
+        binding.grainEditRecyclerView.adapter = GrainEditListAdapter(
+            grainList,
+            { a, f -> grainAmountChangedListener(a, f) }
+        ) { f -> deleteGrainListener(f) }
     }
 
     private fun setHopEditRecyclerView(hopIngredients: List<HopIngredient>) {
