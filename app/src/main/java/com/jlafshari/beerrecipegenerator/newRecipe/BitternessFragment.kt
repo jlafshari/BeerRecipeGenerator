@@ -13,7 +13,7 @@ import com.jlafshari.beerrecipecore.utility.BitternessUtility.getMedianIbuIndex
 import com.jlafshari.beerrecipegenerator.R
 
 class BitternessFragment : Fragment() {
-    private var mCallback: BitternessCallback? = null
+    private lateinit var mCallback: BitternessCallback
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,12 +22,12 @@ class BitternessFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_bitterness, container, false)
 
-        val ibuValues = getIbuValues(mCallback?.getBitternessThreshold()!!)
+        val ibuValues = getIbuValues(mCallback.getBitternessThreshold())
         val startingIbuIndex = getMedianIbuIndex(ibuValues)
         val recipeIbuPicker = view.findViewById<NumberPicker>(R.id.ibuPicker)
         setUpRecipeIbuPicker(recipeIbuPicker, ibuValues.map { it.toString() }, startingIbuIndex)
 
-        mCallback?.onBitternessValueSet(ibuValues[startingIbuIndex])
+        mCallback.onBitternessValueSet(ibuValues[startingIbuIndex])
 
         return view
     }
@@ -40,7 +40,7 @@ class BitternessFragment : Fragment() {
         recipeIbuPicker.wrapSelectorWheel = false
 
         recipeIbuPicker.setOnValueChangedListener { _, _, newVal ->
-            mCallback?.onBitternessValueSet(ibuValues[newVal].toIntOrNull())
+            mCallback.onBitternessValueSet(ibuValues[newVal].toIntOrNull())
         }
     }
 
@@ -51,11 +51,6 @@ class BitternessFragment : Fragment() {
         } else {
             throw ClassCastException("$context must implement ${BitternessCallback::class.simpleName}")
         }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        mCallback = null
     }
 
     interface BitternessCallback {

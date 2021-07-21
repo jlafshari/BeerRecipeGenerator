@@ -13,7 +13,7 @@ import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
 
 class ColorFragment : Fragment() {
-    private var mCallback: ColorCallback? = null
+    private lateinit var mCallback: ColorCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,10 +26,10 @@ class ColorFragment : Fragment() {
         colorRecyclerView.layoutManager = LinearLayoutManager(
             this.context, RecyclerView.VERTICAL, false)
 
-        val srmColorThreshold = mCallback!!.getSrmColorThreshold()
+        val srmColorThreshold = mCallback.getSrmColorThreshold()
         val colors = Colors.getColorsInRange(srmColorThreshold.minimum.toInt(), srmColorThreshold.maximum.toInt())
         colorRecyclerView.adapter = ColorPaletteListAdapter(colors)
-            { colorValueSrm -> mCallback?.onColorValueSet(colorValueSrm)}
+            { colorValueSrm -> mCallback.onColorValueSet(colorValueSrm)}
 
         return view
     }
@@ -41,11 +41,6 @@ class ColorFragment : Fragment() {
         } else {
             throw ClassCastException("$context must implement ${ColorCallback::class.simpleName}")
         }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        mCallback = null
     }
 
     interface ColorCallback {

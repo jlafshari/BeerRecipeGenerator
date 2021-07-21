@@ -13,18 +13,18 @@ import com.jlafshari.beerrecipecore.utility.AbvUtility.getMedianAbvIndex
 import com.jlafshari.beerrecipegenerator.R
 
 class AbvFragment : Fragment() {
-    private var mCallback: AbvCallback? = null
+    private lateinit var mCallback: AbvCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_abv, container, false)
 
-        val abvValues = getAbvValues(mCallback?.getAbvThreshold()!!)
+        val abvValues = getAbvValues(mCallback.getAbvThreshold())
         val startingAbvIndex = getMedianAbvIndex(abvValues)
         val recipeAbvPicker = view.findViewById<NumberPicker>(R.id.abvPicker)
         setUpRecipeAbvPicker(recipeAbvPicker, abvValues.map { it.toString() }, startingAbvIndex)
 
-        mCallback?.onAbvValueSet(abvValues[startingAbvIndex])
+        mCallback.onAbvValueSet(abvValues[startingAbvIndex])
 
         return view
     }
@@ -41,7 +41,7 @@ class AbvFragment : Fragment() {
         recipeAbvPicker.wrapSelectorWheel = false
 
         recipeAbvPicker.setOnValueChangedListener { _, _, newVal ->
-            mCallback?.onAbvValueSet(abvValues[newVal].toDoubleOrNull())
+            mCallback.onAbvValueSet(abvValues[newVal].toDoubleOrNull())
         }
     }
 
@@ -52,11 +52,6 @@ class AbvFragment : Fragment() {
         } else {
             throw ClassCastException("$context must implement ${AbvCallback::class.simpleName}")
         }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        mCallback = null
     }
 
     interface AbvCallback {

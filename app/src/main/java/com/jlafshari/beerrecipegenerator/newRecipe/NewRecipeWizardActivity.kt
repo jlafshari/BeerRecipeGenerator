@@ -34,7 +34,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     OnRecipeSizeSetListener, AbvCallback, ColorCallback, BitternessCallback, OnGenerateRecipeCallback {
 
     private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
-    private var mStyle: Style? = null
+    private lateinit var mStyle: Style
 
     @Inject
     lateinit var requestHelper: HomebrewApiRequestHelper
@@ -101,21 +101,21 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     }
 
     override fun getAbvThreshold(): StyleThreshold =
-        mStyle!!.abvThreshold
+        mStyle.abvThreshold
 
     override fun onColorValueSet(colorSrm: Int?) {
         mRecipeGenerationInfo.colorSrm = colorSrm
     }
 
     override fun getSrmColorThreshold(): StyleThreshold =
-        mStyle!!.colorThreshold
+        mStyle.colorThreshold
 
     override fun onBitternessValueSet(bitterness: Int?) {
         mRecipeGenerationInfo.ibu = bitterness
     }
 
     override fun getBitternessThreshold(): StyleThreshold =
-        mStyle!!.ibuThreshold
+        mStyle.ibuThreshold
 
     override fun onRecipeNameSet(recipeName: String) {
         mRecipeGenerationInfo.name = recipeName

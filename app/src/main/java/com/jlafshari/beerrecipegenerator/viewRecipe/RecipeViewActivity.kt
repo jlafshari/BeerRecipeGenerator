@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class RecipeViewActivity : AppCompatActivity() {
-    private var mRecipe: Recipe? = null
+    private lateinit var mRecipe: Recipe
 
     @Inject
     lateinit var requestHelper: HomebrewApiRequestHelper
@@ -53,18 +53,18 @@ class RecipeViewActivity : AppCompatActivity() {
     }
 
     private fun loadRecipeView(binding: ActivityRecipeViewBinding) {
-        binding.txtRecipeName.text = mRecipe!!.name
-        binding.txtStyle.text = getString(R.string.recipe_view_style_name, mRecipe!!.styleName)
-        binding.txtSize.text = getString(R.string.recipe_view_size, mRecipe!!.size.toString())
+        binding.txtRecipeName.text = mRecipe.name
+        binding.txtStyle.text = getString(R.string.recipe_view_style_name, mRecipe.styleName)
+        binding.txtSize.text = getString(R.string.recipe_view_size, mRecipe.size.toString())
         binding.txtAbv.text =
-            getString(R.string.recipe_view_abv, mRecipe!!.projectedOutcome.abv.toString())
-        val srmColor: Int = mRecipe!!.projectedOutcome.colorSrm
+            getString(R.string.recipe_view_abv, mRecipe.projectedOutcome.abv.toString())
+        val srmColor: Int = mRecipe.projectedOutcome.colorSrm
         binding.txtColor.text = getString(R.string.recipe_view_color, srmColor.toString())
-        binding.txtIbu.text = getString(R.string.recipe_view_ibu, mRecipe!!.projectedOutcome.ibu.toString())
+        binding.txtIbu.text = getString(R.string.recipe_view_ibu, mRecipe.projectedOutcome.ibu.toString())
         binding.srmColorCardView.setCardBackgroundColor(Colors.getColor(srmColor)!!.rbgColor)
-        binding.grainRecyclerView.adapter = GrainListAdapter(mRecipe!!.fermentableIngredients, this)
-        binding.hopsRecyclerView.adapter = HopListAdapter(mRecipe!!.hopIngredients, this)
-        val yeastIngredient = mRecipe!!.yeastIngredient
+        binding.grainRecyclerView.adapter = GrainListAdapter(mRecipe.fermentableIngredients, this)
+        binding.hopsRecyclerView.adapter = HopListAdapter(mRecipe.hopIngredients, this)
+        val yeastIngredient = mRecipe.yeastIngredient
         binding.txtYeast.text = getString(R.string.yeastIngredient, yeastIngredient.name, yeastIngredient.laboratory)
     }
 
@@ -113,7 +113,7 @@ class RecipeViewActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun deleteRecipe() {
-        requestHelper.deleteRecipe(mRecipe!!.id, this, object : VolleyDeleteRequestCallBack {
+        requestHelper.deleteRecipe(mRecipe.id, this, object : VolleyDeleteRequestCallBack {
             override fun onSuccess(context: Context) {
                 Toast.makeText(context, "Recipe deleted!", Toast.LENGTH_SHORT).show()
 
@@ -125,7 +125,7 @@ class RecipeViewActivity : AppCompatActivity() {
 
     fun editRecipe(view: View) {
         val editRecipeIntent = Intent(this, EditRecipeActivity::class.java)
-        editRecipeIntent.putExtra(Constants.EXTRA_EDIT_RECIPE, mRecipe!!.id)
+        editRecipeIntent.putExtra(Constants.EXTRA_EDIT_RECIPE, mRecipe.id)
         editRecipeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(editRecipeIntent)
     }

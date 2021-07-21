@@ -15,22 +15,22 @@ import java.util.*
 
 
 object AuthHelper {
-    private var webAuthClient: WebAuthClient? = null
+    private lateinit var webAuthClient: WebAuthClient
 
     fun getAccessToken() : String? {
-        if (webAuthClient == null) {
+        if (!this::webAuthClient.isInitialized) {
             return null
         }
 
-        if (!webAuthClient!!.sessionClient.isAuthenticated) {
+        if (!webAuthClient.sessionClient.isAuthenticated) {
             refreshTokens()
         }
 
-        return webAuthClient!!.sessionClient?.tokens?.accessToken
+        return webAuthClient.sessionClient?.tokens?.accessToken
     }
 
     fun getUserName() : String? {
-        val idToken = webAuthClient?.sessionClient?.tokens?.idToken
+        val idToken = webAuthClient.sessionClient?.tokens?.idToken
         return if (idToken != null) {
             val payload = decodeJWTTokenPayload(idToken)
             val user: User = jacksonObjectMapper().readValue(payload)
@@ -65,23 +65,23 @@ object AuthHelper {
             .setRequireHardwareBackedKeyStore(false)
             .create()
 
-        webAuthClient!!.registerCallback(resultCallback, context as Activity?)
+        webAuthClient.registerCallback(resultCallback, context as Activity?)
     }
 
     fun signIn(userName: String, activity: Activity) {
-        webAuthClient!!.signIn(activity, AuthenticationPayload.Builder().setLoginHint(userName).build())
+        webAuthClient.signIn(activity, AuthenticationPayload.Builder().setLoginHint(userName).build())
     }
 
     fun signOut(activity: Activity) {
-        webAuthClient!!.signOutOfOkta(activity)
+        webAuthClient.signOutOfOkta(activity)
     }
 
     fun clearTokens() {
-        webAuthClient!!.sessionClient?.clear()
+        webAuthClient.sessionClient?.clear()
     }
 
     private fun refreshTokens() {
-        webAuthClient!!.sessionClient.refreshToken(object :
+        webAuthClient.sessionClient.refreshToken(object :
             RequestCallback<Tokens, AuthorizationException?> {
             override fun onSuccess(result: Tokens) {
                 println("refreshed token: $result")

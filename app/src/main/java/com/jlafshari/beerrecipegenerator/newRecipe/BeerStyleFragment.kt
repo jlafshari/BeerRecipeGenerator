@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class BeerStyleFragment : Fragment() {
-    private var mCallback: OnRecipeStyleSelectedListener? = null
+    private lateinit var mCallback: OnRecipeStyleSelectedListener
 
     @Inject
     lateinit var requestHelper: HomebrewApiRequestHelper
@@ -38,7 +38,7 @@ class BeerStyleFragment : Fragment() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                mCallback?.onRecipeStyleSelected(parent?.getItemAtPosition(position) as Style)
+                mCallback.onRecipeStyleSelected(parent?.getItemAtPosition(position) as Style)
             }
         }
 

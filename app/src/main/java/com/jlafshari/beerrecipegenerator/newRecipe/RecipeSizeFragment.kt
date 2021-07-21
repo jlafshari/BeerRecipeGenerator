@@ -12,7 +12,7 @@ import android.widget.EditText
 import com.jlafshari.beerrecipegenerator.R
 
 class RecipeSizeFragment : Fragment() {
-    private var mCallback: OnRecipeSizeSetListener? = null
+    private lateinit var mCallback: OnRecipeSizeSetListener
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,10 +29,10 @@ class RecipeSizeFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val recipeSize = s.toString().toDoubleOrNull()
-                mCallback?.onRecipeSizeSet(recipeSize)
+                mCallback.onRecipeSizeSet(recipeSize)
             }
         })
-        mCallback?.onRecipeSizeSet(recipeSizeEditText.text.toString().toDoubleOrNull())
+        mCallback.onRecipeSizeSet(recipeSizeEditText.text.toString().toDoubleOrNull())
 
         return view
     }
@@ -44,11 +44,6 @@ class RecipeSizeFragment : Fragment() {
         } else {
             throw ClassCastException("$context must implement OnRecipeSizeSetListener")
         }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        mCallback = null
     }
 
     interface OnRecipeSizeSetListener {

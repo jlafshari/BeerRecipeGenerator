@@ -14,7 +14,7 @@ import com.jlafshari.beerrecipegenerator.R
 
 
 class GenerateRecipeFragment : Fragment() {
-    private var mCallback: OnGenerateRecipeCallback? = null
+    private lateinit var mCallback: OnGenerateRecipeCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +25,7 @@ class GenerateRecipeFragment : Fragment() {
         val txtRecipeName = view.findViewById<TextView>(R.id.txt_recipe_name)
         txtRecipeName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(recipeNameEditText: Editable?) {
-                mCallback!!.onRecipeNameSet(recipeNameEditText.toString())
+                mCallback.onRecipeNameSet(recipeNameEditText.toString())
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -35,7 +35,7 @@ class GenerateRecipeFragment : Fragment() {
         val saveButton = view.findViewById<Button>(R.id.button_generate_recipe)
         saveButton.setOnClickListener {
             saveButton.isEnabled = false
-            val recipeValidationResult = mCallback!!.onGenerateRecipe()
+            val recipeValidationResult = mCallback.onGenerateRecipe()
             if (!recipeValidationResult.succeeded) {
                 val txtError = view.findViewById<TextView>(R.id.txt_error)
                 txtError.text = recipeValidationResult.message
