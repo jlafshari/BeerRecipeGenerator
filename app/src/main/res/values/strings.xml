@@ -44,15 +44,15 @@
     <string name="swipe_right_text_hint">›</string>
     <string name="loadingIndicator">Loading …</string>
     <string name="edit_recipe_button">Edit …</string>
-    <string name="grainPoundsHint">Malt lbs</string>
+    <string name="grainPoundsHint"><font size="14">lbs.</font></string>
     <string name="grainAmountUnit">lbs</string>
     <string name="addGrainHeading">Add Grain</string>
     <string name="btnUpdateRecipe">Update</string>
     <string name="deleteText">Delete</string>
     <string name="searchHintText">Search …</string>
-    <string name="hopOuncesHint">Hop oz.</string>
+    <string name="hopOuncesHint"><font size="14">oz.</font></string>
     <string name="hopAmountUnit">oz</string>
-    <string name="hopAdditionTimeHint">minutes</string>
+    <string name="hopAdditionTimeHint"><font size="14">min.</font></string>
     <string name="hopAdditionTimeUnit">min.</string>
     <string name="addHopHeading">Add Hop</string>
 </resources>
