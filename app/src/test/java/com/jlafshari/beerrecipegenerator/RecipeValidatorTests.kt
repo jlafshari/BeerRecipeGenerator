@@ -1,6 +1,9 @@
 package com.jlafshari.beerrecipegenerator
 
+import com.jlafshari.beerrecipecore.FermentableIngredient
+import com.jlafshari.beerrecipecore.HopIngredient
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
+import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
@@ -39,6 +42,50 @@ class RecipeValidatorTests {
         recipeGenerationInfo.size = 5.0
 
         val validationResult = recipeValidator.validateRecipeGenerationInfo(recipeGenerationInfo)
+        assertEquals(false, validationResult.succeeded)
+        assertNotNull(validationResult.succeeded)
+    }
+
+    @Test
+    fun validateRecipeUpdateInfoSucceeds() {
+        val recipeUpdateInfo = RecipeUpdateInfo("Some beer",
+            mutableListOf(FermentableIngredient(1.0, "2 row", "1234")),
+            mutableListOf(
+                HopIngredient("Fuggles", 1.0, 60, "5678"),
+                HopIngredient("Cascade", 1.0, 30, "6541")
+            )
+        )
+
+        val validationResult = recipeValidator.validateRecipeUpdateInfo(recipeUpdateInfo)
+        assertEquals(true, validationResult.succeeded)
+    }
+
+    @Test
+    fun validateRecipeUpdateInfoFailsForIdenticalHopIngredients() {
+        val recipeUpdateInfo = RecipeUpdateInfo("Some beer",
+            mutableListOf(FermentableIngredient(1.0, "2 row", "1234")),
+            mutableListOf(
+                HopIngredient("Fuggles", 1.0, 60, "5678"),
+                HopIngredient("Fuggles", 0.5, 60, "5678"),
+            )
+        )
+
+        val validationResult = recipeValidator.validateRecipeUpdateInfo(recipeUpdateInfo)
+        assertEquals(false, validationResult.succeeded)
+        assertNotNull(validationResult.succeeded)
+    }
+
+    @Test
+    fun validateRecipeUpdateInfoFailsForHopIngredientAddedToBoilTooEarly() {
+        val recipeUpdateInfo = RecipeUpdateInfo("Some beer",
+            mutableListOf(FermentableIngredient(1.0, "2 row", "1234")),
+            mutableListOf(
+                HopIngredient("Fuggles", 1.0, 61, "5678"),
+                HopIngredient("Cascade", 1.0, 30, "6541")
+            )
+        )
+
+        val validationResult = recipeValidator.validateRecipeUpdateInfo(recipeUpdateInfo)
         assertEquals(false, validationResult.succeeded)
         assertNotNull(validationResult.succeeded)
     }
