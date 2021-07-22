@@ -30,7 +30,7 @@ class RecipeValidatorTests {
 
         val validationResult = recipeValidator.validateRecipeGenerationInfo(recipeGenerationInfo)
         assertEquals(false, validationResult.succeeded)
-        assertNotNull(validationResult.succeeded)
+        assertNotNull(validationResult.message)
     }
 
     @Test
@@ -43,7 +43,7 @@ class RecipeValidatorTests {
 
         val validationResult = recipeValidator.validateRecipeGenerationInfo(recipeGenerationInfo)
         assertEquals(false, validationResult.succeeded)
-        assertNotNull(validationResult.succeeded)
+        assertNotNull(validationResult.message)
     }
 
     @Test
@@ -72,7 +72,7 @@ class RecipeValidatorTests {
 
         val validationResult = recipeValidator.validateRecipeUpdateInfo(recipeUpdateInfo)
         assertEquals(false, validationResult.succeeded)
-        assertNotNull(validationResult.succeeded)
+        assertNotNull(validationResult.message)
     }
 
     @Test
@@ -87,6 +87,6 @@ class RecipeValidatorTests {
 
         val validationResult = recipeValidator.validateRecipeUpdateInfo(recipeUpdateInfo)
         assertEquals(false, validationResult.succeeded)
-        assertNotNull(validationResult.succeeded)
+        assertNotNull(validationResult.message)
     }
 }
