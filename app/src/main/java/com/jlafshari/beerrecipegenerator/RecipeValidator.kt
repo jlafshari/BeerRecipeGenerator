@@ -36,11 +36,21 @@ class RecipeValidator @Inject constructor() {
     }
 
     fun validateRecipeUpdateInfo(recipeUpdateInfo: RecipeUpdateInfo) : RecipeUpdateValidationResult {
+        var isRecipeValid = true
+        val message = StringBuilder()
+
+        if (recipeUpdateInfo.fermentableIngredients.size == 0) {
+            isRecipeValid = false
+            message.appendLine("Recipe needs at least one grain!")
+        }
+
+        if (recipeUpdateInfo.hopIngredients.size == 0) {
+            isRecipeValid = false
+            message.appendLine("Recipe needs at least one hop!")
+        }
+
         val identicalHopIngredients = recipeUpdateInfo.hopIngredients.groupBy {
             listOf(it.hopId, it.boilAdditionTime) }.filter { it.value.size > 1 }
-        var isRecipeValid = true
-
-        val message = StringBuilder()
         if (identicalHopIngredients.any()) {
             isRecipeValid = false
             message.appendLine("Hops of same variety are added to boil at same time!")
