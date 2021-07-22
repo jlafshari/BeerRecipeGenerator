@@ -35,7 +35,7 @@ class RecipeValidator @Inject constructor() {
         return RecipeGenerationValidationResult(succeeded, message.toString())
     }
 
-    fun validateRecipe(recipeUpdateInfo: RecipeUpdateInfo) : RecipeUpdateValidationResult {
+    fun validateRecipeUpdateInfo(recipeUpdateInfo: RecipeUpdateInfo) : RecipeUpdateValidationResult {
         val identicalHopIngredients = recipeUpdateInfo.hopIngredients.groupBy { listOf(it.hopId,
             it.boilAdditionTime) }.filter { it.value.size > 1 }
         var isRecipeValid = true

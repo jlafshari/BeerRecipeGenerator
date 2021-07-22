@@ -221,7 +221,7 @@ class EditRecipeActivity : AppCompatActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     fun updateRecipe(view: View) {
-        val validationResult = recipeValidator.validateRecipe(mRecipeUpdateInfo)
+        val validationResult = recipeValidator.validateRecipeUpdateInfo(mRecipeUpdateInfo)
         if (!validationResult.succeeded) {
             binding.txtErrorMsg.text = validationResult.message
             return
