@@ -14,10 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.*
-import com.jlafshari.beerrecipegenerator.Constants
-import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
-import com.jlafshari.beerrecipegenerator.R
-import com.jlafshari.beerrecipegenerator.VolleyCallBack
+import com.jlafshari.beerrecipegenerator.*
 import com.jlafshari.beerrecipegenerator.databinding.ActivityEditRecipeBinding
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
@@ -32,6 +29,8 @@ class EditRecipeActivity : AppCompatActivity() {
 
     @Inject
     lateinit var requestHelper: HomebrewApiRequestHelper
+    @Inject
+    lateinit var recipeValidator: RecipeValidator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -222,7 +221,7 @@ class EditRecipeActivity : AppCompatActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     fun updateRecipe(view: View) {
-        val validationResult = validateRecipe()
+        val validationResult = recipeValidator.validateRecipe(mRecipeUpdateInfo)
         if (!validationResult.succeeded) {
             binding.txtErrorMsg.text = validationResult.message
             return
@@ -241,33 +240,6 @@ class EditRecipeActivity : AppCompatActivity() {
                 Toast.makeText(this@EditRecipeActivity, errorMessage, Toast.LENGTH_LONG).show()
             }
         })
-    }
-
-    private fun validateRecipe() : RecipeUpdateValidationResult {
-        val identicalHopIngredients = mRecipeUpdateInfo.hopIngredients.groupBy { listOf(it.hopId,
-            it.boilAdditionTime) }.filter { it.value.size > 1 }
-        var isRecipeValid = true
-
-        val message = StringBuilder()
-        if (identicalHopIngredients.any()) {
-            isRecipeValid = false
-            message.appendLine("Hops of same variety are added to boil at same time!")
-
-            for (identicalHopIngredient in identicalHopIngredients) {
-                val ingredient = identicalHopIngredient.value.first()
-                message.appendLine("${ingredient.name}: ${ingredient.boilAdditionTime}")
-            }
-        }
-
-        for (hopIngredient in mRecipeUpdateInfo.hopIngredients) {
-            if (hopIngredient.boilAdditionTime > Constants.BOIL_DURATION_TIME_DEFAULT) {
-                isRecipeValid = false
-                message.appendLine(
-                "Hop ingredient ${hopIngredient.amount} oz ${hopIngredient.name} (${hopIngredient.boilAdditionTime} min.) is added to boil for longer than ${Constants.BOIL_DURATION_TIME_DEFAULT} min. boil")
-            }
-        }
-
-        return RecipeUpdateValidationResult(isRecipeValid, message.toString())
     }
 
     private fun goBackToRecipeView() {

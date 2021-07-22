@@ -38,6 +38,8 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
 
     @Inject
     lateinit var requestHelper: HomebrewApiRequestHelper
+    @Inject
+    lateinit var recipeValidator: RecipeValidator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,7 +124,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     }
 
     override fun onGenerateRecipe(): RecipeGenerationValidationResult {
-        val validationResult = validateRecipeGenerationInfo()
+        val validationResult = recipeValidator.validateRecipeGenerationInfo(mRecipeGenerationInfo)
 
         if (validationResult.succeeded) {
             requestHelper.generateRecipe(mRecipeGenerationInfo, this, object : VolleyCallBack {
@@ -148,21 +150,6 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         val recipeViewIntent = Intent(this, RecipeViewActivity::class.java)
         recipeViewIntent.putExtra(Constants.EXTRA_VIEW_RECIPE, recipeId)
         startActivity(recipeViewIntent)
-    }
-
-    private fun validateRecipeGenerationInfo(): RecipeGenerationValidationResult {
-        var succeeded = true
-        val message : StringBuilder = StringBuilder()
-        if (mRecipeGenerationInfo.colorSrm == null) {
-            succeeded = false
-            message.appendLine("No beer color selected!")
-        }
-        if (mRecipeGenerationInfo.name.isNullOrEmpty()) {
-            succeeded = false
-            message.appendLine("No recipe name given!")
-        }
-
-        return RecipeGenerationValidationResult(succeeded, message.toString())
     }
 
     /**
