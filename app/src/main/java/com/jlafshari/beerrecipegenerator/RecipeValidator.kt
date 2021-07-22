@@ -19,6 +19,18 @@ class RecipeValidator @Inject constructor() {
             succeeded = false
             message.appendLine("No recipe name given!")
         }
+        if (recipeGenerationInfo.abv == null) {
+            succeeded = false
+            message.appendLine("No ABV selected!")
+        }
+        if (recipeGenerationInfo.ibu == null) {
+            succeeded = false
+            message.appendLine("No IBU selected!")
+        }
+        if (recipeGenerationInfo.size == null) {
+            succeeded = false
+            message.appendLine("No recipe size given!")
+        }
 
         return RecipeGenerationValidationResult(succeeded, message.toString())
     }
