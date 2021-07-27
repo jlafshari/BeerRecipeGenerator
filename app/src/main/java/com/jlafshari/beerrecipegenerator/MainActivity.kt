@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +14,6 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
-import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -51,23 +49,14 @@ class MainActivity : AppCompatActivity() {
     ) {
         recipeRecyclerView.visibility = View.INVISIBLE
         txtLoadingIndicator.visibility = View.VISIBLE
-        requestHelper.getAllRecipes(this, object : VolleyCallBack {
-            override fun onSuccess(json: String) {
-                val recipes: List<Recipe> = jacksonObjectMapper().readValue(json)
-                val recipePreviews = recipes.map { r -> RecipePreview(r.id, r.name, r.styleName) }
-                recipeRecyclerView.adapter = RecipeListAdapter(recipePreviews) { recipePreview -> recipePreviewClicked(recipePreview) }
-                recipeRecyclerView.visibility = View.VISIBLE
-                txtLoadingIndicator.visibility = View.INVISIBLE
-            }
-
-            override fun onUnauthorizedResponse() {
-                AuthHelper.startLoginActivity(this@MainActivity)
-            }
-
-            override fun onError(errorMessage: String) {
-                Toast.makeText(this@MainActivity, errorMessage, Toast.LENGTH_LONG).show()
-            }
-        })
+        val callBack = requestHelper.getVolleyCallBack(this@MainActivity) { run {
+            val recipes: List<Recipe> = jacksonObjectMapper().readValue(it)
+            val recipePreviews = recipes.map { r -> RecipePreview(r.id, r.name, r.styleName) }
+            recipeRecyclerView.adapter = RecipeListAdapter(recipePreviews) { recipePreview -> recipePreviewClicked(recipePreview) }
+            recipeRecyclerView.visibility = View.VISIBLE
+            txtLoadingIndicator.visibility = View.INVISIBLE
+        }}
+        requestHelper.getAllRecipes(this, callBack)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -6,7 +6,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,9 +15,7 @@ import com.jlafshari.beerrecipecore.Hop
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
 import com.jlafshari.beerrecipegenerator.R
-import com.jlafshari.beerrecipegenerator.VolleyCallBack
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAddHopBinding
-import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -68,20 +65,11 @@ class AddHopActivity : AppCompatActivity() {
     }
 
     private fun loadHops() {
-        requestHelper.getAllHops(this, object : VolleyCallBack {
-            override fun onSuccess(json: String) {
-                mHops = jacksonObjectMapper().readValue(json)
-                setHopSelectorView(mHops)
-            }
-
-            override fun onUnauthorizedResponse() {
-                AuthHelper.startLoginActivity(this@AddHopActivity)
-            }
-
-            override fun onError(errorMessage: String) {
-                Toast.makeText(this@AddHopActivity, errorMessage, Toast.LENGTH_LONG).show()
-            }
-        })
+        val callBack = requestHelper.getVolleyCallBack(this@AddHopActivity) { run {
+            mHops = jacksonObjectMapper().readValue(it)
+            setHopSelectorView(mHops)
+        }}
+        requestHelper.getAllHops(this, callBack)
     }
 
     private fun setHopSelectorView(hopList: List<Hop>) {

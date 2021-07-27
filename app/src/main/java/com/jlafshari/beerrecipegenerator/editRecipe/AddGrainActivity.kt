@@ -6,7 +6,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,9 +15,7 @@ import com.jlafshari.beerrecipecore.Fermentable
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
 import com.jlafshari.beerrecipegenerator.R
-import com.jlafshari.beerrecipegenerator.VolleyCallBack
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAddGrainBinding
-import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -70,21 +67,12 @@ class AddGrainActivity : AppCompatActivity() {
     }
 
     private fun loadFermentables(grainsToExclude: Array<String>) {
-        requestHelper.getAllFermentables(this, object : VolleyCallBack {
-            override fun onSuccess(json: String) {
-                mFermentables = jacksonObjectMapper().readValue<List<Fermentable>>(json)
-                    .filter { !grainsToExclude.contains(it.id) }
-                setGrainSelectorView(mFermentables)
-            }
-
-            override fun onUnauthorizedResponse() {
-                AuthHelper.startLoginActivity(this@AddGrainActivity)
-            }
-
-            override fun onError(errorMessage: String) {
-                Toast.makeText(this@AddGrainActivity, errorMessage, Toast.LENGTH_LONG).show()
-            }
-        })
+        val callBack = requestHelper.getVolleyCallBack(this@AddGrainActivity) { run {
+            mFermentables = jacksonObjectMapper().readValue<List<Fermentable>>(it)
+                .filter { g -> !grainsToExclude.contains(g.id) }
+            setGrainSelectorView(mFermentables)
+        }}
+        requestHelper.getAllFermentables(this, callBack)
     }
 
     private fun setGrainSelectorView(grainList: List<Fermentable>) {

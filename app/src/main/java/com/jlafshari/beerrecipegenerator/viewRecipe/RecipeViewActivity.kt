@@ -19,7 +19,6 @@ import com.jlafshari.beerrecipegenerator.*
 import com.jlafshari.beerrecipegenerator.databinding.ActivityRecipeViewBinding
 import com.jlafshari.beerrecipegenerator.editRecipe.EditRecipeActivity
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
-import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -71,20 +70,11 @@ class RecipeViewActivity : AppCompatActivity() {
     }
 
     private fun loadRecipe(recipeId: String, binding: ActivityRecipeViewBinding) {
-        requestHelper.getRecipe(recipeId, this, object : VolleyCallBack {
-            override fun onSuccess(json: String) {
-                mRecipe = jacksonObjectMapper().readValue(json)
-                loadRecipeView(binding)
-            }
-
-            override fun onUnauthorizedResponse() {
-                AuthHelper.startLoginActivity(this@RecipeViewActivity)
-            }
-
-            override fun onError(errorMessage: String) {
-                Toast.makeText(this@RecipeViewActivity, errorMessage, Toast.LENGTH_LONG).show()
-            }
-        })
+        val callBack = requestHelper.getVolleyCallBack(this) { run {
+            mRecipe = jacksonObjectMapper().readValue(it)
+            loadRecipeView(binding)
+        }}
+        requestHelper.getRecipe(recipeId, this, callBack)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

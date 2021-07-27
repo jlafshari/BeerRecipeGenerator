@@ -1,6 +1,7 @@
 package com.jlafshari.beerrecipegenerator
 
 import android.content.Context
+import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
@@ -120,6 +121,21 @@ class HomebrewApiRequestHelper @Inject constructor() {
         val url = getUrl("Hop/$hopId", context)
         sendStandardAuthRequest(url, Request.Method.GET, context, callBack)
     }
+
+    fun getVolleyCallBack(context: Context, onSuccess: (json: String) -> Unit) : VolleyCallBack =
+        object : VolleyCallBack {
+            override fun onSuccess(json: String) {
+                onSuccess(json)
+            }
+
+            override fun onUnauthorizedResponse() {
+                AuthHelper.startLoginActivity(context)
+            }
+
+            override fun onError(errorMessage: String) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+            }
+        }
 
     private fun sendStandardAuthRequest(url: String, httpMethod: Int,
                                         context: Context, callBack: VolleyCallBack) {

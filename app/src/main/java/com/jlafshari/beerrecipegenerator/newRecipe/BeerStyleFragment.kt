@@ -8,15 +8,12 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
 import com.jlafshari.beerrecipegenerator.R
-import com.jlafshari.beerrecipegenerator.VolleyCallBack
-import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -46,24 +43,15 @@ class BeerStyleFragment : Fragment() {
     }
 
     private fun loadRecipeStyles(styleSpinner: Spinner) {
-        requestHelper.getAllStyles(this.requireContext(), object : VolleyCallBack {
-            override fun onSuccess(json: String) {
-                val recipeStyles: List<Style> = jacksonObjectMapper().readValue(json)
-                val adapter = ArrayAdapter(requireContext(),
-                    R.layout.support_simple_spinner_dropdown_item,
-                    recipeStyles)
-                adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-                styleSpinner.adapter = adapter
-            }
-
-            override fun onUnauthorizedResponse() {
-                AuthHelper.startLoginActivity(this@BeerStyleFragment.requireContext())
-            }
-
-            override fun onError(errorMessage: String) {
-                Toast.makeText(this@BeerStyleFragment.requireContext(), errorMessage, Toast.LENGTH_LONG).show()
-            }
-        })
+        val callBack = requestHelper.getVolleyCallBack(this.requireContext()) { run {
+            val recipeStyles: List<Style> = jacksonObjectMapper().readValue(it)
+            val adapter = ArrayAdapter(requireContext(),
+                R.layout.support_simple_spinner_dropdown_item,
+                recipeStyles)
+            adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+            styleSpinner.adapter = adapter
+        }}
+        requestHelper.getAllStyles(this.requireContext(), callBack)
     }
 
     override fun onAttach(context: Context) {

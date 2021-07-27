@@ -7,7 +7,6 @@ import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,6 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.*
 import com.jlafshari.beerrecipegenerator.*
 import com.jlafshari.beerrecipegenerator.databinding.ActivityEditRecipeBinding
-import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -99,22 +97,13 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     private fun loadRecipe(recipeId: String) {
-        requestHelper.getRecipe(recipeId, this, object : VolleyCallBack {
-            override fun onSuccess(json: String) {
-                val recipe: Recipe = jacksonObjectMapper().readValue(json)
-                mRecipeId = recipe.id
-                mRecipeUpdateInfo = RecipeUpdateInfo(recipe.name, recipe.fermentableIngredients, recipe.hopIngredients)
-                loadRecipeView()
-            }
-
-            override fun onUnauthorizedResponse() {
-                AuthHelper.startLoginActivity(this@EditRecipeActivity)
-            }
-
-            override fun onError(errorMessage: String) {
-                Toast.makeText(this@EditRecipeActivity, errorMessage, Toast.LENGTH_LONG).show()
-            }
-        })
+        val callBack = requestHelper.getVolleyCallBack(this@EditRecipeActivity) { run {
+            val recipe: Recipe = jacksonObjectMapper().readValue(it)
+            mRecipeId = recipe.id
+            mRecipeUpdateInfo = RecipeUpdateInfo(recipe.name, recipe.fermentableIngredients, recipe.hopIngredients)
+            loadRecipeView()
+        }}
+        requestHelper.getRecipe(recipeId, this, callBack)
     }
 
     private fun loadRecipeView() {
@@ -174,37 +163,19 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     private fun addHopToRecipe(hopId: String) {
-        requestHelper.getHop(hopId, this, object : VolleyCallBack {
-            override fun onSuccess(json: String) {
-                val hop = jacksonObjectMapper().readValue<Hop>(json)
-                addHopIngredientToRecipe(hop)
-            }
-
-            override fun onUnauthorizedResponse() {
-                AuthHelper.startLoginActivity(this@EditRecipeActivity)
-            }
-
-            override fun onError(errorMessage: String) {
-                Toast.makeText(this@EditRecipeActivity, errorMessage, Toast.LENGTH_LONG).show()
-            }
-        })
+        val callBack = requestHelper.getVolleyCallBack(this@EditRecipeActivity) { run {
+            val hop = jacksonObjectMapper().readValue<Hop>(it)
+            addHopIngredientToRecipe(hop)
+        }}
+        requestHelper.getHop(hopId, this, callBack)
     }
 
     private fun addGrainToRecipe(fermentableId: String) {
-        requestHelper.getFermentable(fermentableId, this, object : VolleyCallBack {
-            override fun onSuccess(json: String) {
-                val fermentable = jacksonObjectMapper().readValue<Fermentable>(json)
-                addFermentableIngredientToRecipe(fermentable)
-            }
-
-            override fun onUnauthorizedResponse() {
-                AuthHelper.startLoginActivity(this@EditRecipeActivity)
-            }
-
-            override fun onError(errorMessage: String) {
-                Toast.makeText(this@EditRecipeActivity, errorMessage, Toast.LENGTH_LONG).show()
-            }
-        })
+        val callBack = requestHelper.getVolleyCallBack(this@EditRecipeActivity) { run {
+            val fermentable = jacksonObjectMapper().readValue<Fermentable>(it)
+            addFermentableIngredientToRecipe(fermentable)
+        }}
+        requestHelper.getFermentable(fermentableId, this, callBack)
     }
 
     private fun addHopIngredientToRecipe(hop: Hop) {
@@ -227,19 +198,8 @@ class EditRecipeActivity : AppCompatActivity() {
             return
         }
 
-        requestHelper.updateRecipe(mRecipeId, mRecipeUpdateInfo, this, object : VolleyCallBack {
-            override fun onSuccess(json: String) {
-                goBackToRecipeView()
-            }
-
-            override fun onUnauthorizedResponse() {
-                AuthHelper.startLoginActivity(this@EditRecipeActivity)
-            }
-
-            override fun onError(errorMessage: String) {
-                Toast.makeText(this@EditRecipeActivity, errorMessage, Toast.LENGTH_LONG).show()
-            }
-        })
+        val callBack = requestHelper.getVolleyCallBack(this@EditRecipeActivity) { goBackToRecipeView() }
+        requestHelper.updateRecipe(mRecipeId, mRecipeUpdateInfo, this, callBack)
     }
 
     private fun goBackToRecipeView() {
