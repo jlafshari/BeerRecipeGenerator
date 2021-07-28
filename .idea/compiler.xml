@@ -3,7 +3,6 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.8">
       <module name="BeerRecipeCore" target="1.7" />
-      <module name="BeerRecipeGenerator.app" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
