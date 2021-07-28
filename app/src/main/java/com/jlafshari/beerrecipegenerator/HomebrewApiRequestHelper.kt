@@ -1,6 +1,7 @@
 package com.jlafshari.beerrecipegenerator
 
 import android.content.Context
+import android.content.Intent
 import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
+import com.jlafshari.beerrecipegenerator.ui.login.LoginActivity
 import javax.inject.Inject
 
 class HomebrewApiRequestHelper @Inject constructor() {
@@ -129,7 +131,7 @@ class HomebrewApiRequestHelper @Inject constructor() {
             }
 
             override fun onUnauthorizedResponse() {
-                AuthHelper.startLoginActivity(context)
+                startLoginActivity(context)
             }
 
             override fun onError(errorMessage: String) {
@@ -172,6 +174,12 @@ class HomebrewApiRequestHelper @Inject constructor() {
     private fun getUrl(urlEnd: String, context: Context) : String {
         val baseUrl = context.resources.getString(R.string.homebrewApiBaseUrl)
         return "$baseUrl/$urlEnd"
+    }
+
+    private fun startLoginActivity(context: Context) {
+        val loginActivityIntent = Intent(context, LoginActivity::class.java)
+        loginActivityIntent.putExtra(Constants.EXTRA_SIGN_OUT, true)
+        context.startActivity(loginActivityIntent)
     }
 
     companion object {

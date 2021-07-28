@@ -2,7 +2,6 @@ package com.jlafshari.beerrecipegenerator.ui.login
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipegenerator.Constants
@@ -45,12 +44,6 @@ object AuthHelper {
         val chunks = token.split(".").toTypedArray()
 
         return String(decoder.decode(chunks[1]))
-    }
-
-    fun startLoginActivity(context: Context) {
-        val loginActivityIntent = Intent(context, LoginActivity::class.java)
-        loginActivityIntent.putExtra(Constants.EXTRA_SIGN_OUT, true)
-        context.startActivity(loginActivityIntent)
     }
 
     fun createWebClient(context: Context, resultCallback: ResultCallback<AuthorizationStatus, AuthorizationException>) {
