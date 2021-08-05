@@ -26,10 +26,7 @@ class ColorFragment : Fragment() {
         colorRecyclerView.layoutManager = LinearLayoutManager(
             this.context, RecyclerView.VERTICAL, false)
 
-        val srmColorThreshold = mCallback.getSrmColorThreshold()
-        val colors = Colors.getColorsInRange(srmColorThreshold.minimum.toInt(), srmColorThreshold.maximum.toInt())
-        colorRecyclerView.adapter = ColorPaletteListAdapter(colors)
-            { colorValueSrm -> mCallback.onColorValueSet(colorValueSrm)}
+        loadColorPalette(colorRecyclerView)
 
         return view
     }
@@ -41,6 +38,22 @@ class ColorFragment : Fragment() {
         } else {
             throw ClassCastException("$context must implement ${ColorCallback::class.simpleName}")
         }
+    }
+
+    override fun onResume() {
+        val colorRecyclerView = requireView().findViewById<RecyclerView>(R.id.colorPaletteRecyclerView)
+        loadColorPalette(colorRecyclerView)
+        super.onResume()
+    }
+
+    private fun loadColorPalette(colorRecyclerView: RecyclerView) {
+        val srmColorThreshold = mCallback.getSrmColorThreshold()
+        val colors = Colors.getColorsInRange(
+            srmColorThreshold.minimum.toInt(),
+            srmColorThreshold.maximum.toInt()
+        )
+        colorRecyclerView.adapter = ColorPaletteListAdapter(colors)
+            { colorValueSrm -> mCallback.onColorValueSet(colorValueSrm) }
     }
 
     interface ColorCallback {
