@@ -92,6 +92,11 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         mRecipeGenerationInfo.styleId = style.id
     }
 
+    override fun getCurrentStyle(): Style? {
+        if (this::mStyle.isInitialized) return mStyle
+        return null
+    }
+
     override fun onRecipeSizeSet(recipeSize: Double?) {
         mRecipeGenerationInfo.size = recipeSize
     }

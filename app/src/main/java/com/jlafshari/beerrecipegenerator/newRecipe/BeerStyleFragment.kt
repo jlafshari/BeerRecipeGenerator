@@ -27,8 +27,9 @@ class BeerStyleFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_beer_style, container, false)
 
+        val startingStyle = mCallback.getCurrentStyle()
         val styleSpinner = view.findViewById<Spinner>(R.id.styleSpinner)
-        loadRecipeStyles(styleSpinner)
+        loadRecipeStyles(styleSpinner, startingStyle)
 
         styleSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -42,7 +43,7 @@ class BeerStyleFragment : Fragment() {
         return view
     }
 
-    private fun loadRecipeStyles(styleSpinner: Spinner) {
+    private fun loadRecipeStyles(styleSpinner: Spinner, startingStyle: Style?) {
         val callBack = requestHelper.getVolleyCallBack(this.requireContext()) { run {
             val recipeStyles: List<Style> = jacksonObjectMapper().readValue(it)
             val adapter = ArrayAdapter(requireContext(),
@@ -50,6 +51,10 @@ class BeerStyleFragment : Fragment() {
                 recipeStyles)
             adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
             styleSpinner.adapter = adapter
+            val startingPosition =
+                if (startingStyle != null) recipeStyles.indexOfFirst { it.id == startingStyle.id }
+                else 0
+            styleSpinner.setSelection(startingPosition)
         }}
         requestHelper.getAllStyles(this.requireContext(), callBack)
     }
@@ -65,5 +70,6 @@ class BeerStyleFragment : Fragment() {
 
     interface OnRecipeStyleSelectedListener {
         fun onRecipeStyleSelected(style: Style)
+        fun getCurrentStyle() : Style?
     }
 }
