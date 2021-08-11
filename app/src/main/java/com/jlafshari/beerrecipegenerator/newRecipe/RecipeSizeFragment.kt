@@ -13,14 +13,15 @@ import com.jlafshari.beerrecipegenerator.R
 
 class RecipeSizeFragment : Fragment() {
     private lateinit var mCallback: OnRecipeSizeSetListener
+    private lateinit var mRecipeSizeEditText: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_recipe_size, container, false)
 
-        val recipeSizeEditText = view.findViewById<EditText>(R.id.recipeSizeEditText)
-        recipeSizeEditText.addTextChangedListener(object: TextWatcher {
+        mRecipeSizeEditText = view.findViewById<EditText>(R.id.recipeSizeEditText)
+        mRecipeSizeEditText.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -32,9 +33,14 @@ class RecipeSizeFragment : Fragment() {
                 mCallback.onRecipeSizeSet(recipeSize)
             }
         })
-        mCallback.onRecipeSizeSet(recipeSizeEditText.text.toString().toDoubleOrNull())
+        mCallback.onRecipeSizeSet(mRecipeSizeEditText.text.toString().toDoubleOrNull())
 
         return view
+    }
+
+    override fun onResume() {
+        mCallback.onRecipeSizeSet(mRecipeSizeEditText.text.toString().toDoubleOrNull())
+        super.onResume()
     }
 
     override fun onAttach(context: Context) {

@@ -23,10 +23,7 @@ class AbvFragment : Fragment() {
         mRecipeAbvPicker = view.findViewById(R.id.abvPicker)
 
         mAbvValues = getAbvValues(mCallback.getAbvThreshold())
-        val startingAbvIndex = setPickerToMedianValue()
-
-        mCallback.onAbvValueSet(mAbvValues[startingAbvIndex])
-
+        setPickerToMedianValue()
         return view
     }
 
@@ -42,10 +39,10 @@ class AbvFragment : Fragment() {
         super.onResume()
     }
 
-    private fun setPickerToMedianValue(): Int {
+    private fun setPickerToMedianValue() {
         val startingAbvIndex = getMedianAbvIndex(mAbvValues)
         setUpRecipeAbvPicker(mAbvValues.map { it.toString() }, startingAbvIndex)
-        return startingAbvIndex
+        mCallback.onAbvValueSet(mAbvValues[startingAbvIndex])
     }
 
     private fun setUpRecipeAbvPicker(
