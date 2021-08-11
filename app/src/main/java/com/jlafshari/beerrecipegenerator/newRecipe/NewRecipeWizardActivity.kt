@@ -140,6 +140,8 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         return validationResult
     }
 
+    override fun getCurrentRecipeGenerationInfo(): RecipeGenerationInfo = mRecipeGenerationInfo
+
     private fun viewRecipe(recipeId: String) {
         val recipeViewIntent = Intent(this, RecipeViewActivity::class.java)
         recipeViewIntent.putExtra(Constants.EXTRA_VIEW_RECIPE, recipeId)

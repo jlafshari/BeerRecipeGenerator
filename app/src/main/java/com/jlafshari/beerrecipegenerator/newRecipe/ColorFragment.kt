@@ -54,9 +54,17 @@ class ColorFragment : Fragment() {
         )
         colorRecyclerView.adapter = ColorPaletteListAdapter(colors)
             { colorValueSrm -> mCallback.onColorValueSet(colorValueSrm) }
+
+        val recipeGenerationInfo = mCallback.getCurrentRecipeGenerationInfo()
+        if (recipeGenerationInfo.colorSrm != null) {
+            val startingPosition = colors.indexOfFirst { it.srmColor == recipeGenerationInfo.colorSrm }
+            colorRecyclerView.postDelayed({
+                colorRecyclerView.findViewHolderForAdapterPosition(startingPosition)?.itemView?.performClick()
+            }, 10)
+        }
     }
 
-    interface ColorCallback {
+    interface ColorCallback: RecipeInfoListener {
         fun onColorValueSet(colorSrm: Int?)
         fun getSrmColorThreshold(): StyleThreshold
     }
