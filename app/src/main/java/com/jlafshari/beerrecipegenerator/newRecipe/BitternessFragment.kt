@@ -14,6 +14,8 @@ import com.jlafshari.beerrecipegenerator.R
 
 class BitternessFragment : Fragment() {
     private lateinit var mCallback: BitternessCallback
+    private lateinit var mIbuValues: List<Int>
+    private lateinit var mRecipeIbuPicker: NumberPicker
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,25 +23,43 @@ class BitternessFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_bitterness, container, false)
+        mRecipeIbuPicker = view.findViewById(R.id.ibuPicker)
 
-        val ibuValues = getIbuValues(mCallback.getBitternessThreshold())
-        val startingIbuIndex = getMedianIbuIndex(ibuValues)
-        val recipeIbuPicker = view.findViewById<NumberPicker>(R.id.ibuPicker)
-        setUpRecipeIbuPicker(recipeIbuPicker, ibuValues.map { it.toString() }, startingIbuIndex)
+        mIbuValues = getIbuValues(mCallback.getBitternessThreshold())
+        val startingIbuIndex = setPickerToMedianValue()
 
-        mCallback.onBitternessValueSet(ibuValues[startingIbuIndex])
+        mCallback.onBitternessValueSet(mIbuValues[startingIbuIndex])
 
         return view
     }
 
-    private fun setUpRecipeIbuPicker(recipeIbuPicker: NumberPicker, ibuValues: List<String>, startingIbuIndex: Int) {
-        recipeIbuPicker.minValue = 0
-        recipeIbuPicker.maxValue = ibuValues.size - 1
-        recipeIbuPicker.value = startingIbuIndex
-        recipeIbuPicker.displayedValues = ibuValues.toTypedArray()
-        recipeIbuPicker.wrapSelectorWheel = false
+    override fun onResume() {
+        mIbuValues = getIbuValues(mCallback.getBitternessThreshold())
+        val recipeGenerationInfo = mCallback.getCurrentRecipeGenerationInfo()
+        if (recipeGenerationInfo.ibu != null) {
+            val index = mIbuValues.indexOf(recipeGenerationInfo.ibu)
+            setUpRecipeIbuPicker(mIbuValues.map { it.toString() }, index)
+        } else {
+            setPickerToMedianValue()
+        }
+        super.onResume()
+    }
 
-        recipeIbuPicker.setOnValueChangedListener { _, _, newVal ->
+    private fun setPickerToMedianValue(): Int {
+        val startingIbuIndex = getMedianIbuIndex(mIbuValues)
+        setUpRecipeIbuPicker(mIbuValues.map { it.toString() }, startingIbuIndex)
+        return startingIbuIndex
+    }
+
+    private fun setUpRecipeIbuPicker(ibuValues: List<String>, startingIbuIndex: Int) {
+        mRecipeIbuPicker.displayedValues = null
+        mRecipeIbuPicker.minValue = 0
+        mRecipeIbuPicker.maxValue = ibuValues.size - 1
+        mRecipeIbuPicker.value = startingIbuIndex
+        mRecipeIbuPicker.displayedValues = ibuValues.toTypedArray()
+        mRecipeIbuPicker.wrapSelectorWheel = false
+
+        mRecipeIbuPicker.setOnValueChangedListener { _, _, newVal ->
             mCallback.onBitternessValueSet(ibuValues[newVal].toIntOrNull())
         }
     }
@@ -53,7 +73,7 @@ class BitternessFragment : Fragment() {
         }
     }
 
-    interface BitternessCallback {
+    interface BitternessCallback : RecipeInfoListener {
         fun onBitternessValueSet(bitterness: Int?)
         fun getBitternessThreshold(): StyleThreshold
     }
