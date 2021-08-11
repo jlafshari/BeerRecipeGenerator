@@ -31,7 +31,7 @@ import javax.inject.Inject
 class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListener,
     OnRecipeSizeSetListener, AbvCallback, ColorCallback, BitternessCallback, OnGenerateRecipeCallback {
 
-    private val mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
+    private var mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
     private lateinit var mStyle: Style
 
     @Inject
@@ -89,6 +89,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
 
     override fun onRecipeStyleSelected(style: Style) {
         mStyle = style
+        mRecipeGenerationInfo = RecipeGenerationInfo()
         mRecipeGenerationInfo.styleId = style.id
     }
 
