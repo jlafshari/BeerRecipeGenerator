@@ -59,6 +59,7 @@ class HomebrewApiRequestHelper @Inject constructor() {
                 },
                 {
                     println(it)
+                    callBack.onError(it.toString())
                 })
         {
             override fun getBodyContentType(): String = "application/json"
@@ -83,6 +84,7 @@ class HomebrewApiRequestHelper @Inject constructor() {
                 },
                 {
                     println(it)
+                    callBack.onError(it.toString())
                 })
         {
             override fun getBodyContentType(): String = "application/json"
