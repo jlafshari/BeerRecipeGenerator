@@ -39,6 +39,11 @@ class RecipeValidator @Inject constructor() {
         var isRecipeValid = true
         val message = StringBuilder()
 
+        if (recipeUpdateInfo.name.isEmpty()) {
+            isRecipeValid = false
+            message.appendLine("Recipe name cannot be empty!")
+        }
+
         if (recipeUpdateInfo.fermentableIngredients.size == 0) {
             isRecipeValid = false
             message.appendLine("Recipe needs at least one grain!")
