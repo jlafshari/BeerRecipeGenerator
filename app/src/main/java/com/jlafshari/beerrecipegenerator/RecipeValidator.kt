@@ -54,6 +54,13 @@ class RecipeValidator @Inject constructor() {
             message.appendLine("Recipe needs at least one hop!")
         }
 
+        for (fermentableIngredient in recipeUpdateInfo.fermentableIngredients) {
+            if (fermentableIngredient.amount == 0.0) {
+                isRecipeValid = false
+                message.appendLine("Grain ingredient ${fermentableIngredient.name} must have an amount greater than zero")
+            }
+        }
+
         val identicalHopIngredients = recipeUpdateInfo.hopIngredients.groupBy {
             listOf(it.hopId, it.boilAdditionTime) }.filter { it.value.size > 1 }
         if (identicalHopIngredients.any()) {

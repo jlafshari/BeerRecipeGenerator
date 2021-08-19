@@ -118,6 +118,18 @@ class RecipeValidatorTests {
     }
 
     @Test
+    fun validateRecipeUpdateInfo_failsWhenAnyFermentableIngredientAmountIsZero() {
+        val recipeUpdateInfo = RecipeUpdateInfo("Some beer",
+            mutableListOf(FermentableIngredient(0.0, "2 row", "1234")),
+            mutableListOf(HopIngredient("Fuggles", 1.0, 60, "5678"))
+        )
+
+        val validationResult = recipeValidator.validateRecipeUpdateInfo(recipeUpdateInfo)
+        assertEquals(false, validationResult.succeeded)
+        assertNotNull(validationResult.message)
+    }
+
+    @Test
     fun validateRecipeUpdateInfo_failsWhenAnyHopIngredientAmountIsZero() {
         val recipeUpdateInfo = RecipeUpdateInfo("Some beer",
             mutableListOf(FermentableIngredient(1.0, "2 row", "1234")),
