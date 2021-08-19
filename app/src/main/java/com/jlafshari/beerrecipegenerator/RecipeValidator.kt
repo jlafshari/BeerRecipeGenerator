@@ -72,6 +72,10 @@ class RecipeValidator @Inject constructor() {
                 message.appendLine(
                     "Hop ingredient ${hopIngredient.amount} oz ${hopIngredient.name} (${hopIngredient.boilAdditionTime} min.) is added to boil for longer than ${Constants.BOIL_DURATION_TIME_DEFAULT} min. boil")
             }
+            if (hopIngredient.amount == 0.0) {
+                isRecipeValid = false
+                message.appendLine("Hop ingredient ${hopIngredient.name} (${hopIngredient.boilAdditionTime} min.) must have an amount greater than zero")
+            }
         }
 
         return RecipeUpdateValidationResult(isRecipeValid, message.toString())
