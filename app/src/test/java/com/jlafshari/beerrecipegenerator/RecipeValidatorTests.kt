@@ -12,7 +12,7 @@ class RecipeValidatorTests {
     private val recipeValidator = RecipeValidator()
 
     @Test
-    fun validateRecipeGenerationInfoSucceeds() {
+    fun validateRecipeGenerationInfo_succeeds() {
         val recipeGenerationInfo = RecipeGenerationInfo()
         recipeGenerationInfo.colorSrm = 5
         recipeGenerationInfo.name = "ESB"
@@ -25,7 +25,7 @@ class RecipeValidatorTests {
     }
 
     @Test
-    fun validateRecipeGenerationInfoFailsForEmptyRecipeGenerationInfo() {
+    fun validateRecipeGenerationInfo_failsForEmptyRecipeGenerationInfo() {
         val recipeGenerationInfo = RecipeGenerationInfo()
 
         val validationResult = recipeValidator.validateRecipeGenerationInfo(recipeGenerationInfo)
@@ -34,7 +34,7 @@ class RecipeValidatorTests {
     }
 
     @Test
-    fun validateRecipeGenerationInfoFailsWhenNameIsMissing() {
+    fun validateRecipeGenerationInfo_failsWhenNameIsMissing() {
         val recipeGenerationInfo = RecipeGenerationInfo()
         recipeGenerationInfo.colorSrm = 5
         recipeGenerationInfo.abv = 6.0
@@ -47,7 +47,7 @@ class RecipeValidatorTests {
     }
 
     @Test
-    fun validateRecipeUpdateInfoSucceeds() {
+    fun validateRecipeUpdateInfo_succeeds() {
         val recipeUpdateInfo = RecipeUpdateInfo("Some beer",
             mutableListOf(FermentableIngredient(1.0, "2 row", "1234")),
             mutableListOf(
@@ -61,7 +61,7 @@ class RecipeValidatorTests {
     }
 
     @Test
-    fun validateRecipeUpdateInfoFailsForIdenticalHopIngredients() {
+    fun validateRecipeUpdateInfo_failsForIdenticalHopIngredients() {
         val recipeUpdateInfo = RecipeUpdateInfo("Some beer",
             mutableListOf(FermentableIngredient(1.0, "2 row", "1234")),
             mutableListOf(
@@ -76,7 +76,7 @@ class RecipeValidatorTests {
     }
 
     @Test
-    fun validateRecipeUpdateInfoFailsForHopIngredientAddedToBoilTooEarly() {
+    fun validateRecipeUpdateInfo_failsForHopIngredientAddedToBoilTooEarly() {
         val recipeUpdateInfo = RecipeUpdateInfo("Some beer",
             mutableListOf(FermentableIngredient(1.0, "2 row", "1234")),
             mutableListOf(
@@ -91,7 +91,7 @@ class RecipeValidatorTests {
     }
 
     @Test
-    fun validateRecipeUpdateInfoFailsWhenThereAreNoGrains() {
+    fun validateRecipeUpdateInfo_failsWhenThereAreNoGrains() {
         val recipeUpdateInfo = RecipeUpdateInfo("Some beer",
             mutableListOf(),
             mutableListOf(
@@ -106,7 +106,7 @@ class RecipeValidatorTests {
     }
 
     @Test
-    fun validateRecipeUpdateInfoFailsWhenThereAreNoHops() {
+    fun validateRecipeUpdateInfo_failsWhenThereAreNoHops() {
         val recipeUpdateInfo = RecipeUpdateInfo("Some beer",
             mutableListOf(FermentableIngredient(1.0, "2 row", "1234")),
             mutableListOf()
