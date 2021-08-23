@@ -47,6 +47,20 @@ class RecipeValidatorTests {
     }
 
     @Test
+    fun validateRecipeGenerationInfo_failsWhenRecipeSizeIsZero() {
+        val recipeGenerationInfo = RecipeGenerationInfo()
+        recipeGenerationInfo.colorSrm = 5
+        recipeGenerationInfo.name = "ESB"
+        recipeGenerationInfo.abv = 6.0
+        recipeGenerationInfo.ibu = 20
+        recipeGenerationInfo.size = 0.0
+
+        val validationResult = recipeValidator.validateRecipeGenerationInfo(recipeGenerationInfo)
+        assertEquals(false, validationResult.succeeded)
+        assertNotNull(validationResult.message)
+    }
+
+    @Test
     fun validateRecipeUpdateInfo_succeeds() {
         val recipeUpdateInfo = RecipeUpdateInfo("Some beer",
             mutableListOf(FermentableIngredient(1.0, "2 row", "1234")),

@@ -27,9 +27,14 @@ class RecipeValidator @Inject constructor() {
             succeeded = false
             message.appendLine("No IBU selected!")
         }
+
         if (recipeGenerationInfo.size == null) {
             succeeded = false
             message.appendLine("No recipe size given!")
+        }
+        else if (recipeGenerationInfo.size == 0.0) {
+            succeeded = false
+            message.appendLine("Recipe size cannot be zero!")
         }
 
         return RecipeGenerationValidationResult(succeeded, message.toString())
