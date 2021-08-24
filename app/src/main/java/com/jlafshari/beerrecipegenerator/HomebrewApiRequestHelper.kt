@@ -126,6 +126,11 @@ class HomebrewApiRequestHelper @Inject constructor() {
         sendStandardAuthRequest(url, Request.Method.GET, context, callBack)
     }
 
+    fun getDefaultSettings(context: Context, callBack: VolleyCallBack) {
+        val url = getUrl("$recipeUrl/GetDefaultSettings", context)
+        sendStandardAuthRequest(url, Request.Method.GET, context, callBack)
+    }
+
     fun getVolleyCallBack(context: Context, onSuccess: (json: String) -> Unit) : VolleyCallBack =
         object : VolleyCallBack {
             override fun onSuccess(json: String) {
