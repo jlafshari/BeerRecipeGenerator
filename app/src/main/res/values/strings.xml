@@ -9,7 +9,6 @@
     <string name="beer_style_heading_fragment">Select Beer Style</string>
     <string name="recipe_size_heading_fragment">What size should the recipe be (in gallons)?</string>
     <string name="recipe_size_hint_text">Size in gallons</string>
-    <string name="recipe_size_gallons_default">5.0</string>
     <string name="cancel_menu_item_text">Cancel</string>
     <string name="button_generate_recipe">Generate</string>
     <string name="generated_recipe_heading">What should the name of the recipe be?</string>

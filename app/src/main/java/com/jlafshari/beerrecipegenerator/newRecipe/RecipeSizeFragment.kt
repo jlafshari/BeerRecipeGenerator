@@ -39,6 +39,15 @@ class RecipeSizeFragment : Fragment() {
     }
 
     override fun onResume() {
+        val recipeGenerationInfo = mCallback.getCurrentRecipeGenerationInfo()
+        val recipeSize = if (recipeGenerationInfo.size != null) {
+            recipeGenerationInfo.size.toString()
+        }
+        else {
+            mCallback.getRecipeDefaultSettings().size.toString()
+        }
+        mRecipeSizeEditText.text.clear()
+        mRecipeSizeEditText.text.insert(0, recipeSize)
         mCallback.onRecipeSizeSet(mRecipeSizeEditText.text.toString().toDoubleOrNull())
         super.onResume()
     }
@@ -52,7 +61,7 @@ class RecipeSizeFragment : Fragment() {
         }
     }
 
-    interface OnRecipeSizeSetListener {
+    interface OnRecipeSizeSetListener : RecipeInfoListener {
         fun onRecipeSizeSet(recipeSize: Double?)
     }
 }

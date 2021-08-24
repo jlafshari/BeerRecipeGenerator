@@ -153,6 +153,8 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
 
     override fun getCurrentRecipeGenerationInfo(): RecipeGenerationInfo = mRecipeGenerationInfo
 
+    override fun getRecipeDefaultSettings(): RecipeDefaultSettings = mRecipeDefaultSettings
+
     private fun viewRecipe(recipeId: String) {
         val recipeViewIntent = Intent(this, RecipeViewActivity::class.java)
         recipeViewIntent.putExtra(Constants.EXTRA_VIEW_RECIPE, recipeId)
