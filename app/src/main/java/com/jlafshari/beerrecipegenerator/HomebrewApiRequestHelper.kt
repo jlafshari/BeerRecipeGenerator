@@ -5,7 +5,6 @@ import android.content.Intent
 import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -17,15 +16,12 @@ import javax.inject.Inject
 
 class HomebrewApiRequestHelper @Inject constructor() {
 
-    fun getAllRecipes(context: Context, callBack: VolleyCallBack) {
-        sendStandardAuthRequest(
-            getUrl(getAllRecipesUrl, context), Request.Method.GET,
-            context, callBack)
-    }
+    fun getAllRecipes(context: Context, callBack: VolleyCallBack) =
+        sendStandardAuthGetRequest(getUrl(getAllRecipesUrl, context), context, callBack)
 
     fun getRecipe(recipeId: String, context: Context, callBack: VolleyCallBack) {
         val url = getUrl("$recipeUrl/$recipeId", context)
-        sendStandardAuthRequest(url, Request.Method.GET, context, callBack)
+        sendStandardAuthGetRequest(url, context, callBack)
     }
 
     fun deleteRecipe(recipeId: String, context: Context, callBack: VolleyDeleteRequestCallBack) {
@@ -98,37 +94,28 @@ class HomebrewApiRequestHelper @Inject constructor() {
         queue.add(stringRequest)
     }
 
-    fun getAllStyles(context: Context, callBack: VolleyCallBack) {
-        sendStandardAuthRequest(
-            getUrl(getAllStylesUrl, context), Request.Method.GET,
-            context, callBack)
-    }
+    fun getAllStyles(context: Context, callBack: VolleyCallBack) =
+        sendStandardAuthGetRequest(getUrl(getAllStylesUrl, context), context, callBack)
 
-    fun getAllFermentables(context: Context, callBack: VolleyCallBack) {
-        sendStandardAuthRequest(
-            getUrl(getAllFermentablesUrl, context), Request.Method.GET,
-            context, callBack)
-    }
+    fun getAllFermentables(context: Context, callBack: VolleyCallBack) =
+        sendStandardAuthGetRequest(getUrl(getAllFermentablesUrl, context), context, callBack)
 
     fun getFermentable(fermentableId: String, context: Context, callBack: VolleyCallBack) {
         val url = getUrl("Fermentable/$fermentableId", context)
-        sendStandardAuthRequest(url, Request.Method.GET, context, callBack)
+        sendStandardAuthGetRequest(url, context, callBack)
     }
 
-    fun getAllHops(context: Context, callBack: VolleyCallBack) {
-        sendStandardAuthRequest(
-            getUrl(getAllHopsUrl, context), Request.Method.GET,
-            context, callBack)
-    }
+    fun getAllHops(context: Context, callBack: VolleyCallBack) =
+        sendStandardAuthGetRequest(getUrl(getAllHopsUrl, context), context, callBack)
 
     fun getHop(hopId: String, context: Context, callBack: VolleyCallBack) {
         val url = getUrl("Hop/$hopId", context)
-        sendStandardAuthRequest(url, Request.Method.GET, context, callBack)
+        sendStandardAuthGetRequest(url, context, callBack)
     }
 
     fun getDefaultSettings(context: Context, callBack: VolleyCallBack) {
         val url = getUrl("$recipeUrl/GetDefaultSettings", context)
-        sendStandardAuthRequest(url, Request.Method.GET, context, callBack)
+        sendStandardAuthGetRequest(url, context, callBack)
     }
 
     fun getVolleyCallBack(context: Context, onSuccess: (json: String) -> Unit) : VolleyCallBack =
@@ -146,12 +133,10 @@ class HomebrewApiRequestHelper @Inject constructor() {
             }
         }
 
-    private fun sendStandardAuthRequest(url: String, httpMethod: Int,
-                                        context: Context, callBack: VolleyCallBack) {
+    private fun sendStandardAuthGetRequest(url: String, context: Context, callBack: VolleyCallBack) {
         val queue = Volley.newRequestQueue(context)
         val stringRequest = object :
-            StringRequest(
-                httpMethod, url,
+            StringRequest(Method.GET, url,
                 {
                     callBack.onSuccess(it)
                 },
