@@ -31,8 +31,7 @@ class HopSelectorListAdapter(private val hopList: List<Hop>,
         val txtHopName: TextView = itemView.findViewById(R.id.txtHopSelectName)
         val txtHopDescription: TextView = itemView.findViewById(R.id.txtHopDescription)
 
-        fun bind(hop: Hop, clickListener: (Hop) -> Unit) {
+        fun bind(hop: Hop, clickListener: (Hop) -> Unit) =
             itemView.setOnClickListener { clickListener(hop) }
-        }
     }
 }

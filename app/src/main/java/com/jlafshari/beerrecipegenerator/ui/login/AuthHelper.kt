@@ -61,17 +61,12 @@ object AuthHelper {
         webAuthClient.registerCallback(resultCallback, context as Activity?)
     }
 
-    fun signIn(userName: String, activity: Activity) {
+    fun signIn(userName: String, activity: Activity) =
         webAuthClient.signIn(activity, AuthenticationPayload.Builder().setLoginHint(userName).build())
-    }
 
-    fun signOut(activity: Activity) {
-        webAuthClient.signOutOfOkta(activity)
-    }
+    fun signOut(activity: Activity) = webAuthClient.signOutOfOkta(activity)
 
-    fun clearTokens() {
-        webAuthClient.sessionClient?.clear()
-    }
+    fun clearTokens() = webAuthClient.sessionClient?.clear()
 
     private fun refreshTokens() {
         webAuthClient.sessionClient.refreshToken(object :

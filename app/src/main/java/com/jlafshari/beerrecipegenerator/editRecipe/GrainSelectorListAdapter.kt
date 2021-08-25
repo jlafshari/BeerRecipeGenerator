@@ -43,8 +43,7 @@ class GrainSelectorListAdapter(private val grainList: List<Fermentable>, private
         val colorCardView : CardView = itemView.findViewById(R.id.colorCardView)
         val txtMaltCategory : TextView = itemView.findViewById(R.id.txtMaltCategory)
 
-        fun bind(fermentable: Fermentable, clickListener: (Fermentable) -> Unit) {
+        fun bind(fermentable: Fermentable, clickListener: (Fermentable) -> Unit) =
             itemView.setOnClickListener { clickListener(fermentable) }
-        }
     }
 }

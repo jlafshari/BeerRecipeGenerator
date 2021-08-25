@@ -20,7 +20,7 @@ class RecipeSizeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_recipe_size, container, false)
 
-        mRecipeSizeEditText = view.findViewById<EditText>(R.id.recipeSizeEditText)
+        mRecipeSizeEditText = view.findViewById(R.id.recipeSizeEditText)
         mRecipeSizeEditText.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }

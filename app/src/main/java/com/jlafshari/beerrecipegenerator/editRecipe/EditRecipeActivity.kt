@@ -66,9 +66,7 @@ class EditRecipeActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun cancelEditRecipe() {
-        goBackToRecipeView()
-    }
+    private fun cancelEditRecipe() = goBackToRecipeView()
 
     private fun grainAmountChangedListener(amount: Double, fermentableId: String) {
         val fermentableIngredient = mRecipeUpdateInfo.fermentableIngredients.find {

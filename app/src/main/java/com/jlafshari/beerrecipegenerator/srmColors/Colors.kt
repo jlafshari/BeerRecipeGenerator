@@ -11,9 +11,8 @@ object Colors {
         }
     }
 
-    fun getColorsInRange(startingSrmColor: Int, endingSrmColor: Int): List<SrmColor> {
-        return srmColors.filter { it.srmColor in startingSrmColor..endingSrmColor }
-    }
+    fun getColorsInRange(startingSrmColor: Int, endingSrmColor: Int): List<SrmColor> =
+        srmColors.filter { it.srmColor in startingSrmColor..endingSrmColor }
 
     private val srmColors = listOf(
         SrmColor(1, Color.rgb(243, 249, 147)),

@@ -88,9 +88,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         requestHelper.getDefaultSettings(this, callBack)
     }
 
-    private fun cancelNewRecipe() {
-        goToMainActivity()
-    }
+    private fun cancelNewRecipe() = goToMainActivity()
 
     private fun goToMainActivity() {
         val mainActivityIntent = Intent(this, MainActivity::class.java)
@@ -116,22 +114,19 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         mRecipeGenerationInfo.abv = abv
     }
 
-    override fun getAbvThreshold(): StyleThreshold =
-        mStyle.abvThreshold
+    override fun getAbvThreshold(): StyleThreshold = mStyle.abvThreshold
 
     override fun onColorValueSet(colorSrm: Int?) {
         mRecipeGenerationInfo.colorSrm = colorSrm
     }
 
-    override fun getSrmColorThreshold(): StyleThreshold =
-        mStyle.colorThreshold
+    override fun getSrmColorThreshold(): StyleThreshold = mStyle.colorThreshold
 
     override fun onBitternessValueSet(bitterness: Int?) {
         mRecipeGenerationInfo.ibu = bitterness
     }
 
-    override fun getBitternessThreshold(): StyleThreshold =
-        mStyle.ibuThreshold
+    override fun getBitternessThreshold(): StyleThreshold = mStyle.ibuThreshold
 
     override fun onRecipeNameSet(recipeName: String) {
         mRecipeGenerationInfo.name = recipeName

@@ -27,13 +27,10 @@ class LoginActivity : AppCompatActivity() {
 
         AuthHelper.createWebClient(this, object :
             ResultCallback<AuthorizationStatus, AuthorizationException> {
-            override fun onCancel() {
-                showMessage(getString(R.string.operation_cancelled))
-            }
+            override fun onCancel() = showMessage(getString(R.string.operation_cancelled))
 
-            override fun onError(msg: String?, exception: AuthorizationException?) {
+            override fun onError(msg: String?, exception: AuthorizationException?) =
                 signInError(msg, exception)
-            }
 
             override fun onSuccess(result: AuthorizationStatus) {
                 when (result) {
@@ -51,9 +48,8 @@ class LoginActivity : AppCompatActivity() {
             signOut()
     }
 
-    private fun showMessage(message: String) {
+    private fun showMessage(message: String) =
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
 
     private fun signInSuccess() {
         showMessage(getString(R.string.authorized))
@@ -79,7 +75,5 @@ class LoginActivity : AppCompatActivity() {
         AuthHelper.signIn(userName, this)
     }
 
-    private fun signOut() {
-        AuthHelper.signOut(this)
-    }
+    private fun signOut() = AuthHelper.signOut(this)
 }

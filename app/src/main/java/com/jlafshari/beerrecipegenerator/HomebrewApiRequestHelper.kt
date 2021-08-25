@@ -37,9 +37,7 @@ class HomebrewApiRequestHelper @Inject constructor() {
                     println(it)
                 })
         {
-            override fun getHeaders(): MutableMap<String, String> {
-                return getAuthHeader()
-            }
+            override fun getHeaders(): MutableMap<String, String> = getAuthHeader()
         }
         queue.add(stringRequest)
     }
@@ -120,17 +118,12 @@ class HomebrewApiRequestHelper @Inject constructor() {
 
     fun getVolleyCallBack(context: Context, onSuccess: (json: String) -> Unit) : VolleyCallBack =
         object : VolleyCallBack {
-            override fun onSuccess(json: String) {
-                onSuccess(json)
-            }
+            override fun onSuccess(json: String) = onSuccess(json)
 
-            override fun onUnauthorizedResponse() {
-                startLoginActivity(context)
-            }
+            override fun onUnauthorizedResponse() = startLoginActivity(context)
 
-            override fun onError(errorMessage: String) {
+            override fun onError(errorMessage: String) =
                 Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
-            }
         }
 
     private fun sendStandardAuthGetRequest(url: String, context: Context, callBack: VolleyCallBack) {
@@ -150,9 +143,7 @@ class HomebrewApiRequestHelper @Inject constructor() {
                     println(it)
                 })
         {
-            override fun getHeaders(): MutableMap<String, String> {
-                return getAuthHeader()
-            }
+            override fun getHeaders(): MutableMap<String, String> = getAuthHeader()
         }
         stringRequest.retryPolicy = DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         queue.add(stringRequest)
