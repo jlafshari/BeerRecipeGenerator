@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import com.jlafshari.beerrecipegenerator.R
+import com.jlafshari.beerrecipegenerator.settings.AppSettings
 
 class RecipeSizeFragment : Fragment() {
     private lateinit var mCallback: OnRecipeSizeSetListener
@@ -44,7 +45,7 @@ class RecipeSizeFragment : Fragment() {
             recipeGenerationInfo.size.toString()
         }
         else {
-            mCallback.getRecipeDefaultSettings().size.toString()
+            AppSettings.recipeDefaultSettings.size.toString()
         }
         mRecipeSizeEditText.text.clear()
         mRecipeSizeEditText.text.insert(0, recipeSize)

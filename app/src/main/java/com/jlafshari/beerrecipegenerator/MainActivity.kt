@@ -14,6 +14,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
+import com.jlafshari.beerrecipegenerator.settings.AppSettings
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -41,6 +42,8 @@ class MainActivity : AppCompatActivity() {
 
         val txtLoadingIndicator = binding.root.findViewById<TextView>(R.id.txtLoadingIndicator)
         loadSavedRecipePreviews(recipeRecyclerView, txtLoadingIndicator)
+
+        loadSettings()
     }
 
     private fun loadSavedRecipePreviews(
@@ -86,5 +89,10 @@ class MainActivity : AppCompatActivity() {
         val recipeViewIntent = Intent(this, RecipeViewActivity::class.java)
         recipeViewIntent.putExtra(Constants.EXTRA_VIEW_RECIPE, recipePreview.id)
         startActivity(recipeViewIntent)
+    }
+
+    private fun loadSettings() {
+        val settings = getPreferences(MODE_PRIVATE)
+        AppSettings.loadSettings(settings, requestHelper, this)
     }
 }

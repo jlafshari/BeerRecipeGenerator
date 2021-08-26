@@ -33,7 +33,6 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
 
     private var mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
     private lateinit var mStyle: Style
-    private lateinit var mRecipeDefaultSettings: RecipeDefaultSettings
 
     @Inject
     lateinit var requestHelper: HomebrewApiRequestHelper
@@ -56,8 +55,6 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         })
 
         binding.progressBar.max = NewRecipeSteps.numberOfSteps
-
-        loadSettings()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -79,13 +76,6 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun loadSettings() {
-        val callBack = requestHelper.getVolleyCallBack(this) { run {
-            mRecipeDefaultSettings = jacksonObjectMapper().readValue(it)
-        }}
-        requestHelper.getDefaultSettings(this, callBack)
     }
 
     private fun cancelNewRecipe() = goToMainActivity()
@@ -147,8 +137,6 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     }
 
     override fun getCurrentRecipeGenerationInfo(): RecipeGenerationInfo = mRecipeGenerationInfo
-
-    override fun getRecipeDefaultSettings(): RecipeDefaultSettings = mRecipeDefaultSettings
 
     private fun viewRecipe(recipeId: String) {
         val recipeViewIntent = Intent(this, RecipeViewActivity::class.java)
