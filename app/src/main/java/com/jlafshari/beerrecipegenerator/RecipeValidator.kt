@@ -4,6 +4,7 @@ import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipegenerator.editRecipe.RecipeUpdateValidationResult
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeGenerationValidationResult
+import com.jlafshari.beerrecipegenerator.settings.AppSettings
 import javax.inject.Inject
 
 class RecipeValidator @Inject constructor() {
@@ -78,11 +79,12 @@ class RecipeValidator @Inject constructor() {
             }
         }
 
+        val boilDurationMinutes = AppSettings.recipeDefaultSettings.boilDurationMinutes
         for (hopIngredient in recipeUpdateInfo.hopIngredients) {
-            if (hopIngredient.boilAdditionTime > Constants.BOIL_DURATION_TIME_DEFAULT) {
+            if (hopIngredient.boilAdditionTime > boilDurationMinutes) {
                 isRecipeValid = false
                 message.appendLine(
-                    "Hop ingredient ${hopIngredient.amount} oz ${hopIngredient.name} (${hopIngredient.boilAdditionTime} min.) is added to boil for longer than ${Constants.BOIL_DURATION_TIME_DEFAULT} min. boil")
+                    "Hop ingredient ${hopIngredient.amount} oz ${hopIngredient.name} (${hopIngredient.boilAdditionTime} min.) is added to boil for longer than $boilDurationMinutes min. boil")
             }
             if (hopIngredient.amount == 0.0) {
                 isRecipeValid = false

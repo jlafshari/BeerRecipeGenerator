@@ -19,7 +19,8 @@ object AppSettings {
 
     private fun loadSettingsFromAppPreferences(settings: SharedPreferences) {
         val recipeSize = settings.getFloat(RECIPE_SIZE, 0F).toDouble()
-        recipeDefaultSettings = RecipeDefaultSettings(recipeSize)
+        val boilTimeDuration = settings.getInt(BOIL_DURATION_TIME, 0)
+        recipeDefaultSettings = RecipeDefaultSettings(recipeSize, boilTimeDuration)
     }
 
     private fun getSettingsFromApi(
@@ -34,6 +35,7 @@ object AppSettings {
                 //save settings to preferences
                 with(settings.edit()) {
                     putFloat(RECIPE_SIZE, recipeDefaultSettings.size.toFloat())
+                    putInt(BOIL_DURATION_TIME, recipeDefaultSettings.boilDurationMinutes)
                     apply()
                 }
             }
@@ -42,4 +44,5 @@ object AppSettings {
     }
 
     private const val RECIPE_SIZE = "recipe_size"
+    private const val BOIL_DURATION_TIME = "boil_duration_time"
 }
