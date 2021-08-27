@@ -17,13 +17,9 @@ object AuthHelper {
     private lateinit var webAuthClient: WebAuthClient
 
     fun getAccessToken() : String? {
-        if (!this::webAuthClient.isInitialized) {
-            return null
-        }
+        if (!this::webAuthClient.isInitialized) return null
 
-        if (!webAuthClient.sessionClient.isAuthenticated) {
-            refreshTokens()
-        }
+        if (!webAuthClient.sessionClient.isAuthenticated) refreshTokens()
 
         return webAuthClient.sessionClient?.tokens?.accessToken
     }
@@ -32,7 +28,7 @@ object AuthHelper {
         val idToken = webAuthClient.sessionClient?.tokens?.idToken
         return if (idToken != null) {
             val payload = decodeJWTTokenPayload(idToken)
-            val user: User = jacksonObjectMapper().readValue(payload)
+            val user = jacksonObjectMapper().readValue<User>(payload)
             user.name
         } else {
             null
@@ -40,7 +36,7 @@ object AuthHelper {
     }
 
     private fun decodeJWTTokenPayload(token: String): String {
-        val decoder: Base64.Decoder = Base64.getDecoder()
+        val decoder = Base64.getDecoder()
         val chunks = token.split(".").toTypedArray()
 
         return String(decoder.decode(chunks[1]))
@@ -71,13 +67,10 @@ object AuthHelper {
     private fun refreshTokens() {
         webAuthClient.sessionClient.refreshToken(object :
             RequestCallback<Tokens, AuthorizationException?> {
-            override fun onSuccess(result: Tokens) {
-                println("refreshed token: $result")
-            }
+            override fun onSuccess(result: Tokens) = println("refreshed token: $result")
 
-            override fun onError(error: String?, exception: AuthorizationException?) {
+            override fun onError(error: String?, exception: AuthorizationException?) =
                 println("error refreshing token: $error $exception")
-            }
         })
     }
 }
