@@ -27,16 +27,16 @@ class ColorPaletteListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val srmColor = colorList[position]
+        val srmColor = colorList[holder.adapterPosition]
         holder.txtColorSrmValue.text = srmColor.srmColor.toString()
 
         holder.colorCardView.setCardBackgroundColor(srmColor.rbgColor)
-        setCardViewDimensions(position, holder.colorCardView)
+        setCardViewDimensions(holder.adapterPosition, holder.colorCardView)
 
         holder.itemView.setOnClickListener {
             val previousItem = selectedPos
-            selectedPos = position
-            notifyItemChanged(position)
+            selectedPos = holder.adapterPosition
+            notifyItemChanged(holder.adapterPosition)
             notifyItemChanged(previousItem)
 
             clickListener(srmColor.srmColor)

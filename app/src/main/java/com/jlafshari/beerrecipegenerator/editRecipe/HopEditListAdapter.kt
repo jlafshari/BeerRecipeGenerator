@@ -25,14 +25,14 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val hop = hopList[position]
+        val hop = hopList[holder.adapterPosition]
         holder.txtHopAmount.text.insert(0, hop.amount.toString())
         holder.txtHopAdditionTime.text.insert(0, hop.boilAdditionTime.toString())
         holder.txtHopAdditionTime.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(hopBoilAdditionTimeEditText: Editable?) {
                 val boilAdditionTime = hopBoilAdditionTimeEditText.toString().toIntOrNull()
                 if (boilAdditionTime != null)
-                    hopBoilAdditionTimeChangedListener(boilAdditionTime, position)
+                    hopBoilAdditionTimeChangedListener(boilAdditionTime, holder.adapterPosition)
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -43,14 +43,14 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>,
             override fun afterTextChanged(hopAmountEditText: Editable?) {
                 val amount = hopAmountEditText.toString().toDoubleOrNull()
                 if (amount != null) {
-                    amountChangedListener(amount, position)
+                    amountChangedListener(amount, holder.adapterPosition)
                 }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-        holder.btnDeleteHop.setOnClickListener { deleteHopListener(position) }
+        holder.btnDeleteHop.setOnClickListener { deleteHopListener(holder.adapterPosition) }
     }
 
     override fun getItemCount() = hopList.size
