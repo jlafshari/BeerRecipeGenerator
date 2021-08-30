@@ -23,6 +23,8 @@ import com.jlafshari.beerrecipegenerator.newRecipe.BitternessFragment.Bitterness
 import com.jlafshari.beerrecipegenerator.newRecipe.ColorFragment.ColorCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.GenerateRecipeFragment.OnGenerateRecipeCallback
 import com.jlafshari.beerrecipegenerator.newRecipe.RecipeSizeFragment.OnRecipeSizeSetListener
+import com.jlafshari.beerrecipegenerator.recipes.RecipeValidationResult
+import com.jlafshari.beerrecipegenerator.recipes.RecipeValidator
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

@@ -4,6 +4,7 @@ import com.jlafshari.beerrecipecore.FermentableIngredient
 import com.jlafshari.beerrecipecore.HopIngredient
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
+import com.jlafshari.beerrecipegenerator.recipes.RecipeValidator
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test

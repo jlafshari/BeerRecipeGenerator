@@ -11,7 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.jlafshari.beerrecipegenerator.R
-import com.jlafshari.beerrecipegenerator.RecipeValidationResult
+import com.jlafshari.beerrecipegenerator.recipes.RecipeValidationResult
 
 
 class GenerateRecipeFragment : Fragment() {
