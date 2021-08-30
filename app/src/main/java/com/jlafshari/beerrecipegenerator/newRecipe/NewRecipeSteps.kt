@@ -1,6 +1,7 @@
 package com.jlafshari.beerrecipegenerator.newRecipe
 
 import androidx.fragment.app.Fragment
+import com.jlafshari.beerrecipegenerator.newRecipe.fragments.*
 
 object NewRecipeSteps {
     const val numberOfSteps = 6

@@ -1,4 +1,4 @@
-package com.jlafshari.beerrecipegenerator.newRecipe
+package com.jlafshari.beerrecipegenerator.newRecipe.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipecore.StyleThreshold
 import com.jlafshari.beerrecipegenerator.R
+import com.jlafshari.beerrecipegenerator.newRecipe.ColorPaletteListAdapter
+import com.jlafshari.beerrecipegenerator.newRecipe.RecipeInfoListener
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
 
 class ColorFragment : Fragment() {

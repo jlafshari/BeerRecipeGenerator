@@ -1,4 +1,4 @@
-package com.jlafshari.beerrecipegenerator.newRecipe
+package com.jlafshari.beerrecipegenerator.newRecipe.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -11,6 +11,7 @@ import com.jlafshari.beerrecipecore.StyleThreshold
 import com.jlafshari.beerrecipecore.utility.AbvUtility.getAbvValues
 import com.jlafshari.beerrecipecore.utility.AbvUtility.getMedianAbvIndex
 import com.jlafshari.beerrecipegenerator.R
+import com.jlafshari.beerrecipegenerator.newRecipe.RecipeInfoListener
 
 class AbvFragment : Fragment() {
     private lateinit var mCallback: AbvCallback

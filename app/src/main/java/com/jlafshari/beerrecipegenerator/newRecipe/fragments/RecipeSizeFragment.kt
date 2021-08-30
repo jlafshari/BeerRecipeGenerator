@@ -1,4 +1,4 @@
-package com.jlafshari.beerrecipegenerator.newRecipe
+package com.jlafshari.beerrecipegenerator.newRecipe.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import com.jlafshari.beerrecipegenerator.R
+import com.jlafshari.beerrecipegenerator.newRecipe.RecipeInfoListener
 import com.jlafshari.beerrecipegenerator.settings.AppSettings
 
 class RecipeSizeFragment : Fragment() {

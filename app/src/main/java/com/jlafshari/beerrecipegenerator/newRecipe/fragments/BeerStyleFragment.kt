@@ -1,4 +1,4 @@
-package com.jlafshari.beerrecipegenerator.newRecipe
+package com.jlafshari.beerrecipegenerator.newRecipe.fragments
 
 import android.content.Context
 import android.os.Bundle
