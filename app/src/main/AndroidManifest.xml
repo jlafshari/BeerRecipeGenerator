@@ -21,7 +21,7 @@
                 android:name=".editRecipe.EditRecipeActivity"
                 android:launchMode="singleTask" />
         <activity
-                android:name=".SettingsActivity"
+                android:name=".settings.SettingsActivity"
                 android:label="@string/title_activity_settings"
                 android:parentActivityName=".MainActivity" />
         <activity android:name=".ui.login.LoginActivity">

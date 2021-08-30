@@ -15,6 +15,7 @@ import com.jlafshari.beerrecipecore.Recipe
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import com.jlafshari.beerrecipegenerator.settings.AppSettings
+import com.jlafshari.beerrecipegenerator.settings.SettingsActivity
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

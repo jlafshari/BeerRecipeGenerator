@@ -1,9 +1,11 @@
-package com.jlafshari.beerrecipegenerator
+package com.jlafshari.beerrecipegenerator.settings
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.jlafshari.beerrecipegenerator.Constants
+import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivitySettingsBinding
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
 import com.jlafshari.beerrecipegenerator.ui.login.LoginActivity
