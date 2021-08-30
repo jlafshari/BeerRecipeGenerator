@@ -2,14 +2,12 @@ package com.jlafshari.beerrecipegenerator
 
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
-import com.jlafshari.beerrecipegenerator.editRecipe.RecipeUpdateValidationResult
-import com.jlafshari.beerrecipegenerator.newRecipe.RecipeGenerationValidationResult
 import com.jlafshari.beerrecipegenerator.settings.AppSettings
 import javax.inject.Inject
 
 class RecipeValidator @Inject constructor() {
     fun validateRecipeGenerationInfo(recipeGenerationInfo: RecipeGenerationInfo):
-            RecipeGenerationValidationResult {
+            RecipeValidationResult {
         var succeeded = true
         val message = StringBuilder()
         if (recipeGenerationInfo.colorSrm == null) {
@@ -38,10 +36,10 @@ class RecipeValidator @Inject constructor() {
             message.appendLine("Recipe size cannot be zero!")
         }
 
-        return RecipeGenerationValidationResult(succeeded, message.toString())
+        return RecipeValidationResult(succeeded, message.toString())
     }
 
-    fun validateRecipeUpdateInfo(recipeUpdateInfo: RecipeUpdateInfo) : RecipeUpdateValidationResult {
+    fun validateRecipeUpdateInfo(recipeUpdateInfo: RecipeUpdateInfo) : RecipeValidationResult {
         var isRecipeValid = true
         val message = StringBuilder()
 
@@ -92,6 +90,6 @@ class RecipeValidator @Inject constructor() {
             }
         }
 
-        return RecipeUpdateValidationResult(isRecipeValid, message.toString())
+        return RecipeValidationResult(isRecipeValid, message.toString())
     }
 }

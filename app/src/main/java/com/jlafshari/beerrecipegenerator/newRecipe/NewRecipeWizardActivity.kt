@@ -122,7 +122,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         mRecipeGenerationInfo.name = recipeName
     }
 
-    override fun onGenerateRecipe(): RecipeGenerationValidationResult {
+    override fun onGenerateRecipe(): RecipeValidationResult {
         val validationResult = recipeValidator.validateRecipeGenerationInfo(mRecipeGenerationInfo)
 
         if (validationResult.succeeded) {

@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.jlafshari.beerrecipegenerator.R
+import com.jlafshari.beerrecipegenerator.RecipeValidationResult
 
 
 class GenerateRecipeFragment : Fragment() {
@@ -57,6 +58,6 @@ class GenerateRecipeFragment : Fragment() {
 
     interface OnGenerateRecipeCallback {
         fun onRecipeNameSet(recipeName: String)
-        fun onGenerateRecipe() : RecipeGenerationValidationResult
+        fun onGenerateRecipe() : RecipeValidationResult
     }
 }
