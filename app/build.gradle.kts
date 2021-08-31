@@ -20,6 +20,7 @@ android {
         targetSdkVersion(30)
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("long", "TIMESTAMP", System.currentTimeMillis().toString() + "L")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders["appAuthRedirectScheme"] = "com.okta.dev-22160898"
     }

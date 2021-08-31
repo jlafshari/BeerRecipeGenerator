@@ -54,4 +54,7 @@
     <string name="hopAdditionTimeHint"><font size="14">min.</font></string>
     <string name="hopAdditionTimeUnit">min.</string>
     <string name="addHopHeading">Add Hop</string>
+    <string name="app_info">App Info</string>
+    <string name="build_date">Build date:</string>
+    <string name="version">Version:</string>
 </resources>
