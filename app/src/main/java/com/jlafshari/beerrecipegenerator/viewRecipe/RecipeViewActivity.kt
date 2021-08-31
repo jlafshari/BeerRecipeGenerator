@@ -52,7 +52,7 @@ class RecipeViewActivity : AppCompatActivity() {
     }
 
     private fun loadRecipeView(binding: ActivityRecipeViewBinding) {
-        binding.txtRecipeName.text = mRecipe.name
+        binding.txtRecipeViewName.text = mRecipe.name
         binding.txtStyle.text = getString(R.string.recipe_view_style_name, mRecipe.styleName)
         binding.txtSize.text = getString(R.string.recipe_view_size, mRecipe.size.toString())
         binding.txtAbv.text =

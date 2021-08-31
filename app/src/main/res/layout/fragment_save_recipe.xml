@@ -7,14 +7,14 @@
         tools:context=".newRecipe.fragments.GenerateRecipeFragment">
 
     <Button
-            android:id="@+id/button_generate_recipe"
+            android:id="@+id/btnGenerateRecipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="64dp"
             android:text="@string/button_generate_recipe"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_recipe_name" />
+            app:layout_constraintTop_toBottomOf="@+id/txtRecipeViewName" />
 
     <TextView
             android:id="@+id/textView3"
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-            android:id="@+id/txt_recipe_name"
+            android:id="@+id/txtRecipeViewName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="150dp"
@@ -41,7 +41,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
-            android:id="@+id/txt_error"
+            android:id="@+id/txtError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -49,5 +49,5 @@
             android:minWidth="150dp"
             android:singleLine="false"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_generate_recipe" />
+            app:layout_constraintTop_toBottomOf="@+id/btnGenerateRecipe" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,7 +23,7 @@ class GenerateRecipeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_save_recipe, container, false)
 
-        val txtRecipeName = view.findViewById<TextView>(R.id.txt_recipe_name)
+        val txtRecipeName = view.findViewById<TextView>(R.id.txtRecipeViewName)
         txtRecipeName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(recipeNameEditText: Editable?) {
                 mCallback.onRecipeNameSet(recipeNameEditText.toString())
@@ -33,12 +33,12 @@ class GenerateRecipeFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        val saveButton = view.findViewById<Button>(R.id.button_generate_recipe)
+        val saveButton = view.findViewById<Button>(R.id.btnGenerateRecipe)
         saveButton.setOnClickListener {
             saveButton.isEnabled = false
             val recipeValidationResult = mCallback.onGenerateRecipe()
             if (!recipeValidationResult.succeeded) {
-                val txtError = view.findViewById<TextView>(R.id.txt_error)
+                val txtError = view.findViewById<TextView>(R.id.txtError)
                 txtError.text = recipeValidationResult.message
                 saveButton.isEnabled = true
             }
