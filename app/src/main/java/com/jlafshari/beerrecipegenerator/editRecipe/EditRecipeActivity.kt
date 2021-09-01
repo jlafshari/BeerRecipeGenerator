@@ -16,6 +16,7 @@ import com.jlafshari.beerrecipecore.*
 import com.jlafshari.beerrecipegenerator.*
 import com.jlafshari.beerrecipegenerator.databinding.ActivityEditRecipeBinding
 import com.jlafshari.beerrecipegenerator.recipes.RecipeValidator
+import com.jlafshari.beerrecipegenerator.settings.AppSettings
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -99,7 +100,7 @@ class EditRecipeActivity : AppCompatActivity() {
         val callBack = requestHelper.getVolleyCallBack(this@EditRecipeActivity) { run {
             val recipe: Recipe = jacksonObjectMapper().readValue(it)
             mRecipeId = recipe.id
-            mRecipeUpdateInfo = RecipeUpdateInfo(recipe.name, recipe.fermentableIngredients, recipe.hopIngredients)
+            mRecipeUpdateInfo = RecipeUpdateInfo(recipe.name, recipe.fermentableIngredients, recipe.hopIngredients, AppSettings.recipeDefaultSettings.extractionEfficiency)
             loadRecipeView()
         }}
         requestHelper.getRecipe(recipeId, this, callBack)
