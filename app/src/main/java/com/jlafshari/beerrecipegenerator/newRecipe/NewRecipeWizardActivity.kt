@@ -25,6 +25,7 @@ import com.jlafshari.beerrecipegenerator.newRecipe.fragments.GenerateRecipeFragm
 import com.jlafshari.beerrecipegenerator.newRecipe.fragments.RecipeSizeFragment.OnRecipeSizeSetListener
 import com.jlafshari.beerrecipegenerator.recipes.RecipeValidationResult
 import com.jlafshari.beerrecipegenerator.recipes.RecipeValidator
+import com.jlafshari.beerrecipegenerator.settings.AppSettings
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -57,6 +58,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         })
 
         binding.progressBar.max = NewRecipeSteps.numberOfSteps
+        mRecipeGenerationInfo.extractionEfficiency = AppSettings.recipeDefaultSettings.extractionEfficiency
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -90,6 +92,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     override fun onRecipeStyleSelected(style: Style) {
         mStyle = style
         mRecipeGenerationInfo = RecipeGenerationInfo()
+        mRecipeGenerationInfo.extractionEfficiency = AppSettings.recipeDefaultSettings.extractionEfficiency
         mRecipeGenerationInfo.styleId = style.id
     }
 

@@ -7,4 +7,5 @@ class RecipeGenerationInfo {
     var colorSrm: Int? = null
     var ibu: Int? = null
     var name: String? = null
+    var extractionEfficiency: Int? = null
 }
