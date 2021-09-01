@@ -7,6 +7,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
 
 object AppSettings {
+    const val PREFERENCE_FILE_NAME = "app_setting_preference_file"
+
     lateinit var recipeDefaultSettings: RecipeDefaultSettings
 
     fun loadSettings(settings: SharedPreferences, requestHelper: HomebrewApiRequestHelper,
@@ -15,6 +17,14 @@ object AppSettings {
 
         if (areAnySettingsMissing(settings)) getSettingsFromApi(requestHelper, context, settings)
         else loadSettingsFromAppPreferences(settings)
+    }
+
+    fun updateExtractionEfficiency(extractionEfficiency: Int, settings: SharedPreferences) {
+        recipeDefaultSettings.extractionEfficiency = extractionEfficiency
+        with(settings.edit()) {
+            putInt(EXTRACTION_EFFICIENCY, extractionEfficiency)
+            apply()
+        }
     }
 
     private fun loadSettingsFromAppPreferences(settings: SharedPreferences) {

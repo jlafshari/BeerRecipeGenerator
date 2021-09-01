@@ -3,7 +3,10 @@ package com.jlafshari.beerrecipegenerator.settings
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.jlafshari.beerrecipegenerator.BuildConfig
 import com.jlafshari.beerrecipegenerator.Constants
@@ -36,6 +39,30 @@ class SettingsActivity : AppCompatActivity() {
         val version = pInfo.versionName
         val txtBuildVersion = binding.txtBuildVersion
         txtBuildVersion.text = version
+
+        val txtExtractionEfficiency = binding.txtExtractionEfficiency
+        setUpExtractionEfficiency(txtExtractionEfficiency)
+    }
+
+    private fun setUpExtractionEfficiency(txtExtractionEfficiency: EditText) {
+        txtExtractionEfficiency.text.clear()
+        txtExtractionEfficiency.text.insert(
+            0,
+            AppSettings.recipeDefaultSettings.extractionEfficiency.toString()
+        )
+        txtExtractionEfficiency.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(extractionEfficiencyEditText: Editable?) {
+                val extractionEfficiency = extractionEfficiencyEditText.toString().toIntOrNull()
+                if (extractionEfficiency != null)
+                    AppSettings.updateExtractionEfficiency(
+                        extractionEfficiency,
+                        getSharedPreferences(AppSettings.PREFERENCE_FILE_NAME, MODE_PRIVATE)
+                    )
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
     }
 
     override fun onBackPressed() {

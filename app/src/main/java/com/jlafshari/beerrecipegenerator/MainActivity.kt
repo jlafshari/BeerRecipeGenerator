@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadSettings() {
-        val settings = getPreferences(MODE_PRIVATE)
+        val settings = getSharedPreferences(AppSettings.PREFERENCE_FILE_NAME, MODE_PRIVATE)
         AppSettings.loadSettings(settings, requestHelper, this)
     }
 }
