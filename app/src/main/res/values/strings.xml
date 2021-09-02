@@ -59,4 +59,5 @@
     <string name="version">Version:</string>
     <string name="mash_extraction_efficiency">Mash Extraction Efficiency%:</string>
     <string name="extraction_efficiency_percentage">%</string>
+    <string name="settings_heading">Settings</string>
 </resources>
