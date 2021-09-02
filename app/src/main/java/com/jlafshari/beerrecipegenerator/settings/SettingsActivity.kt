@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.jlafshari.beerrecipegenerator.BuildConfig
 import com.jlafshari.beerrecipegenerator.Constants
@@ -41,10 +42,13 @@ class SettingsActivity : AppCompatActivity() {
         txtBuildVersion.text = version
 
         val txtExtractionEfficiency = binding.txtExtractionEfficiency
-        setUpExtractionEfficiency(txtExtractionEfficiency)
+        setUpExtractionEfficiency(txtExtractionEfficiency, binding.txtSettingsError)
     }
 
-    private fun setUpExtractionEfficiency(txtExtractionEfficiency: EditText) {
+    private fun setUpExtractionEfficiency(
+        txtExtractionEfficiency: EditText,
+        txtSettingsError: TextView
+    ) {
         txtExtractionEfficiency.text.clear()
         txtExtractionEfficiency.text.insert(
             0,
@@ -53,11 +57,18 @@ class SettingsActivity : AppCompatActivity() {
         txtExtractionEfficiency.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(extractionEfficiencyEditText: Editable?) {
                 val extractionEfficiency = extractionEfficiencyEditText.toString().toIntOrNull()
-                if (extractionEfficiency != null)
-                    AppSettings.updateExtractionEfficiency(
-                        extractionEfficiency,
-                        getSharedPreferences(AppSettings.PREFERENCE_FILE_NAME, MODE_PRIVATE)
-                    )
+                if (extractionEfficiency != null) {
+                    if (extractionEfficiency in 0..100) {
+                        AppSettings.updateExtractionEfficiency(
+                            extractionEfficiency,
+                            getSharedPreferences(AppSettings.PREFERENCE_FILE_NAME, MODE_PRIVATE)
+                        )
+                        txtSettingsError.text = ""
+                    }
+                    else {
+                        txtSettingsError.text = "Extraction Efficiency should be between 0 and 100!"
+                    }
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
