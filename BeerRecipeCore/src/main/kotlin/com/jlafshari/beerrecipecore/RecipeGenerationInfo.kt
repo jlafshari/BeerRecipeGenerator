@@ -8,4 +8,5 @@ class RecipeGenerationInfo {
     var ibu: Int? = null
     var name: String? = null
     var extractionEfficiency: Int? = null
+    var mashThickness: Double? = null
 }

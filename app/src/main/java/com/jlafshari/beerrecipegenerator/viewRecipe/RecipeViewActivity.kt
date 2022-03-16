@@ -67,6 +67,7 @@ class RecipeViewActivity : AppCompatActivity() {
         binding.hopsRecyclerView.adapter = HopListAdapter(mRecipe.hopIngredients, this)
         val yeastIngredient = mRecipe.yeastIngredient
         binding.txtYeast.text = getString(R.string.yeastIngredient, yeastIngredient.name, yeastIngredient.laboratory)
+        binding.txtMashStrikeWater.text = getString(R.string.recipe_view_mash_strike_water, mRecipe.mashStrikeWaterAmount.toString())
     }
 
     private fun loadRecipe(recipeId: String, binding: ActivityRecipeViewBinding) {

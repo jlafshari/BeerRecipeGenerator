@@ -7,4 +7,5 @@ data class Recipe(val id: String,
                   val projectedOutcome: RecipeProjectedOutcome,
                   val fermentableIngredients: MutableList<FermentableIngredient>,
                   val hopIngredients: MutableList<HopIngredient>,
-                  val yeastIngredient: YeastIngredient)
+                  val yeastIngredient: YeastIngredient,
+                  val mashStrikeWaterAmount: Double)

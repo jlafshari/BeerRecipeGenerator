@@ -59,6 +59,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
 
         binding.progressBar.max = NewRecipeSteps.numberOfSteps
         mRecipeGenerationInfo.extractionEfficiency = AppSettings.recipeDefaultSettings.extractionEfficiency
+        mRecipeGenerationInfo.mashThickness = AppSettings.recipeDefaultSettings.mashThickness
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -93,6 +94,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         mStyle = style
         mRecipeGenerationInfo = RecipeGenerationInfo()
         mRecipeGenerationInfo.extractionEfficiency = AppSettings.recipeDefaultSettings.extractionEfficiency
+        mRecipeGenerationInfo.mashThickness = AppSettings.recipeDefaultSettings.mashThickness
         mRecipeGenerationInfo.styleId = style.id
     }
 

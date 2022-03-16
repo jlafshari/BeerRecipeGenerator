@@ -18,6 +18,7 @@
     <string name="recipe_view_abv">%1$s%% ABV</string>
     <string name="recipe_view_color">%1$s SRM</string>
     <string name="recipe_view_ibu">%1$s IBU</string>
+    <string name="recipe_view_mash_strike_water">%1$s gallons</string>
     <string name="recipe_abv_heading_fragment">What should the alcohol by volume (ABV) percentage be?</string>
     <string name="new_recipe_btn_desc">New recipe</string>
     <string name="recipe_color_heading_fragment">What should the color of the beer be?</string>
@@ -60,4 +61,6 @@
     <string name="mash_extraction_efficiency">Mash Extraction Efficiency%:</string>
     <string name="extraction_efficiency_percentage">%</string>
     <string name="settings_heading">Settings</string>
+    <string name="mash_strike_water_heading">Mash strike water:</string>
+    <string name="mash_thickness_heading">Mash Thickness (qts/lb):</string>
 </resources>
