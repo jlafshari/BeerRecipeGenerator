@@ -14,11 +14,11 @@ val localProperties = Properties()
 localProperties.load(FileInputStream(rootProject.file("local.properties")))
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 33
     defaultConfig {
         applicationId = "com.jlafshari.beerrecipegenerator"
-        minSdkVersion(27)
-        targetSdkVersion(30)
+        minSdk = 27
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
         buildConfigField("long", "TIMESTAMP", System.currentTimeMillis().toString() + "L")
