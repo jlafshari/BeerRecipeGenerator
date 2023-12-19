@@ -14,7 +14,7 @@ val localProperties = Properties()
 localProperties.load(FileInputStream(rootProject.file("local.properties")))
 
 android {
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         applicationId = "com.jlafshari.beerrecipegenerator"
         minSdk = 27
@@ -47,26 +47,27 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    namespace = "com.jlafshari.beerrecipegenerator"
 }
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${project.rootProject.ext["kotlinVersion"]}")
-    implementation("androidx.appcompat:appcompat:1.3.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.0")
-    implementation("com.google.android.material:material:1.4.0")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.31")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.21")
     implementation("com.android.volley:volley:1.2.1")
     implementation("com.okta.android:oidc-androidx:1.0.17")
-    implementation("androidx.annotation:annotation:1.2.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    implementation("androidx.annotation:annotation:1.7.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("com.google.dagger:hilt-android:${project.rootProject.ext["hiltVersion"]}")
     kapt("com.google.dagger:hilt-android-compiler:${project.rootProject.ext["hiltVersion"]}")
-    implementation("io.jsonwebtoken:jjwt:0.9.1")
-    testImplementation("junit:junit:4.13")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    implementation("io.jsonwebtoken:jjwt:0.12.3")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.1")
     implementation(project(":BeerRecipeCore"))
 }

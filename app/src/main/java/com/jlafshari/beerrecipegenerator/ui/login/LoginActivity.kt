@@ -39,6 +39,8 @@ class LoginActivity : AppCompatActivity() {
                         AuthHelper.clearTokens()
                         showMessage(getString(R.string.sign_out_success))
                     }
+
+                    else -> {}
                 }
             }
         })
