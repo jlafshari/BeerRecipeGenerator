@@ -1,16 +1,16 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    extra["kotlinVersion"] = "1.4.31"
+    extra["kotlinVersion"] = "1.6.21"
     val kotlinVersion: String by extra
     repositories {
         google()
         mavenCentral()
     }
-    extra["hiltVersion"] = "2.35"
+    extra["hiltVersion"] = "2.44"
     val hiltVersion: String by extra
     dependencies {
-        classpath("com.android.tools.build:gradle:4.2.2")
+        classpath("com.android.tools.build:gradle:7.2.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("com.google.dagger:hilt-android-gradle-plugin:$hiltVersion")
 

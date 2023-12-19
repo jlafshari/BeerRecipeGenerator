@@ -7,6 +7,7 @@ plugins {
     id("kotlin-android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.dagger.hilt.android")
 }
 
 val localProperties = Properties()
