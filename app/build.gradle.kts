@@ -70,4 +70,9 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.1")
     implementation(project(":BeerRecipeCore"))
+    implementation("com.microsoft.identity.client:msal:4.10.0") {
+        exclude(group = "io.opentelemetry")
+    }
+    implementation("io.opentelemetry:opentelemetry-api:1.18.0")
+    implementation("io.opentelemetry:opentelemetry-context:1.18.0")
 }
