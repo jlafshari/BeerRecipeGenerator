@@ -56,6 +56,7 @@ class AzureLoginActivity : AppCompatActivity() {
             scopes,
             object : AuthenticationCallback {
                 override fun onSuccess(authenticationResult: IAuthenticationResult?) {
+                    AzureAuthHelper.accessToken = authenticationResult?.accessToken
                     signInSuccess()
                 }
 

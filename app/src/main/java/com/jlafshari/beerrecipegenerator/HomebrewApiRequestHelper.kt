@@ -10,7 +10,7 @@ import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
-import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
+import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
 import com.jlafshari.beerrecipegenerator.ui.login.LoginActivity
 import javax.inject.Inject
 
@@ -150,7 +150,7 @@ class HomebrewApiRequestHelper @Inject constructor() {
     }
 
     private fun getAuthHeader(): HashMap<String, String> {
-        val accessToken = AuthHelper.getAccessToken()
+        val accessToken = AzureAuthHelper.accessToken
         return hashMapOf("Authorization" to "Bearer $accessToken")
     }
 
