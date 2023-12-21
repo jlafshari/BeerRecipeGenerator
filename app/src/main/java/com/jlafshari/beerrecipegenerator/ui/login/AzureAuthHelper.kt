@@ -17,6 +17,10 @@ object AzureAuthHelper {
     var account : IAccount? = null
 
     fun getAccessToken() : String? {
+        if (account == null) {
+            loadAccount()
+        }
+
         val parameters = AcquireTokenSilentParameters.Builder()
             .fromAuthority(
                 "https://homebrewingapp.b2clogin.com/tfp/homebrewingapp.onmicrosoft.com/B2C_1_signupsignin1")
