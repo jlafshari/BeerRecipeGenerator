@@ -9,6 +9,7 @@ import com.microsoft.identity.client.IPublicClientApplication
 import com.microsoft.identity.client.ISingleAccountPublicClientApplication
 import com.microsoft.identity.client.PublicClientApplication
 import com.microsoft.identity.client.exception.MsalException
+import com.microsoft.identity.common.java.providers.oauth2.IDToken
 
 
 object AzureAuthHelper {
@@ -23,6 +24,11 @@ object AzureAuthHelper {
             .forAccount(account)
             .build()
         return b2cApplication?.acquireTokenSilent(parameters)?.accessToken
+    }
+
+    fun getUserName() : String? {
+        val displayName = account?.claims!![IDToken.NAME] ?: return null
+        return displayName.toString()
     }
 
     fun loadAccount() {

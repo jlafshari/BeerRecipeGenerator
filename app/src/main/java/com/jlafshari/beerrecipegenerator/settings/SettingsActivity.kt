@@ -13,7 +13,7 @@ import com.jlafshari.beerrecipegenerator.BuildConfig
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivitySettingsBinding
-import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
+import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
 import com.jlafshari.beerrecipegenerator.ui.login.AzureLoginActivity
 import java.util.*
 
@@ -30,7 +30,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         val txtUserName = binding.txtUserName
-        txtUserName.text = AuthHelper.getUserName()
+        txtUserName.text = AzureAuthHelper.getUserName()
 
         val buildDate = Date(BuildConfig.TIMESTAMP)
         val txtBuildDate = binding.txtBuildDate
