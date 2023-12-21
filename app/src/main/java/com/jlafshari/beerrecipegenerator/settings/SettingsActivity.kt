@@ -14,7 +14,7 @@ import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivitySettingsBinding
 import com.jlafshari.beerrecipegenerator.ui.login.AuthHelper
-import com.jlafshari.beerrecipegenerator.ui.login.LoginActivity
+import com.jlafshari.beerrecipegenerator.ui.login.AzureLoginActivity
 import java.util.*
 
 
@@ -90,7 +90,7 @@ class SettingsActivity : AppCompatActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     fun signOut(view: View) {
-        val loginActivityIntent = Intent(this, LoginActivity::class.java)
+        val loginActivityIntent = Intent(this, AzureLoginActivity::class.java)
         loginActivityIntent.putExtra(Constants.EXTRA_SIGN_OUT, true)
         startActivity(loginActivityIntent)
     }

@@ -11,7 +11,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
-import com.jlafshari.beerrecipegenerator.ui.login.LoginActivity
+import com.jlafshari.beerrecipegenerator.ui.login.AzureLoginActivity
 import javax.inject.Inject
 
 class HomebrewApiRequestHelper @Inject constructor() {
@@ -160,7 +160,7 @@ class HomebrewApiRequestHelper @Inject constructor() {
     }
 
     private fun startLoginActivity(context: Context) {
-        val loginActivityIntent = Intent(context, LoginActivity::class.java)
+        val loginActivityIntent = Intent(context, AzureLoginActivity::class.java)
         loginActivityIntent.putExtra(Constants.EXTRA_SIGN_OUT, true)
         context.startActivity(loginActivityIntent)
     }

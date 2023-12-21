@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAzureLoginBinding
@@ -43,6 +44,10 @@ class AzureLoginActivity : AppCompatActivity() {
                     Log.d(tag, "onError: ", exception)
                 }
             })
+
+        val signOutValue = intent.getBooleanExtra(Constants.EXTRA_SIGN_OUT, false)
+        if (signOutValue)
+            signOut()
     }
 
     fun signIn(view: View) {
@@ -81,5 +86,9 @@ class AzureLoginActivity : AppCompatActivity() {
 
         val loginButton = binding.login
         loginButton.isEnabled = true
+    }
+
+    private fun signOut() {
+        msalApplication!!.signOut()
     }
 }
