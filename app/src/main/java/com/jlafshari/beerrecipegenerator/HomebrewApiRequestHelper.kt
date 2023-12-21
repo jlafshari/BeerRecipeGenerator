@@ -150,7 +150,7 @@ class HomebrewApiRequestHelper @Inject constructor() {
     }
 
     private fun getAuthHeader(): HashMap<String, String> {
-        val accessToken = AzureAuthHelper.accessToken
+        val accessToken = AzureAuthHelper.getAccessToken()
         return hashMapOf("Authorization" to "Bearer $accessToken")
     }
 
