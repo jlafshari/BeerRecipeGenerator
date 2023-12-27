@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.R
 
 class RecipeListAdapter(private val recipeList: List<RecipePreview>,
