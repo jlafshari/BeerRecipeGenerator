@@ -23,7 +23,6 @@ android {
         versionName = "1.0"
         buildConfigField("long", "TIMESTAMP", System.currentTimeMillis().toString() + "L")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        manifestPlaceholders["appAuthRedirectScheme"] = "com.okta.dev-22160898"
     }
     buildTypes {
         getByName("debug") {
@@ -58,7 +57,6 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.21")
     implementation("com.android.volley:volley:1.2.1")
-    implementation("com.okta.android:oidc-androidx:1.0.17")
     implementation("androidx.annotation:annotation:1.7.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
