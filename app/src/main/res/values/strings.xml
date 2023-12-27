@@ -26,7 +26,7 @@
     <string name="grainsHeading">Grains</string>
     <string name="grainListItem">%1$s lbs %2$s</string>
     <string name="hopsHeading">Hops</string>
-    <string name="hopListItem">%1$s oz. %2$s (%3$s min.)</string>
+    <string name="hopListItem">%1$s oz. %2$s (%3$s min.) - %4$s</string>
     <string name="yeastHeading">Yeast</string>
     <string name="yeastIngredient">%1$s (%2$s)</string>
     <string name="recipe_bitterness_heading_fragment">What should the bitterness of the beer be? (The greater the IBU value, the more bitter.)</string>

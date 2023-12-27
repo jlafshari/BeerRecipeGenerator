@@ -23,7 +23,7 @@ class HopListAdapter(private val hopList: List<HopIngredient>, private val conte
         val hop = hopList[position]
         holder.txtHop.text = context.getString(
             R.string.hopListItem, hop.amount.toString(), hop.name,
-            hop.boilAdditionTime.toString())
+            hop.boilAdditionTime.toString(), hop.use.name)
     }
 
     override fun getItemCount() = hopList.size

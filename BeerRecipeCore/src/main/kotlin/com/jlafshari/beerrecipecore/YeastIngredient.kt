@@ -1,3 +1,3 @@
 package com.jlafshari.beerrecipecore
 
-data class YeastIngredient(val name: String, val laboratory: String)
+data class YeastIngredient(val name: String, val laboratory: String, val yeastId: String)

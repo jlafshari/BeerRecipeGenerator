@@ -79,7 +79,7 @@ class RecipeValidator @Inject constructor() {
 
         val boilDurationMinutes = AppSettings.recipeDefaultSettings.boilDurationMinutes
         for (hopIngredient in recipeUpdateInfo.hopIngredients) {
-            if (hopIngredient.boilAdditionTime > boilDurationMinutes) {
+            if (hopIngredient.boilAdditionTime is Int && hopIngredient.boilAdditionTime!! > boilDurationMinutes) {
                 isRecipeValid = false
                 message.appendLine(
                     "Hop ingredient ${hopIngredient.amount} oz ${hopIngredient.name} (${hopIngredient.boilAdditionTime} min.) is added to boil for longer than $boilDurationMinutes min. boil")
