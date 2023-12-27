@@ -2,6 +2,7 @@ package com.jlafshari.beerrecipegenerator.ui.login
 
 import android.content.Context
 import android.util.Log
+import com.jlafshari.beerrecipegenerator.B2CConfig
 import com.jlafshari.beerrecipegenerator.R
 import com.microsoft.identity.client.AcquireTokenSilentParameters
 import com.microsoft.identity.client.IAccount
@@ -22,9 +23,8 @@ object AzureAuthHelper {
         }
 
         val parameters = AcquireTokenSilentParameters.Builder()
-            .fromAuthority(
-                "https://homebrewingapp.b2clogin.com/tfp/homebrewingapp.onmicrosoft.com/B2C_1_signupsignin1")
-            .withScopes(listOf("https://homebrewingapp.onmicrosoft.com/homebrew-api/homebrew.recipeCreator"))
+            .fromAuthority(B2CConfig.authorityUrl)
+            .withScopes(B2CConfig.scopes.toList())
             .forAccount(account)
             .build()
         return b2cApplication?.acquireTokenSilent(parameters)?.accessToken

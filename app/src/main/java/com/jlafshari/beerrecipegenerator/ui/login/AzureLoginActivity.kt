@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.jlafshari.beerrecipegenerator.B2CConfig
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.R
@@ -51,11 +52,10 @@ class AzureLoginActivity : AppCompatActivity() {
     }
 
     fun signIn(view: View) {
-        val scopes = arrayOf("https://homebrewingapp.onmicrosoft.com/homebrew-api/homebrew.recipeCreator")
         AzureAuthHelper.b2cApplication!!.signIn(
             this,
             null,
-            scopes,
+            B2CConfig.scopes,
             object : AuthenticationCallback {
                 override fun onSuccess(authenticationResult: IAuthenticationResult?) {
                     AzureAuthHelper.loadAccount()
