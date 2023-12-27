@@ -11,11 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.jlafshari.beerrecipecore.Recipe
+import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import com.jlafshari.beerrecipegenerator.recipes.RecipeListAdapter
-import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.settings.AppSettings
 import com.jlafshari.beerrecipegenerator.settings.SettingsActivity
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
@@ -56,8 +55,7 @@ class MainActivity : AppCompatActivity() {
         recipeRecyclerView.visibility = View.INVISIBLE
         txtLoadingIndicator.visibility = View.VISIBLE
         val callBack = requestHelper.getVolleyCallBack(this@MainActivity) { run {
-            val recipes: List<Recipe> = jacksonObjectMapper().readValue(it)
-            val recipePreviews = recipes.map { r -> RecipePreview(r.id, r.name, r.styleName) }
+            val recipePreviews: List<RecipePreview> = jacksonObjectMapper().readValue(it)
             recipeRecyclerView.adapter = RecipeListAdapter(recipePreviews) { recipePreview -> recipePreviewClicked(recipePreview) }
             recipeRecyclerView.visibility = View.VISIBLE
             txtLoadingIndicator.visibility = View.INVISIBLE
