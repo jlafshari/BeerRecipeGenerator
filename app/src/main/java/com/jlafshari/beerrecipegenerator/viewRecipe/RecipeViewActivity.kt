@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -53,7 +54,11 @@ class RecipeViewActivity : AppCompatActivity() {
 
     private fun loadRecipeView(binding: ActivityRecipeViewBinding) {
         binding.txtRecipeViewName.text = mRecipe.name
-        binding.txtStyle.text = getString(R.string.recipe_view_style_name, mRecipe.styleName)
+        if (mRecipe.styleName != null) {
+            binding.txtStyle.text = getString(R.string.recipe_view_style_name, mRecipe.styleName)
+        } else {
+            binding.txtStyle.visibility = GONE
+        }
         binding.txtSize.text = getString(R.string.recipe_view_size, mRecipe.size.toString())
         binding.txtAbv.text =
             getString(R.string.recipe_view_abv, mRecipe.projectedOutcome.abv.toString())
