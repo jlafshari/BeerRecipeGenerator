@@ -179,7 +179,7 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     private fun addHopIngredientToRecipe(hop: Hop) {
-        val hopIngredient = HopIngredient(hop.name, 1.0, 1, hop.id, HopUse.Boil)
+        val hopIngredient = HopIngredient(hop.name, 1.0, 1, hop.id, HopUse.Boil, null, null, null)
         mRecipeUpdateInfo.hopIngredients.add(hopIngredient)
         setHopEditRecyclerView(mRecipeUpdateInfo.hopIngredients)
     }
