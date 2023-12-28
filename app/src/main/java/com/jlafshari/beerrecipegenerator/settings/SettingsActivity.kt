@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.jlafshari.beerrecipegenerator.BuildConfig
 import com.jlafshari.beerrecipegenerator.Constants
@@ -46,6 +47,13 @@ class SettingsActivity : AppCompatActivity() {
 
         val txtMashThickness = binding.txtMashThickness
         setUpMashThickness(txtMashThickness)
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val mainActivityIntent = Intent(this@SettingsActivity, MainActivity::class.java)
+                startActivity(mainActivityIntent)
+            }
+        })
     }
 
     private fun setUpExtractionEfficiency(
@@ -81,11 +89,6 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setUpMashThickness(txtMashThickness: TextView) {
         txtMashThickness.text = AppSettings.recipeDefaultSettings.mashThickness.toString()
-    }
-
-    override fun onBackPressed() {
-        val mainActivityIntent = Intent(this, MainActivity::class.java)
-        startActivity(mainActivityIntent)
     }
 
     @Suppress("UNUSED_PARAMETER")

@@ -2,14 +2,13 @@ package com.jlafshari.beerrecipegenerator.viewRecipe
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.widget.Toast
-import androidx.annotation.RequiresApi
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,6 +49,13 @@ class RecipeViewActivity : AppCompatActivity() {
 
         val recipeId = intent.getStringExtra(Constants.EXTRA_VIEW_RECIPE)
         loadRecipe(recipeId!!, binding)
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val mainActivityIntent = Intent(this@RecipeViewActivity, MainActivity::class.java)
+                startActivity(mainActivityIntent)
+            }
+        })
     }
 
     private fun loadRecipeView(binding: ActivityRecipeViewBinding) {
@@ -91,7 +97,6 @@ class RecipeViewActivity : AppCompatActivity() {
         return true
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
 
@@ -100,19 +105,13 @@ class RecipeViewActivity : AppCompatActivity() {
             return true
         }
         else if (id == android.R.id.home) {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
             return true
         }
 
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onBackPressed() {
-        val mainActivityIntent = Intent(this, MainActivity::class.java)
-        startActivity(mainActivityIntent)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun deleteRecipe() {
         requestHelper.deleteRecipe(mRecipe.id, this, object : VolleyDeleteRequestCallBack {
             override fun onSuccess(context: Context) {
