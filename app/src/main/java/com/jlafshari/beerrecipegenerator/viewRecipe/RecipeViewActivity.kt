@@ -66,8 +66,11 @@ class RecipeViewActivity : AppCompatActivity() {
         binding.txtColor.text = getString(R.string.recipe_view_color, srmColor.toString())
         binding.txtIbu.text = getString(R.string.recipe_view_ibu, mRecipe.projectedOutcome.ibu.toString())
         val color = Colors.getColor(srmColor)
-        if (color != null)
+        if (color != null) {
             binding.srmColorCardView.setCardBackgroundColor(color.rbgColor)
+        }
+        binding.txtOG.text = getString(R.string.originalGravity, mRecipe.projectedOutcome.originalGravity)
+        binding.txtFG.text = getString(R.string.finalGravity, mRecipe.projectedOutcome.finalGravity)
         binding.grainRecyclerView.adapter = GrainListAdapter(mRecipe.fermentableIngredients, this)
         binding.hopsRecyclerView.adapter = HopListAdapter(mRecipe.hopIngredients, this)
         val yeastIngredient = mRecipe.yeastIngredient
