@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.jlafshari.beerrecipegenerator.BuildConfig
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.MainActivity
+import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivitySettingsBinding
 import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
 import com.jlafshari.beerrecipegenerator.ui.login.AzureLoginActivity
@@ -77,7 +78,7 @@ class SettingsActivity : AppCompatActivity() {
                         txtSettingsError.text = ""
                     }
                     else {
-                        txtSettingsError.text = "Extraction Efficiency should be between 0 and 100!"
+                        txtSettingsError.text = getString(R.string.extraction_efficiency_error)
                     }
                 }
             }
