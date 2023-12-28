@@ -74,6 +74,15 @@
             app:layout_constraintTop_toBottomOf="@+id/txtStyle" />
 
     <TextView
+        android:id="@+id/txtOG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtAbv" />
+
+    <TextView
             android:id="@+id/txtIngredientHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
