@@ -18,7 +18,9 @@
     <string name="recipe_view_abv">%1$s%% ABV</string>
     <string name="recipe_view_color">%1$s SRM</string>
     <string name="recipe_view_ibu">%1$s IBU</string>
-    <string name="recipe_view_mash_strike_water">%1$s gallons</string>
+    <string name="recipe_view_mash_strike_water">%.2f gallons of strike water at %2$s°F</string>
+    <string name="recipe_view_sparge_water">%.2f gallons of sparge water</string>
+    <string name="recipe_view_total_water">%.2f gallons water</string>
     <string name="recipe_abv_heading_fragment">What should the alcohol by volume (ABV) percentage be?</string>
     <string name="new_recipe_btn_desc">New recipe</string>
     <string name="recipe_color_heading_fragment">What should the color of the beer be?</string>
@@ -33,6 +35,7 @@
     <string name="finalGravity">%.3f FG</string>
     <string name="yeastHeading">Yeast</string>
     <string name="yeastIngredient">%1$s (%2$s)</string>
+    <string name="waterHeading">Water</string>
     <string name="recipe_bitterness_heading_fragment">What should the bitterness of the beer be? (The greater the IBU value, the more bitter.)</string>
 
     <string name="unknown">Unknown error. Check the logs for trace</string>

@@ -176,15 +176,16 @@
             android:onClick="editRecipe"
             android:text="@string/edit_recipe_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtMashStrikeWaterHeading" />
+            app:layout_constraintTop_toBottomOf="parent" />
 
         <TextView
-            android:id="@+id/txtMashStrikeWaterHeading"
+            android:id="@+id/txtWaterHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="@string/mash_strike_water_heading"
+            android:textSize="14sp"
+            android:text="@string/waterHeading"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtYeast" />
 
@@ -192,9 +193,28 @@
             android:id="@+id/txtMashStrikeWater"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toEndOf="@+id/txtMashStrikeWaterHeading"
-            app:layout_constraintTop_toBottomOf="@+id/txtYeast" />
+            android:layout_marginStart="16dp"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtWaterHeading" />
+
+        <TextView
+            android:id="@+id/txtSpargeWater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtMashStrikeWater" />
+
+        <TextView
+            android:id="@+id/txtTotalWater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtSpargeWater" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
