@@ -12,5 +12,6 @@ data class Recipe(val id: String,
                   val hopIngredients: MutableList<HopIngredient>,
                   val yeastIngredient: YeastIngredient,
                   val mashProfile: MashProfile,
-                  val spargeWaterAmount: Float
+                  val spargeWaterAmount: Float,
+                  val fermentationSteps: List<FermentationStep>
 )

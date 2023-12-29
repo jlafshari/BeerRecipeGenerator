@@ -53,6 +53,11 @@ class RecipeViewActivity : AppCompatActivity() {
         )
         binding.mashStepsRecyclerView.adapter = MashStepListAdapter(emptyList(), this)
 
+        binding.fermentationStepsRecyclerView.layoutManager = LinearLayoutManager(
+            this, RecyclerView.VERTICAL, false
+        )
+        binding.fermentationStepsRecyclerView.adapter = FermentationStepListAdapter(emptyList(), this)
+
         val recipeId = intent.getStringExtra(Constants.EXTRA_VIEW_RECIPE)
         loadRecipe(recipeId!!, binding)
 
@@ -94,6 +99,12 @@ class RecipeViewActivity : AppCompatActivity() {
         binding.txtTotalWater.text = getString(R.string.recipe_view_total_water,
             mashProfile.mashStrikeWaterAmount + mRecipe.spargeWaterAmount)
         binding.mashStepsRecyclerView.adapter = MashStepListAdapter(mRecipe.mashProfile.mashSteps, this)
+        if (mRecipe.fermentationSteps.isEmpty()) {
+            binding.txtFermentationStepsHeading.visibility = GONE
+        } else {
+            binding.fermentationStepsRecyclerView.adapter =
+                FermentationStepListAdapter(mRecipe.fermentationSteps, this)
+        }
     }
 
     private fun loadRecipe(recipeId: String, binding: ActivityRecipeViewBinding) {
