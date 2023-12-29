@@ -40,12 +40,18 @@ class RecipeViewActivity : AppCompatActivity() {
             false
         )
         binding.grainRecyclerView.adapter = GrainListAdapter(emptyList(), this)
+
         binding.hopsRecyclerView.layoutManager = LinearLayoutManager(
             this,
             RecyclerView.VERTICAL,
             false
         )
         binding.hopsRecyclerView.adapter = HopListAdapter(emptyList(), this)
+
+        binding.mashStepsRecyclerView.layoutManager = LinearLayoutManager(
+            this, RecyclerView.VERTICAL, false
+        )
+        binding.mashStepsRecyclerView.adapter = MashStepListAdapter(emptyList(), this)
 
         val recipeId = intent.getStringExtra(Constants.EXTRA_VIEW_RECIPE)
         loadRecipe(recipeId!!, binding)
@@ -87,6 +93,7 @@ class RecipeViewActivity : AppCompatActivity() {
         binding.txtSpargeWater.text = getString(R.string.recipe_view_sparge_water, mRecipe.spargeWaterAmount)
         binding.txtTotalWater.text = getString(R.string.recipe_view_total_water,
             mashProfile.mashStrikeWaterAmount + mRecipe.spargeWaterAmount)
+        binding.mashStepsRecyclerView.adapter = MashStepListAdapter(mRecipe.mashProfile.mashSteps, this)
     }
 
     private fun loadRecipe(recipeId: String, binding: ActivityRecipeViewBinding) {

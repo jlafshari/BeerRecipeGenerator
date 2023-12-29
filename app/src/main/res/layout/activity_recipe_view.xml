@@ -205,6 +205,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtSpargeWater" />
 
+        <TextView
+            android:id="@+id/txtMashStepsHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/mashStepsHeading"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTotalWater" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mashStepsRecyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtMashStepsHeading" />
+
         <Button
             android:id="@+id/btnEditRecipe"
             android:layout_width="wrap_content"
@@ -214,7 +233,7 @@
             android:onClick="editRecipe"
             android:text="@string/edit_recipe_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtTotalWater" />
+            app:layout_constraintTop_toBottomOf="@id/mashStepsRecyclerView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
