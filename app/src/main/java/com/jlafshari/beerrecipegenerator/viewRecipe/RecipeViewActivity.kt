@@ -58,6 +58,10 @@ class RecipeViewActivity : AppCompatActivity() {
         )
         binding.fermentationStepsRecyclerView.adapter = FermentationStepListAdapter(emptyList(), this)
 
+        binding.miscIngredientsRecyclerView.layoutManager = LinearLayoutManager(
+            this, RecyclerView.VERTICAL, false)
+        binding.miscIngredientsRecyclerView.adapter = MiscIngredientListAdapter(emptyList(), this)
+
         val recipeId = intent.getStringExtra(Constants.EXTRA_VIEW_RECIPE)
         loadRecipe(recipeId!!, binding)
 
@@ -104,6 +108,11 @@ class RecipeViewActivity : AppCompatActivity() {
         } else {
             binding.fermentationStepsRecyclerView.adapter =
                 FermentationStepListAdapter(mRecipe.fermentationSteps, this)
+        }
+        if (mRecipe.miscellaneousIngredients.isEmpty()) {
+            binding.txtMiscIngredientHeading.visibility = GONE
+        } else {
+            binding.miscIngredientsRecyclerView.adapter = MiscIngredientListAdapter(mRecipe.miscellaneousIngredients, this)
         }
     }
 

@@ -168,6 +168,25 @@
             app:layout_constraintTop_toBottomOf="@+id/txtYeastHeading" />
 
         <TextView
+            android:id="@+id/txtMiscIngredientHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textSize="14sp"
+            android:text="@string/miscIngredientsHeading"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtYeast" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/miscIngredientsRecyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtMiscIngredientHeading" />
+
+        <TextView
             android:id="@+id/txtWaterHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -176,7 +195,7 @@
             android:textSize="14sp"
             android:text="@string/waterHeading"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtYeast" />
+            app:layout_constraintTop_toBottomOf="@+id/miscIngredientsRecyclerView" />
 
         <TextView
             android:id="@+id/txtMashStrikeWater"
