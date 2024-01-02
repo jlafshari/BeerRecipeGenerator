@@ -1,6 +1,12 @@
-package com.jlafshari.beerrecipecore
+package com.jlafshari.beerrecipecore.recipes
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.jlafshari.beerrecipecore.FermentableIngredient
+import com.jlafshari.beerrecipecore.FermentationStep
+import com.jlafshari.beerrecipecore.HopIngredient
+import com.jlafshari.beerrecipecore.MashProfile
+import com.jlafshari.beerrecipecore.RecipeProjectedOutcome
+import com.jlafshari.beerrecipecore.YeastIngredient
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Recipe(val id: String,
