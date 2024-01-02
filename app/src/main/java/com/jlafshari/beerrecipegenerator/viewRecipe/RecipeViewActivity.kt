@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.View.GONE
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -130,18 +129,25 @@ class RecipeViewActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
 
-        if (id == R.id.action_delete) {
-            deleteRecipe()
-            return true
-        }
-        else if (id == android.R.id.home) {
-            onBackPressedDispatcher.onBackPressed()
-            return true
-        }
+        return when (item.itemId) {
+            R.id.action_delete -> {
+                deleteRecipe()
+                true
+            }
 
-        return super.onOptionsItemSelected(item)
+            R.id.action_edit -> {
+                editRecipe()
+                true
+            }
+
+            android.R.id.home -> {
+                onBackPressedDispatcher.onBackPressed()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun deleteRecipe() {
@@ -155,8 +161,7 @@ class RecipeViewActivity : AppCompatActivity() {
         })
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    fun editRecipe(view: View) {
+    private fun editRecipe() {
         val editRecipeIntent = Intent(this, EditRecipeActivity::class.java)
         editRecipeIntent.putExtra(Constants.EXTRA_EDIT_RECIPE, mRecipe.id)
         editRecipeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)

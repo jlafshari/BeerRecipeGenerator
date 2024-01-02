@@ -55,7 +55,7 @@
     <string name="swipe_left_text_hint">‹</string>
     <string name="swipe_right_text_hint">›</string>
     <string name="loadingIndicator">Loading …</string>
-    <string name="edit_recipe_button">Edit …</string>
+    <string name="action_edit">Edit</string>
     <string name="grainPoundsHint"><font size="14">lbs.</font></string>
     <string name="grainAmountUnit">lbs</string>
     <string name="addGrainHeading">Add Grain</string>
