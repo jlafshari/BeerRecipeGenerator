@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
+import com.jlafshari.beerrecipegenerator.account.AccountActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import com.jlafshari.beerrecipegenerator.recipes.RecipeListAdapter
@@ -71,7 +72,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_settings -> showSettings()
+        R.id.action_account -> showAccount()
         else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun showAccount(): Boolean {
+        val accountIntent = Intent(this, AccountActivity::class.java)
+        startActivity(accountIntent)
+        return true
     }
 
     private fun showSettings(): Boolean {
