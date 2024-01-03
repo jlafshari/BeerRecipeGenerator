@@ -18,7 +18,8 @@
         tools:ignore="AllowBackup">
         <activity
             android:name=".account.AccountActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ui.login.AzureLoginActivity"
             android:exported="true">
