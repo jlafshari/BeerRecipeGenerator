@@ -5,15 +5,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.jlafshari.beerrecipegenerator.B2CConfig
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAzureLoginBinding
-import com.microsoft.identity.client.AuthenticationCallback
 import com.microsoft.identity.client.IAccount
-import com.microsoft.identity.client.IAuthenticationResult
-import com.microsoft.identity.client.ISingleAccountPublicClientApplication
 import com.microsoft.identity.client.ISingleAccountPublicClientApplication.CurrentAccountCallback
 import com.microsoft.identity.client.exception.MsalException
 
@@ -51,26 +47,10 @@ class AzureLoginActivity : AppCompatActivity() {
         }
     }
 
-    fun signIn(view: View) {
-        AzureAuthHelper.b2cApplication!!.signIn(
-            this,
-            null,
-            B2CConfig.scopes,
-            object : AuthenticationCallback {
-                override fun onSuccess(authenticationResult: IAuthenticationResult?) {
-                    AzureAuthHelper.loadAccount()
-                    signInSuccess()
-                }
-
-                override fun onError(exception: MsalException?) {
-                    showMessage(exception?.message!!)
-                    print(exception)
-                }
-
-                override fun onCancel() {
-                    print("Cancelled")
-                }
-            })
+    fun signIn(@Suppress("UNUSED_PARAMETER") view: View) {
+        AzureAuthHelper.signIn(this, { signInSuccess() }, { exception ->
+            showMessage(exception?.message!!)
+            print(exception) })
     }
 
     private fun showMessage(message: String) =

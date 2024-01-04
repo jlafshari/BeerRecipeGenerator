@@ -1,12 +1,15 @@
 package com.jlafshari.beerrecipegenerator.ui.login
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.jlafshari.beerrecipegenerator.B2CConfig
 import com.jlafshari.beerrecipegenerator.R
 import com.microsoft.identity.client.AcquireTokenSilentParameters
+import com.microsoft.identity.client.AuthenticationCallback
 import com.microsoft.identity.client.IAccount
+import com.microsoft.identity.client.IAuthenticationResult
 import com.microsoft.identity.client.IPublicClientApplication
 import com.microsoft.identity.client.ISingleAccountPublicClientApplication
 import com.microsoft.identity.client.PublicClientApplication
@@ -15,8 +18,28 @@ import com.microsoft.identity.common.java.providers.oauth2.IDToken
 
 
 object AzureAuthHelper {
-    var b2cApplication: ISingleAccountPublicClientApplication? = null
+    private var b2cApplication: ISingleAccountPublicClientApplication? = null
     var account : IAccount? = null
+
+    fun signIn(activity: Activity, signInSuccessCallback: () -> Unit,
+               signInErrorCallback: (exception: MsalException?) -> Unit) {
+        b2cApplication?.signIn(
+            activity,
+            null,
+            B2CConfig.scopes,
+            object : AuthenticationCallback {
+                override fun onSuccess(authenticationResult: IAuthenticationResult?) {
+                    loadAccount()
+                    signInSuccessCallback()
+                }
+
+                override fun onError(exception: MsalException?) {
+                    signInErrorCallback(exception)
+                }
+
+                override fun onCancel() { }
+            })
+    }
 
     fun signOut() {
         b2cApplication?.signOut(object : ISingleAccountPublicClientApplication.SignOutCallback {
