@@ -1,7 +1,6 @@
 package com.jlafshari.beerrecipegenerator.settings
 
 import android.content.Intent
-import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,11 +8,9 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import com.jlafshari.beerrecipegenerator.BuildConfig
 import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivitySettingsBinding
-import java.util.*
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -26,15 +23,6 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
         }
-
-        val buildDate = Date(BuildConfig.TIMESTAMP)
-        val txtBuildDate = binding.txtBuildDate
-        txtBuildDate.text = buildDate.toString()
-
-        val pInfo: PackageInfo = packageManager.getPackageInfo(packageName, 0)
-        val version = pInfo.versionName
-        val txtBuildVersion = binding.txtBuildVersion
-        txtBuildVersion.text = version
 
         val txtExtractionEfficiency = binding.txtExtractionEfficiency
         setUpExtractionEfficiency(txtExtractionEfficiency, binding.txtSettingsError)
