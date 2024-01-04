@@ -87,12 +87,6 @@ class AzureLoginActivity : AppCompatActivity() {
     }
 
     private fun signOut() {
-        AzureAuthHelper.b2cApplication!!.signOut(object : ISingleAccountPublicClientApplication.SignOutCallback {
-            override fun onSignOut() {
-            }
-
-            override fun onError(exception: MsalException) {
-            }
-        })
+        AzureAuthHelper.signOut()
     }
 }

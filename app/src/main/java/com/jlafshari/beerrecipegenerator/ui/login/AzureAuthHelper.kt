@@ -18,6 +18,17 @@ object AzureAuthHelper {
     var b2cApplication: ISingleAccountPublicClientApplication? = null
     var account : IAccount? = null
 
+    fun signOut() {
+        b2cApplication?.signOut(object : ISingleAccountPublicClientApplication.SignOutCallback {
+            override fun onSignOut() {
+                account = null
+            }
+
+            override fun onError(exception: MsalException) {
+            }
+        })
+    }
+
     fun getAccessToken() : String? {
         if (account == null) {
             loadAccount()
