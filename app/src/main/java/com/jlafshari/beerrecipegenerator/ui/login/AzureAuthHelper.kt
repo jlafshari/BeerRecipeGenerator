@@ -1,6 +1,7 @@
 package com.jlafshari.beerrecipegenerator.ui.login
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import com.jlafshari.beerrecipegenerator.B2CConfig
 import com.jlafshari.beerrecipegenerator.R
@@ -50,6 +51,25 @@ object AzureAuthHelper {
         })
     }
 
+    fun isUserSignedIn(context: Context, isSignedInCallback: () -> Unit) {
+        b2cApplication!!.getCurrentAccountAsync(object :
+            ISingleAccountPublicClientApplication.CurrentAccountCallback {
+            override fun onAccountLoaded(activeAccount: IAccount?) {
+                if (activeAccount != null) {
+                    isSignedInCallback()
+                } else {
+                    showLoginScreen(context)
+                }
+            }
+
+            override fun onAccountChanged(priorAccount: IAccount?, currentAccount: IAccount?) { }
+
+            override fun onError(exception: MsalException) {
+                showLoginScreen(context)
+            }
+        })
+    }
+
     fun initializeB2CApp(context: Context, callback: ISingleAccountPublicClientApplication.CurrentAccountCallback) {
         if (b2cApplication != null) { return }
 
@@ -66,5 +86,10 @@ object AzureAuthHelper {
                     Log.d("", "onError: ", exception)
                 }
             })
+    }
+
+    private fun showLoginScreen(context: Context) {
+        val loginActivityIntent = Intent(context, AzureLoginActivity::class.java)
+        context.startActivity(loginActivityIntent)
     }
 }

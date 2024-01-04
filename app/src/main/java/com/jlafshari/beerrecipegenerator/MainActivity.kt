@@ -19,6 +19,7 @@ import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import com.jlafshari.beerrecipegenerator.recipes.RecipeListAdapter
 import com.jlafshari.beerrecipegenerator.settings.AppSettings
 import com.jlafshari.beerrecipegenerator.settings.SettingsActivity
+import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -35,19 +36,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        val recipeRecyclerView = binding.root.findViewById<RecyclerView>(R.id.recipeRecyclerView)
-        recipeRecyclerView.layoutManager =
-            LinearLayoutManager(
-                this,
-                RecyclerView.VERTICAL,
-                false
-            )
-        recipeRecyclerView.adapter = RecipeListAdapter(emptyList()) { recipePreview -> recipePreviewClicked(recipePreview) }
+        AzureAuthHelper.isUserSignedIn(this) {
+            val recipeRecyclerView =
+                binding.root.findViewById<RecyclerView>(R.id.recipeRecyclerView)
+            recipeRecyclerView.layoutManager =
+                LinearLayoutManager(
+                    this,
+                    RecyclerView.VERTICAL,
+                    false
+                )
+            recipeRecyclerView.adapter =
+                RecipeListAdapter(emptyList()) { recipePreview -> recipePreviewClicked(recipePreview) }
 
-        val txtLoadingIndicator = binding.root.findViewById<TextView>(R.id.txtLoadingIndicator)
-        loadSavedRecipePreviews(recipeRecyclerView, txtLoadingIndicator)
+            val txtLoadingIndicator = binding.root.findViewById<TextView>(R.id.txtLoadingIndicator)
+            loadSavedRecipePreviews(recipeRecyclerView, txtLoadingIndicator)
 
-        loadSettings()
+            loadSettings()
+        }
     }
 
     private fun loadSavedRecipePreviews(
