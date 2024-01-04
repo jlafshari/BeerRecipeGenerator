@@ -5,17 +5,14 @@ import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.jlafshari.beerrecipegenerator.BuildConfig
-import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivitySettingsBinding
-import com.jlafshari.beerrecipegenerator.ui.login.AzureLoginActivity
 import java.util.*
 
 
@@ -86,12 +83,5 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setUpMashThickness(txtMashThickness: TextView) {
         txtMashThickness.text = AppSettings.recipeDefaultSettings.mashThickness.toString()
-    }
-
-    @Suppress("UNUSED_PARAMETER")
-    fun signOut(view: View) {
-        val loginActivityIntent = Intent(this, AzureLoginActivity::class.java)
-        loginActivityIntent.putExtra(Constants.EXTRA_SIGN_OUT, true)
-        startActivity(loginActivityIntent)
     }
 }
