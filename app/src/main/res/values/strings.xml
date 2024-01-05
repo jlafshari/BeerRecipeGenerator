@@ -76,6 +76,7 @@
     <string name="extraction_efficiency_percentage">%</string>
     <string name="mash_thickness_hint">ratio</string>
     <string name="settings_heading">Settings</string>
+    <string name="recipe_size_label">Recipe Size:</string>
     <string name="mash_strike_water_heading">Mash strike water:</string>
     <string name="mash_thickness_heading">Mash Thickness (qts/lb):</string>
     <string name="extraction_efficiency_error">Extraction Efficiency should be between 0 and 100!</string>
