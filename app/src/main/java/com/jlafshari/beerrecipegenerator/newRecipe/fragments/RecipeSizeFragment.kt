@@ -46,7 +46,7 @@ class RecipeSizeFragment : Fragment() {
             recipeGenerationInfo.size.toString()
         }
         else {
-            AppSettings.recipeDefaultSettings.size.toString()
+            AppSettings.recipeDefaultSettings.recipeSize.toString()
         }
         mRecipeSizeEditText.text.clear()
         mRecipeSizeEditText.text.insert(0, recipeSize)

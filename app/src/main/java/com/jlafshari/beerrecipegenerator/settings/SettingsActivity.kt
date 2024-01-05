@@ -61,7 +61,7 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setUpRecipeSize(txtRecipeSize: EditText) {
         txtRecipeSize.text.clear()
-        val defaultRecipeSize = "%.1f".format(AppSettings.recipeDefaultSettings.size)
+        val defaultRecipeSize = "%.1f".format(AppSettings.recipeDefaultSettings.recipeSize)
         txtRecipeSize.text.insert(0, defaultRecipeSize)
         txtRecipeSize.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(recipeSizeEditText: Editable?) {

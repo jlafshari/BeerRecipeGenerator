@@ -112,7 +112,7 @@ class HomebrewApiRequestHelper @Inject constructor() {
     }
 
     fun getDefaultSettings(context: Context, callBack: VolleyCallBack) {
-        val url = getUrl("$recipeUrl/GetDefaultSettings", context)
+        val url = getUrl(getUserSettings, context)
         sendStandardAuthGetRequest(url, context, callBack)
     }
 
@@ -172,6 +172,7 @@ class HomebrewApiRequestHelper @Inject constructor() {
         private const val getAllStylesUrl = "Style/GetAll"
         private const val getAllFermentablesUrl = "Fermentable/GetAll"
         private const val getAllHopsUrl = "Hop/GetAll"
+        private const val getUserSettings = "UserSettings/GetSettings"
     }
 }
 

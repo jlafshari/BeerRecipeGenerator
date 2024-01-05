@@ -20,7 +20,7 @@ object AppSettings {
     }
 
     fun updateRecipeSize(recipeSize: Double, settings: SharedPreferences) {
-        recipeDefaultSettings.size = recipeSize
+        recipeDefaultSettings.recipeSize = recipeSize
         with(settings.edit()) {
             putFloat(RECIPE_SIZE, recipeSize.toFloat())
             apply()
@@ -56,7 +56,8 @@ object AppSettings {
         val boilTimeDuration = settings.getInt(BOIL_DURATION_TIME, 0)
         val extractionEfficiency = settings.getInt(EXTRACTION_EFFICIENCY, 0)
         val mashThickness = settings.getFloat(MASH_THICKNESS, 0F).toDouble()
-        recipeDefaultSettings = RecipeDefaultSettings(recipeSize, boilTimeDuration, extractionEfficiency, mashThickness)
+        recipeDefaultSettings = RecipeDefaultSettings(recipeSize, boilTimeDuration, extractionEfficiency, mashThickness,
+            0, 0f, 0f)
     }
 
     private fun getSettingsFromApi(
@@ -70,7 +71,7 @@ object AppSettings {
 
                 //save settings to preferences
                 with(settings.edit()) {
-                    putFloat(RECIPE_SIZE, recipeDefaultSettings.size.toFloat())
+                    putFloat(RECIPE_SIZE, recipeDefaultSettings.recipeSize.toFloat())
                     putInt(BOIL_DURATION_TIME, recipeDefaultSettings.boilDurationMinutes)
                     putInt(EXTRACTION_EFFICIENCY, recipeDefaultSettings.extractionEfficiency)
                     putFloat(MASH_THICKNESS, recipeDefaultSettings.mashThickness.toFloat())
