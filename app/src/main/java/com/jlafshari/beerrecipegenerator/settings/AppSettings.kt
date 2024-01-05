@@ -51,13 +51,22 @@ object AppSettings {
         }
     }
 
+    fun updateGrainTemperature(grainTemperature: Int, settings: SharedPreferences) {
+        recipeDefaultSettings.grainTemperature = grainTemperature
+        with(settings.edit()) {
+            putInt(GRAIN_TEMPERATURE, grainTemperature)
+            apply()
+        }
+    }
+
     private fun loadSettingsFromAppPreferences(settings: SharedPreferences) {
         val recipeSize = settings.getFloat(RECIPE_SIZE, 0F).toDouble()
         val boilTimeDuration = settings.getInt(BOIL_DURATION_TIME, 0)
         val extractionEfficiency = settings.getInt(EXTRACTION_EFFICIENCY, 0)
         val mashThickness = settings.getFloat(MASH_THICKNESS, 0F).toDouble()
+        val grainTemperature = settings.getInt(GRAIN_TEMPERATURE, 0)
         recipeDefaultSettings = RecipeDefaultSettings(recipeSize, boilTimeDuration, extractionEfficiency, mashThickness,
-            0, 0f, 0f)
+            grainTemperature, 0f, 0f)
     }
 
     private fun getSettingsFromApi(
@@ -75,6 +84,7 @@ object AppSettings {
                     putInt(BOIL_DURATION_TIME, recipeDefaultSettings.boilDurationMinutes)
                     putInt(EXTRACTION_EFFICIENCY, recipeDefaultSettings.extractionEfficiency)
                     putFloat(MASH_THICKNESS, recipeDefaultSettings.mashThickness.toFloat())
+                    putInt(GRAIN_TEMPERATURE, recipeDefaultSettings.grainTemperature)
                     apply()
                 }
             }
@@ -84,10 +94,12 @@ object AppSettings {
 
     private fun areAnySettingsMissing(settings: SharedPreferences) =
         !settings.contains(RECIPE_SIZE) || !settings.contains(BOIL_DURATION_TIME) ||
-        !settings.contains(EXTRACTION_EFFICIENCY) || !settings.contains(MASH_THICKNESS)
+        !settings.contains(EXTRACTION_EFFICIENCY) || !settings.contains(MASH_THICKNESS) ||
+        !settings.contains(GRAIN_TEMPERATURE)
 
     private const val RECIPE_SIZE = "recipe_size"
     private const val BOIL_DURATION_TIME = "boil_duration_time"
     private const val EXTRACTION_EFFICIENCY = "extraction_efficiency"
     private const val MASH_THICKNESS = "mash_thickness"
+    private const val GRAIN_TEMPERATURE = "grain_temperature"
 }

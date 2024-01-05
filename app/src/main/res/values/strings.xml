@@ -84,4 +84,6 @@
     <string name="recipe_size_hint">e.g. 5</string>
     <string name="boil_duration_heading">Boil Duration:</string>
     <string name="boil_duration_hint">min.</string>
+    <string name="grain_temperature_heading">Grain Temperature (°F):</string>
+    <string name="grain_temperature_hint">e.g. 65</string>
 </resources>

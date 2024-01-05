@@ -31,6 +31,7 @@ class SettingsActivity : AppCompatActivity() {
             setUpMashThickness(txtMashThickness)
             setUpRecipeSize(txtRecipeSize)
             setUpBoilDuration(txtBoilDuration)
+            setUpGrainTemperature(txtGrainTemperature)
         }
 
         sharedPreferences = getSharedPreferences(AppSettings.PREFERENCE_FILE_NAME, MODE_PRIVATE)
@@ -40,6 +41,22 @@ class SettingsActivity : AppCompatActivity() {
                 val mainActivityIntent = Intent(this@SettingsActivity, MainActivity::class.java)
                 startActivity(mainActivityIntent)
             }
+        })
+    }
+
+    private fun setUpGrainTemperature(txtGrainTemperature: EditText) {
+        txtGrainTemperature.text.clear()
+        val defaultGrainTemperature = AppSettings.recipeDefaultSettings.grainTemperature.toString()
+        txtGrainTemperature.text.insert(0, defaultGrainTemperature)
+        txtGrainTemperature.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(grainTemperatureEditText: Editable?) {
+                val grainTemperature = grainTemperatureEditText.toString().toIntOrNull()
+                if (grainTemperature != null) {
+                    AppSettings.updateGrainTemperature(grainTemperature, sharedPreferences!!)
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
     }
 
