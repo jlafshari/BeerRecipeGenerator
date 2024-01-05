@@ -86,4 +86,8 @@
     <string name="boil_duration_hint">min.</string>
     <string name="grain_temperature_heading">Grain Temperature (°F):</string>
     <string name="grain_temperature_hint">e.g. 65</string>
+    <string name="equipment_loss_hint">e.g. 0.5</string>
+    <string name="trub_loss_heading">Trub Loss (gallons):</string>
+    <string name="trub_loss_hint">e.g. 0.5</string>
+    <string name="equipment_loss_heading">Equipment Loss (gallons):</string>
 </resources>

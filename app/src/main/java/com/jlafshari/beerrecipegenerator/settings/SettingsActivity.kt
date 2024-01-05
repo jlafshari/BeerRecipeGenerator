@@ -32,6 +32,8 @@ class SettingsActivity : AppCompatActivity() {
             setUpRecipeSize(txtRecipeSize)
             setUpBoilDuration(txtBoilDuration)
             setUpGrainTemperature(txtGrainTemperature)
+            setUpEquipmentLoss(txtEquipmentLossAmount)
+            setUpTrubLoss(txtTrubLossAmount)
         }
 
         sharedPreferences = getSharedPreferences(AppSettings.PREFERENCE_FILE_NAME, MODE_PRIVATE)
@@ -41,6 +43,38 @@ class SettingsActivity : AppCompatActivity() {
                 val mainActivityIntent = Intent(this@SettingsActivity, MainActivity::class.java)
                 startActivity(mainActivityIntent)
             }
+        })
+    }
+
+    private fun setUpTrubLoss(txtTrubLossAmount: EditText) {
+        txtTrubLossAmount.text.clear()
+        val defaultTrubLoss = AppSettings.recipeDefaultSettings.trubLossAmount.toString()
+        txtTrubLossAmount.text.insert(0, defaultTrubLoss)
+        txtTrubLossAmount.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(trubLossEditText: Editable?) {
+                val trubLoss = trubLossEditText.toString().toFloatOrNull()
+                if (trubLoss != null) {
+                    AppSettings.updateTrubLoss(trubLoss, sharedPreferences!!)
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+    }
+
+    private fun setUpEquipmentLoss(txtEquipmentLossAmount: EditText) {
+        txtEquipmentLossAmount.text.clear()
+        val defaultEquipmentLoss = AppSettings.recipeDefaultSettings.equipmentLossAmount.toString()
+        txtEquipmentLossAmount.text.insert(0, defaultEquipmentLoss)
+        txtEquipmentLossAmount.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(equipmentLossEditText: Editable?) {
+                val equipmentLoss = equipmentLossEditText.toString().toFloatOrNull()
+                if (equipmentLoss != null) {
+                    AppSettings.updateEquipmentLoss(equipmentLoss, sharedPreferences!!)
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
     }
 

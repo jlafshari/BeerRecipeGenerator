@@ -134,4 +134,50 @@
         app:layout_constraintStart_toEndOf="@+id/txtGrainTemperatureHeading"
         app:layout_constraintTop_toBottomOf="@+id/txtMashThicknessHeading" />
 
+    <TextView
+        android:id="@+id/txtEquipmentLossAmountHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/equipment_loss_heading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtGrainTemperatureHeading" />
+
+    <EditText
+        android:id="@+id/txtEquipmentLossAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:autofillHints="@string/equipment_loss_hint"
+        android:hint="@string/equipment_loss_hint"
+        android:inputType="numberDecimal"
+        android:minWidth="48dp"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/txtEquipmentLossAmountHeading"
+        app:layout_constraintTop_toBottomOf="@+id/txtGrainTemperatureHeading" />
+
+    <TextView
+        android:id="@+id/txtTrubLossAmountHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/trub_loss_heading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEquipmentLossAmountHeading" />
+
+    <EditText
+        android:id="@+id/txtTrubLossAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:autofillHints="@string/trub_loss_hint"
+        android:hint="@string/trub_loss_hint"
+        android:inputType="numberDecimal"
+        android:minWidth="48dp"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/txtTrubLossAmountHeading"
+        app:layout_constraintTop_toBottomOf="@+id/txtEquipmentLossAmountHeading" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
