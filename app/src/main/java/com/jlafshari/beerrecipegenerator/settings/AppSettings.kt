@@ -27,6 +27,14 @@ object AppSettings {
         }
     }
 
+    fun updateBoilDuration(boilDurationMinutes: Int, settings: SharedPreferences) {
+        recipeDefaultSettings.boilDurationMinutes = boilDurationMinutes
+        with(settings.edit()) {
+            putInt(BOIL_DURATION_TIME, boilDurationMinutes)
+            apply()
+        }
+    }
+
     fun updateExtractionEfficiency(extractionEfficiency: Int, settings: SharedPreferences) {
         recipeDefaultSettings.extractionEfficiency = extractionEfficiency
         with(settings.edit()) {

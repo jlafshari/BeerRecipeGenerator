@@ -82,4 +82,6 @@
     <string name="extraction_efficiency_error">Extraction Efficiency should be between 0 and 100!</string>
     <string name="miscIngredientsHeading">Miscellaneous Ingredients</string>
     <string name="recipe_size_hint">e.g. 5</string>
+    <string name="boil_duration_heading">Boil Duration:</string>
+    <string name="boil_duration_hint">min.</string>
 </resources>

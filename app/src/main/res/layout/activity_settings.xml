@@ -27,16 +27,39 @@
         android:minWidth="48dp"
         app:layout_constraintStart_toEndOf="@id/txtRecipeSizeHeading"
         app:layout_constraintTop_toTopOf="parent" />
+    
+    <TextView
+        android:id="@+id/txtBoilDurationHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/boil_duration_heading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtRecipeSizeHeading" />
+    
+    <EditText
+        android:id="@+id/txtBoilDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:autofillHints="@string/boil_duration_hint"
+        android:hint="@string/boil_duration_hint"
+        android:textSize="14sp"
+        android:minWidth="48dp"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@id/txtBoilDurationHeading"
+        app:layout_constraintTop_toBottomOf="@+id/txtRecipeSizeHeading" />
 
     <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/txtExtractionEfficiencyHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="@string/mash_extraction_efficiency"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtRecipeSizeHeading" />
+            app:layout_constraintTop_toBottomOf="@+id/txtBoilDurationHeading" />
 
     <EditText
             android:id="@+id/txtExtractionEfficiency"
@@ -50,8 +73,8 @@
             android:singleLine="true"
             android:textSize="14sp"
             android:minWidth="48dp"
-            app:layout_constraintStart_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/txtRecipeSizeHeading" />
+            app:layout_constraintStart_toEndOf="@+id/txtExtractionEfficiencyHeading"
+            app:layout_constraintTop_toBottomOf="@+id/txtBoilDurationHeading" />
 
     <TextView
             android:id="@+id/txtSettingsError"
@@ -61,17 +84,17 @@
             android:layout_marginTop="16dp"
             android:textColor="#FF0000"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintTop_toBottomOf="@+id/txtExtractionEfficiencyHeading" />
 
     <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/txtMashThicknessHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="@string/mash_thickness_heading"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintTop_toBottomOf="@+id/txtExtractionEfficiencyHeading" />
 
     <EditText
         android:id="@+id/txtMashThickness"
@@ -84,7 +107,7 @@
         android:minWidth="48dp"
         android:singleLine="true"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintStart_toEndOf="@+id/txtMashThicknessHeading"
+        app:layout_constraintTop_toBottomOf="@+id/txtExtractionEfficiencyHeading" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

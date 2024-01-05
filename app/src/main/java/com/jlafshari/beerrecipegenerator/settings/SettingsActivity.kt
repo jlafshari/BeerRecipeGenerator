@@ -26,14 +26,12 @@ class SettingsActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        val txtExtractionEfficiency = binding.txtExtractionEfficiency
-        setUpExtractionEfficiency(txtExtractionEfficiency, binding.txtSettingsError)
-
-        val txtMashThickness = binding.txtMashThickness
-        setUpMashThickness(txtMashThickness)
-
-        val txtRecipeSize = binding.txtRecipeSize
-        setUpRecipeSize(txtRecipeSize)
+        with(binding) {
+            setUpExtractionEfficiency(txtExtractionEfficiency, txtSettingsError)
+            setUpMashThickness(txtMashThickness)
+            setUpRecipeSize(txtRecipeSize)
+            setUpBoilDuration(txtBoilDuration)
+        }
 
         sharedPreferences = getSharedPreferences(AppSettings.PREFERENCE_FILE_NAME, MODE_PRIVATE)
 
@@ -42,6 +40,22 @@ class SettingsActivity : AppCompatActivity() {
                 val mainActivityIntent = Intent(this@SettingsActivity, MainActivity::class.java)
                 startActivity(mainActivityIntent)
             }
+        })
+    }
+
+    private fun setUpBoilDuration(txtBoilDuration: EditText) {
+        txtBoilDuration.text.clear()
+        val defaultBoilDuration = AppSettings.recipeDefaultSettings.boilDurationMinutes.toString()
+        txtBoilDuration.text.insert(0, defaultBoilDuration)
+        txtBoilDuration.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(boilDurationEditText: Editable?) {
+                val boilDuration = boilDurationEditText.toString().toIntOrNull()
+                if (boilDuration != null) {
+                    AppSettings.updateBoilDuration(boilDuration, sharedPreferences!!)
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
     }
 
