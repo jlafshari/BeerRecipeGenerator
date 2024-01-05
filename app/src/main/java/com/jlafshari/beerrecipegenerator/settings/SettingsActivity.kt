@@ -1,6 +1,7 @@
 package com.jlafshari.beerrecipegenerator.settings
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,6 +15,7 @@ import com.jlafshari.beerrecipegenerator.databinding.ActivitySettingsBinding
 
 
 class SettingsActivity : AppCompatActivity() {
+    private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +31,8 @@ class SettingsActivity : AppCompatActivity() {
 
         val txtMashThickness = binding.txtMashThickness
         setUpMashThickness(txtMashThickness)
+
+        sharedPreferences = getSharedPreferences(AppSettings.PREFERENCE_FILE_NAME, MODE_PRIVATE)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -52,10 +56,7 @@ class SettingsActivity : AppCompatActivity() {
                 val extractionEfficiency = extractionEfficiencyEditText.toString().toIntOrNull()
                 if (extractionEfficiency != null) {
                     if (extractionEfficiency in 0..100) {
-                        AppSettings.updateExtractionEfficiency(
-                            extractionEfficiency,
-                            getSharedPreferences(AppSettings.PREFERENCE_FILE_NAME, MODE_PRIVATE)
-                        )
+                        AppSettings.updateExtractionEfficiency(extractionEfficiency, sharedPreferences!!)
                         txtSettingsError.text = ""
                     }
                     else {
@@ -69,7 +70,19 @@ class SettingsActivity : AppCompatActivity() {
         })
     }
 
-    private fun setUpMashThickness(txtMashThickness: TextView) {
-        txtMashThickness.text = AppSettings.recipeDefaultSettings.mashThickness.toString()
+    private fun setUpMashThickness(txtMashThickness: EditText) {
+        txtMashThickness.text.clear()
+        val defaultMashThickness = "%.2f".format(AppSettings.recipeDefaultSettings.mashThickness)
+        txtMashThickness.text.insert(0, defaultMashThickness)
+        txtMashThickness.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(mashThicknessEditText: Editable?) {
+                val mashThickness = mashThicknessEditText.toString().toDoubleOrNull()
+                if (mashThickness != null) {
+                    AppSettings.updateMashThickness(mashThickness, sharedPreferences!!)
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
     }
 }

@@ -27,6 +27,14 @@ object AppSettings {
         }
     }
 
+    fun updateMashThickness(mashThickness: Double, settings: SharedPreferences) {
+        recipeDefaultSettings.mashThickness = mashThickness
+        with(settings.edit()) {
+            putFloat(MASH_THICKNESS, mashThickness.toFloat())
+            apply()
+        }
+    }
+
     private fun loadSettingsFromAppPreferences(settings: SharedPreferences) {
         val recipeSize = settings.getFloat(RECIPE_SIZE, 0F).toDouble()
         val boilTimeDuration = settings.getInt(BOIL_DURATION_TIME, 0)
