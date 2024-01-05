@@ -32,6 +32,9 @@ class SettingsActivity : AppCompatActivity() {
         val txtMashThickness = binding.txtMashThickness
         setUpMashThickness(txtMashThickness)
 
+        val txtRecipeSize = binding.txtRecipeSize
+        setUpRecipeSize(txtRecipeSize)
+
         sharedPreferences = getSharedPreferences(AppSettings.PREFERENCE_FILE_NAME, MODE_PRIVATE)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -39,6 +42,22 @@ class SettingsActivity : AppCompatActivity() {
                 val mainActivityIntent = Intent(this@SettingsActivity, MainActivity::class.java)
                 startActivity(mainActivityIntent)
             }
+        })
+    }
+
+    private fun setUpRecipeSize(txtRecipeSize: EditText) {
+        txtRecipeSize.text.clear()
+        val defaultRecipeSize = "%.1f".format(AppSettings.recipeDefaultSettings.size)
+        txtRecipeSize.text.insert(0, defaultRecipeSize)
+        txtRecipeSize.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(recipeSizeEditText: Editable?) {
+                val recipeSize = recipeSizeEditText.toString().toDoubleOrNull()
+                if (recipeSize != null) {
+                    AppSettings.updateRecipeSize(recipeSize, sharedPreferences!!)
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
     }
 

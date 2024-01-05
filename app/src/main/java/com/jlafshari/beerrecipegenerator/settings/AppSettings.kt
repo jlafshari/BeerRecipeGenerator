@@ -19,6 +19,14 @@ object AppSettings {
         else loadSettingsFromAppPreferences(settings)
     }
 
+    fun updateRecipeSize(recipeSize: Double, settings: SharedPreferences) {
+        recipeDefaultSettings.size = recipeSize
+        with(settings.edit()) {
+            putFloat(RECIPE_SIZE, recipeSize.toFloat())
+            apply()
+        }
+    }
+
     fun updateExtractionEfficiency(extractionEfficiency: Int, settings: SharedPreferences) {
         recipeDefaultSettings.extractionEfficiency = extractionEfficiency
         with(settings.edit()) {
