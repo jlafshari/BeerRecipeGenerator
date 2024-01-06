@@ -100,8 +100,30 @@ class EditRecipeActivity : AppCompatActivity() {
     private fun loadRecipe(recipeId: String) {
         val callBack = requestHelper.getVolleyCallBack(this@EditRecipeActivity) { run {
             val recipe: Recipe = jacksonObjectMapper().readValue(it)
-            mRecipeId = recipe.id
-            mRecipeUpdateInfo = RecipeUpdateInfo(recipe.name, recipe.fermentableIngredients, recipe.hopIngredients, AppSettings.recipeDefaultSettings.extractionEfficiency)
+            recipe.hopIngredients[0].use.ordinal
+            with(recipe) {
+                mRecipeId = id
+                mRecipeUpdateInfo = RecipeUpdateInfo(
+                    name,
+                    AppSettings.recipeDefaultSettings.recipeSize,
+                    fermentableIngredients,
+                    hopIngredients,
+                    yeastIngredient.yeastId,
+                    AppSettings.recipeDefaultSettings.extractionEfficiency,
+                    AppSettings.recipeDefaultSettings.boilDurationMinutes,
+                    AppSettings.recipeDefaultSettings.equipmentLossAmount,
+                    AppSettings.recipeDefaultSettings.trubLossAmount,
+                    MashProfileForUpdate(
+                        mashProfile.mashSteps,
+                        mashProfile.grainTemperature,
+                        mashProfile.mashThickness
+                    ),
+                    recipe.miscellaneousIngredients
+                        .map { MiscellaneousIngredientForUpdate(it.miscellaneousIngredientInfoId, it.amount) }
+                        .toMutableList(),
+                    recipe.fermentationSteps.toMutableList()
+                )
+            }
             loadRecipeView()
         }}
         requestHelper.getRecipe(recipeId, this, callBack)
