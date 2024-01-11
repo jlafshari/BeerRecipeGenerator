@@ -51,8 +51,6 @@ class MainActivity : AppCompatActivity() {
                     RecyclerView.VERTICAL,
                     false
                 )
-            recipeRecyclerView.adapter =
-                RecipeListAdapter(emptyList()) { recipePreview -> recipePreviewClicked(recipePreview) }
 
             val txtLoadingIndicator = binding.root.findViewById<TextView>(R.id.txtLoadingIndicator)
             val txtAbvMin = binding.root.findViewById<EditText>(R.id.txtAbvMin)
