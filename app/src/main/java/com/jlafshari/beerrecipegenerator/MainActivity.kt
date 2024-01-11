@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,15 +51,24 @@ class MainActivity : AppCompatActivity() {
                 RecipeListAdapter(emptyList()) { recipePreview -> recipePreviewClicked(recipePreview) }
 
             val txtLoadingIndicator = binding.root.findViewById<TextView>(R.id.txtLoadingIndicator)
-            loadSavedRecipePreviews(recipeRecyclerView, txtLoadingIndicator)
+            val txtAbvMin = binding.root.findViewById<EditText>(R.id.txtAbvMin)
+            val txtAbvMax = binding.root.findViewById<EditText>(R.id.txtAbvMax)
+            loadSavedRecipePreviews(recipeRecyclerView, txtLoadingIndicator, txtAbvMin, txtAbvMax)
 
             loadSettings()
+
+            val searchBtn = binding.root.findViewById<Button>(R.id.searchRecipeBtn)
+            searchBtn.setOnClickListener {
+                loadSavedRecipePreviews(recipeRecyclerView, txtLoadingIndicator, txtAbvMin, txtAbvMax)
+            }
         }
     }
 
     private fun loadSavedRecipePreviews(
         recipeRecyclerView: RecyclerView,
-        txtLoadingIndicator: TextView
+        txtLoadingIndicator: TextView,
+        txtAbvMin: EditText,
+        txtAbvMax: EditText
     ) {
         recipeRecyclerView.visibility = View.INVISIBLE
         txtLoadingIndicator.visibility = View.VISIBLE
@@ -67,7 +78,9 @@ class MainActivity : AppCompatActivity() {
             recipeRecyclerView.visibility = View.VISIBLE
             txtLoadingIndicator.visibility = View.INVISIBLE
         }}
-        requestHelper.getAllRecipes(this, callBack)
+        val abvMin = if (txtAbvMin.text.isNotEmpty()) { txtAbvMin.text.toString() } else { null }
+        val abvMax = if (txtAbvMax.text.isNotEmpty()) { txtAbvMax.text.toString() } else { null }
+        requestHelper.getAllRecipes(this, abvMin, abvMax, callBack)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

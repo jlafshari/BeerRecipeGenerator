@@ -16,8 +16,11 @@ import javax.inject.Inject
 
 class HomebrewApiRequestHelper @Inject constructor() {
 
-    fun getAllRecipes(context: Context, callBack: VolleyCallBack) =
-        sendStandardAuthGetRequest(getUrl(getAllRecipesUrl, context), context, callBack)
+    fun getAllRecipes(context: Context, abvMin: String?, abvMax: String?, callBack: VolleyCallBack) {
+        var url = getAllRecipesUrl
+        if (abvMin?.isNotEmpty() == true && abvMax?.isNotEmpty() == true) url += "?abvMin=$abvMin&abvMax=$abvMax"
+        sendStandardAuthGetRequest(getUrl(url, context), context, callBack)
+    }
 
     fun getRecipe(recipeId: String, context: Context, callBack: VolleyCallBack) {
         val url = getUrl("$recipeUrl/$recipeId", context)
