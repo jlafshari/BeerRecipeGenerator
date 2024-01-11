@@ -89,4 +89,8 @@
     <string name="trub_loss_heading">Trub Loss (gallons):</string>
     <string name="trub_loss_hint">e.g. 0.5</string>
     <string name="equipment_loss_heading">Equipment Loss (gallons):</string>
+    <string name="min_abv_label">Min ABV:</string>
+    <string name="max_abv_label">Max ABV:</string>
+    <string name="abv_hint">e.g. 5.0</string>
+    <string name="search_btn_text">Search</string>
 </resources>

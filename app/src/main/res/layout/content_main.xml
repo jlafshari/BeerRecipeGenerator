@@ -24,41 +24,49 @@
             android:id="@+id/txtAbvMinLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Min ABV:"
+            android:text="@string/min_abv_label"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
+
         <EditText
             android:id="@+id/txtAbvMin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autofillHints="@string/abv_hint"
+            android:hint="@string/abv_hint"
+            android:inputType="numberDecimal"
             android:minWidth="50dp"
+            android:minHeight="48dp"
             app:layout_constraintStart_toEndOf="@id/txtAbvMinLabel"
-            app:layout_constraintTop_toTopOf="parent"
-            android:autofillHints="e.g. 5.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txtAbvMaxLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Max ABV:"
+            android:text="@string/max_abv_label"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/txtAbvMin"
             app:layout_constraintBottom_toBottomOf="parent" />
+
         <EditText
             android:id="@+id/txtAbvMax"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autofillHints="@string/abv_hint"
+            android:hint="@string/abv_hint"
+            android:inputType="numberDecimal"
             android:minWidth="50dp"
+            android:minHeight="48dp"
             app:layout_constraintStart_toEndOf="@id/txtAbvMaxLabel"
-            app:layout_constraintTop_toTopOf="parent"
-            android:autofillHints="e.g. 5.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/searchRecipeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"
+            android:text="@string/search_btn_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
