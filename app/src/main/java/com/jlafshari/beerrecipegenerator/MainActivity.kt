@@ -7,10 +7,14 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
@@ -60,6 +64,26 @@ class MainActivity : AppCompatActivity() {
             val searchBtn = binding.root.findViewById<Button>(R.id.searchRecipeBtn)
             searchBtn.setOnClickListener {
                 loadSavedRecipePreviews(recipeRecyclerView, txtLoadingIndicator, txtAbvMin, txtAbvMax)
+            }
+
+            initializeExpandSearchButton(binding)
+        }
+    }
+
+    private fun initializeExpandSearchButton(binding: ActivityMainBinding) {
+        with (binding.root) {
+            val expandSearchBtn = findViewById<ImageButton>(R.id.expandSearchBtn)
+            val hiddenSearchView = findViewById<ConstraintLayout>(R.id.recipeSearchLayout)
+            val mainViewLayout = findViewById<ConstraintLayout>(R.id.mainViewLayout)
+            expandSearchBtn.setOnClickListener {
+                TransitionManager.beginDelayedTransition(mainViewLayout, AutoTransition())
+                if (hiddenSearchView.visibility == View.VISIBLE) {
+                    hiddenSearchView.visibility = View.GONE
+                    expandSearchBtn.setImageResource(R.drawable.baseline_expand_more_24)
+                } else {
+                    hiddenSearchView.visibility = View.VISIBLE
+                    expandSearchBtn.setImageResource(R.drawable.baseline_expand_less_24)
+                }
             }
         }
     }
