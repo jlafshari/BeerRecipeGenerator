@@ -94,4 +94,5 @@
     <string name="abv_hint">e.g. 5.0</string>
     <string name="search_btn_text">Search</string>
     <string name="expand_search_content_desc">Expand search</string>
+    <string name="recipes_count">%1$s recipes</string>
 </resources>

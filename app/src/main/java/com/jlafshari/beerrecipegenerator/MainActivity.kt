@@ -86,8 +86,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadSavedRecipePreviews(binding: ActivityMainBinding) {
         with (binding.root) {
             val txtLoadingIndicator = findViewById<TextView>(R.id.txtLoadingIndicator)
-            val txtAbvMin = findViewById<EditText>(R.id.txtAbvMin)
-            val txtAbvMax = findViewById<EditText>(R.id.txtAbvMax)
+            val txtRecipeCount = findViewById<TextView>(R.id.txtRecipeCount)
             val recipeRecyclerView = findViewById<RecyclerView>(R.id.recipeRecyclerView)
             recipeRecyclerView.visibility = View.INVISIBLE
             txtLoadingIndicator.visibility = View.VISIBLE
@@ -100,8 +99,11 @@ class MainActivity : AppCompatActivity() {
                         }
                     recipeRecyclerView.visibility = View.VISIBLE
                     txtLoadingIndicator.visibility = View.INVISIBLE
+                    txtRecipeCount.text = context.getString(R.string.recipes_count, recipePreviews.size.toString())
                 }
             }
+            val txtAbvMin = findViewById<EditText>(R.id.txtAbvMin)
+            val txtAbvMax = findViewById<EditText>(R.id.txtAbvMax)
             val abvMin = if (txtAbvMin.text.isNotEmpty()) {
                 txtAbvMin.text.toString()
             } else {
