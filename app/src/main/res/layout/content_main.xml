@@ -72,10 +72,11 @@
 
         <NumberPicker
             android:id="@+id/minAbvPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="110dp"
             app:layout_constraintStart_toEndOf="@id/txtAbvMinLabel"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <TextView
             android:id="@+id/txtAbvMaxLabel"
@@ -88,8 +89,8 @@
 
         <NumberPicker
             android:id="@+id/maxAbvPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="110dp"
             app:layout_constraintStart_toEndOf="@id/txtAbvMaxLabel"
             app:layout_constraintTop_toTopOf="parent" />
 
