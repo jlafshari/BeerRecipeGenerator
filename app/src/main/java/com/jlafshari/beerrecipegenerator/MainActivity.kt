@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.NumberPicker
 import android.widget.TextView
@@ -54,10 +53,8 @@ class MainActivity : AppCompatActivity() {
                     RecyclerView.VERTICAL,
                     false
                 )
-            val minAbvPicker = binding.root.findViewById<NumberPicker>(R.id.minAbvPicker)
-            minAbvPicker.minValue = 0
-            minAbvPicker.maxValue = abvValues.size - 1
-            minAbvPicker.displayedValues = abvValues
+            initAbvPicker(R.id.minAbvPicker, 0, binding.root)
+            initAbvPicker(R.id.maxAbvPicker, abvValues.size - 1, binding.root)
 
             loadSavedRecipePreviews(binding)
 
@@ -70,6 +67,14 @@ class MainActivity : AppCompatActivity() {
 
             initializeExpandSearchButton(binding)
         }
+    }
+
+    private fun initAbvPicker(id: Int, startingIndex: Int, view: View) {
+        val picker = view.findViewById<NumberPicker>(id)
+        picker.minValue = 0
+        picker.maxValue = abvValues.size - 1
+        picker.displayedValues = abvValues
+        picker.value = startingIndex
     }
 
     private fun initializeExpandSearchButton(binding: ActivityMainBinding) {
@@ -111,12 +116,8 @@ class MainActivity : AppCompatActivity() {
             }
             val minAbvPicker = findViewById<NumberPicker>(R.id.minAbvPicker)
             val abvMin = abvValues[minAbvPicker.value]
-            val txtAbvMax = findViewById<EditText>(R.id.txtAbvMax)
-            val abvMax = if (txtAbvMax.text.isNotEmpty()) {
-                txtAbvMax.text.toString()
-            } else {
-                null
-            }
+            val maxAbvPicker = findViewById<NumberPicker>(R.id.maxAbvPicker)
+            val abvMax = abvValues[maxAbvPicker.value]
             requestHelper.getAllRecipes(this@MainActivity, abvMin, abvMax, callBack)
         }
     }

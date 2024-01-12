@@ -86,15 +86,10 @@
             app:layout_constraintStart_toEndOf="@id/minAbvPicker"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <EditText
-            android:id="@+id/txtAbvMax"
+        <NumberPicker
+            android:id="@+id/maxAbvPicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autofillHints="@string/abv_hint"
-            android:hint="@string/abv_hint"
-            android:inputType="numberDecimal"
-            android:minWidth="50dp"
-            android:minHeight="48dp"
             app:layout_constraintStart_toEndOf="@id/txtAbvMaxLabel"
             app:layout_constraintTop_toTopOf="parent" />
 
