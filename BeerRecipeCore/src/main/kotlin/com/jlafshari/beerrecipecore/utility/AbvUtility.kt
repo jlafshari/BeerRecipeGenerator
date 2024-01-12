@@ -9,4 +9,6 @@ object AbvUtility {
         potentialAbvValues.filter { it in abvThreshold.minimum..abvThreshold.maximum }
 
     fun getMedianAbvIndex(abvValues: List<Double>): Int = (abvValues.size - 1) / 2
+
+    fun getAbvRecipeSearchValues(): List<Double> = potentialAbvValues
 }

@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -18,6 +19,7 @@ import androidx.transition.TransitionManager
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
+import com.jlafshari.beerrecipecore.utility.AbvUtility
 import com.jlafshari.beerrecipegenerator.about.AboutActivity
 import com.jlafshari.beerrecipegenerator.account.AccountActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var requestHelper: HomebrewApiRequestHelper
+    private val abvValues = AbvUtility.getAbvRecipeSearchValues().map { it.toString() }.toTypedArray()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +54,10 @@ class MainActivity : AppCompatActivity() {
                     RecyclerView.VERTICAL,
                     false
                 )
+            val minAbvPicker = binding.root.findViewById<NumberPicker>(R.id.minAbvPicker)
+            minAbvPicker.minValue = 0
+            minAbvPicker.maxValue = abvValues.size - 1
+            minAbvPicker.displayedValues = abvValues
 
             loadSavedRecipePreviews(binding)
 
@@ -102,13 +109,9 @@ class MainActivity : AppCompatActivity() {
                     txtRecipeCount.text = context.getString(R.string.recipes_count, recipePreviews.size.toString())
                 }
             }
-            val txtAbvMin = findViewById<EditText>(R.id.txtAbvMin)
+            val minAbvPicker = findViewById<NumberPicker>(R.id.minAbvPicker)
+            val abvMin = abvValues[minAbvPicker.value]
             val txtAbvMax = findViewById<EditText>(R.id.txtAbvMax)
-            val abvMin = if (txtAbvMin.text.isNotEmpty()) {
-                txtAbvMin.text.toString()
-            } else {
-                null
-            }
             val abvMax = if (txtAbvMax.text.isNotEmpty()) {
                 txtAbvMax.text.toString()
             } else {
