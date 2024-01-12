@@ -52,16 +52,13 @@ class MainActivity : AppCompatActivity() {
                     false
                 )
 
-            val txtLoadingIndicator = binding.root.findViewById<TextView>(R.id.txtLoadingIndicator)
-            val txtAbvMin = binding.root.findViewById<EditText>(R.id.txtAbvMin)
-            val txtAbvMax = binding.root.findViewById<EditText>(R.id.txtAbvMax)
-            loadSavedRecipePreviews(recipeRecyclerView, txtLoadingIndicator, txtAbvMin, txtAbvMax)
+            loadSavedRecipePreviews(binding)
 
             loadSettings()
 
             val searchBtn = binding.root.findViewById<Button>(R.id.searchRecipeBtn)
             searchBtn.setOnClickListener {
-                loadSavedRecipePreviews(recipeRecyclerView, txtLoadingIndicator, txtAbvMin, txtAbvMax)
+                loadSavedRecipePreviews(binding)
             }
 
             initializeExpandSearchButton(binding)
@@ -86,23 +83,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadSavedRecipePreviews(
-        recipeRecyclerView: RecyclerView,
-        txtLoadingIndicator: TextView,
-        txtAbvMin: EditText,
-        txtAbvMax: EditText
-    ) {
-        recipeRecyclerView.visibility = View.INVISIBLE
-        txtLoadingIndicator.visibility = View.VISIBLE
-        val callBack = requestHelper.getVolleyCallBack(this@MainActivity) { run {
-            val recipePreviews: List<RecipePreview> = jacksonObjectMapper().readValue(it)
-            recipeRecyclerView.adapter = RecipeListAdapter(recipePreviews) { recipePreview -> recipePreviewClicked(recipePreview) }
-            recipeRecyclerView.visibility = View.VISIBLE
-            txtLoadingIndicator.visibility = View.INVISIBLE
-        }}
-        val abvMin = if (txtAbvMin.text.isNotEmpty()) { txtAbvMin.text.toString() } else { null }
-        val abvMax = if (txtAbvMax.text.isNotEmpty()) { txtAbvMax.text.toString() } else { null }
-        requestHelper.getAllRecipes(this, abvMin, abvMax, callBack)
+    private fun loadSavedRecipePreviews(binding: ActivityMainBinding) {
+        with (binding.root) {
+            val txtLoadingIndicator = findViewById<TextView>(R.id.txtLoadingIndicator)
+            val txtAbvMin = findViewById<EditText>(R.id.txtAbvMin)
+            val txtAbvMax = findViewById<EditText>(R.id.txtAbvMax)
+            val recipeRecyclerView = findViewById<RecyclerView>(R.id.recipeRecyclerView)
+            recipeRecyclerView.visibility = View.INVISIBLE
+            txtLoadingIndicator.visibility = View.VISIBLE
+            val callBack = requestHelper.getVolleyCallBack(this@MainActivity) {
+                run {
+                    val recipePreviews: List<RecipePreview> = jacksonObjectMapper().readValue(it)
+                    recipeRecyclerView.adapter =
+                        RecipeListAdapter(recipePreviews) { recipePreview ->
+                            recipePreviewClicked(recipePreview)
+                        }
+                    recipeRecyclerView.visibility = View.VISIBLE
+                    txtLoadingIndicator.visibility = View.INVISIBLE
+                }
+            }
+            val abvMin = if (txtAbvMin.text.isNotEmpty()) {
+                txtAbvMin.text.toString()
+            } else {
+                null
+            }
+            val abvMax = if (txtAbvMax.text.isNotEmpty()) {
+                txtAbvMax.text.toString()
+            } else {
+                null
+            }
+            requestHelper.getAllRecipes(this@MainActivity, abvMin, abvMax, callBack)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
