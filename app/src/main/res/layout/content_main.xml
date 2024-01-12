@@ -73,7 +73,7 @@
         <NumberPicker
             android:id="@+id/minAbvPicker"
             android:layout_width="50dp"
-            android:layout_height="110dp"
+            android:layout_height="100dp"
             app:layout_constraintStart_toEndOf="@id/chkAbvFilter"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,7 +89,7 @@
         <NumberPicker
             android:id="@+id/maxAbvPicker"
             android:layout_width="50dp"
-            android:layout_height="110dp"
+            android:layout_height="100dp"
             app:layout_constraintStart_toEndOf="@id/txtAbvMaxLabel"
             app:layout_constraintTop_toTopOf="parent" />
 
