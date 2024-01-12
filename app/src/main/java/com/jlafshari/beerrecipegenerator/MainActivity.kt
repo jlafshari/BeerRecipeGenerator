@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.NumberPicker
 import android.widget.TextView
@@ -114,10 +115,11 @@ class MainActivity : AppCompatActivity() {
                     txtRecipeCount.text = context.getString(R.string.recipes_count, recipePreviews.size.toString())
                 }
             }
+            val abvCheckbox = findViewById<CheckBox>(R.id.chkAbvFilter)
             val minAbvPicker = findViewById<NumberPicker>(R.id.minAbvPicker)
-            val abvMin = abvValues[minAbvPicker.value]
+            val abvMin = if (abvCheckbox.isChecked) abvValues[minAbvPicker.value] else null
             val maxAbvPicker = findViewById<NumberPicker>(R.id.maxAbvPicker)
-            val abvMax = abvValues[maxAbvPicker.value]
+            val abvMax = if (abvCheckbox.isChecked) abvValues[maxAbvPicker.value] else null
             requestHelper.getAllRecipes(this@MainActivity, abvMin, abvMax, callBack)
         }
     }

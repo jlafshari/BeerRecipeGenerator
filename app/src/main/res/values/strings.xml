@@ -89,9 +89,8 @@
     <string name="trub_loss_heading">Trub Loss (gallons):</string>
     <string name="trub_loss_hint">e.g. 0.5</string>
     <string name="equipment_loss_heading">Equipment Loss (gallons):</string>
-    <string name="min_abv_label">ABV:</string>
-    <string name="max_abv_label">to</string>
-    <string name="abv_hint">e.g. 5.0</string>
+    <string name="abv_checkbox_label">ABV:</string>
+    <string name="search_range_label">to</string>
     <string name="search_btn_text">Search</string>
     <string name="expand_search_content_desc">Expand search</string>
     <string name="recipes_count">%1$s recipes</string>
