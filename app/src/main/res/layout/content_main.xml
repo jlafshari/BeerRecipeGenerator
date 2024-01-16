@@ -50,58 +50,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/recipeSearchLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/expandSearchLayout"
-        android:visibility="gone">
-
-        <CheckBox
-            android:id="@+id/chkAbvFilter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/abv_checkbox_label"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <Spinner
-            android:id="@+id/minAbvSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@id/chkAbvFilter"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/txtAbvMaxLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/search_range_label"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/minAbvSpinner"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <Spinner
-            android:id="@+id/maxAbvSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@id/txtAbvMaxLabel"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/searchRecipeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/search_btn_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <include layout="@layout/content_recipe_search" />
 
     <TextView
         android:id="@+id/txtLoadingIndicator"
