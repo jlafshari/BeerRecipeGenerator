@@ -70,10 +70,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <NumberPicker
-            android:id="@+id/minAbvPicker"
-            android:layout_width="50dp"
-            android:layout_height="100dp"
+        <Spinner
+            android:id="@+id/minAbvSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             app:layout_constraintStart_toEndOf="@id/chkAbvFilter"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -83,13 +83,13 @@
             android:layout_height="wrap_content"
             android:text="@string/search_range_label"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/minAbvPicker"
+            app:layout_constraintStart_toEndOf="@id/minAbvSpinner"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <NumberPicker
-            android:id="@+id/maxAbvPicker"
-            android:layout_width="50dp"
-            android:layout_height="100dp"
+        <Spinner
+            android:id="@+id/maxAbvSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             app:layout_constraintStart_toEndOf="@id/txtAbvMaxLabel"
             app:layout_constraintTop_toTopOf="parent" />
 

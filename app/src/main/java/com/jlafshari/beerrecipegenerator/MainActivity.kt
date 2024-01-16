@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
-import android.widget.NumberPicker
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -54,8 +55,8 @@ class MainActivity : AppCompatActivity() {
                     RecyclerView.VERTICAL,
                     false
                 )
-            initAbvPicker(R.id.minAbvPicker, 0, binding.root)
-            initAbvPicker(R.id.maxAbvPicker, abvValues.size - 1, binding.root)
+            initAbvSpinner(R.id.minAbvSpinner, 0, binding.root)
+            initAbvSpinner(R.id.maxAbvSpinner, abvValues.size - 1, binding.root)
 
             loadSavedRecipePreviews(binding)
 
@@ -70,12 +71,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initAbvPicker(id: Int, startingIndex: Int, view: View) {
-        val picker = view.findViewById<NumberPicker>(id)
-        picker.minValue = 0
-        picker.maxValue = abvValues.size - 1
-        picker.displayedValues = abvValues
-        picker.value = startingIndex
+    private fun initAbvSpinner(id: Int, startingIndex: Int, view: View) {
+        val spinner = view.findViewById<Spinner>(id)
+        val adapter = ArrayAdapter(this,
+            R.layout.support_simple_spinner_dropdown_item,
+            abvValues)
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+        spinner.setSelection(startingIndex)
+        spinner.selectedItem
     }
 
     private fun initializeExpandSearchButton(binding: ActivityMainBinding) {
@@ -116,10 +120,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             val abvCheckbox = findViewById<CheckBox>(R.id.chkAbvFilter)
-            val minAbvPicker = findViewById<NumberPicker>(R.id.minAbvPicker)
-            val abvMin = if (abvCheckbox.isChecked) abvValues[minAbvPicker.value] else null
-            val maxAbvPicker = findViewById<NumberPicker>(R.id.maxAbvPicker)
-            val abvMax = if (abvCheckbox.isChecked) abvValues[maxAbvPicker.value] else null
+            val minAbvSpinner = findViewById<Spinner>(R.id.minAbvSpinner)
+            val abvMin = if (abvCheckbox.isChecked) abvValues[minAbvSpinner.selectedItemPosition] else null
+            val maxAbvSpinner = findViewById<Spinner>(R.id.maxAbvSpinner)
+            val abvMax = if (abvCheckbox.isChecked) abvValues[maxAbvSpinner.selectedItemPosition] else null
             requestHelper.getAllRecipes(this@MainActivity, abvMin, abvMax, callBack)
         }
     }
