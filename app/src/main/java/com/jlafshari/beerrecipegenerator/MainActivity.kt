@@ -28,7 +28,6 @@ import com.jlafshari.beerrecipecore.utility.AbvUtility
 import com.jlafshari.beerrecipegenerator.about.AboutActivity
 import com.jlafshari.beerrecipegenerator.account.AccountActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
-import com.jlafshari.beerrecipegenerator.newRecipe.ColorPaletteListAdapter
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import com.jlafshari.beerrecipegenerator.recipes.RecipeListAdapter
 import com.jlafshari.beerrecipegenerator.settings.AppSettings
@@ -66,8 +65,14 @@ class MainActivity : AppCompatActivity() {
             initAbvSpinner(R.id.maxAbvSpinner, abvValues.size - 1, binding.root)
 
             val minColorPickerButton = findViewById<Button>(R.id.minColorBtn)
-            val selectedMinColorCardView = findViewById<CardView>(R.id.selectedMinColorCardView)
-            minColorPickerButton.setOnClickListener { showColorPickerDialog(selectedMinColorCardView) }
+            minColorPickerButton.setOnClickListener { showColorPickerDialog(
+                findViewById(R.id.selectedMinColorCardView),
+                findViewById(R.id.txtSelectedMinColor)) }
+
+            val maxColorPickerButton = findViewById<Button>(R.id.maxColorBtn)
+            maxColorPickerButton.setOnClickListener { showColorPickerDialog(
+                findViewById(R.id.selectedMaxColorCardView),
+                findViewById(R.id.txtSelectedMaxColor)) }
 
             loadSavedRecipePreviews(binding)
 
@@ -82,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showColorPickerDialog(cardView: CardView) {
+    private fun showColorPickerDialog(selectedColorCardView: CardView, selectedColorTextView: TextView) {
         val recyclerView = RecyclerView(this)
         val colorPickerDialog = AlertDialog.Builder(this)
             .setTitle("Choose a color")
@@ -96,7 +101,8 @@ class MainActivity : AppCompatActivity() {
         recyclerView.setPadding(5)
         recyclerView.adapter = ColorPaletteDialogListAdapter(srmColors, R.layout.color_item_layout) { selectedColor ->
             val selectedSrmColor = srmColors.find { it.srmColor == selectedColor }!!
-            cardView.setCardBackgroundColor(selectedSrmColor.rbgColor)
+            selectedColorCardView.setCardBackgroundColor(selectedSrmColor.rbgColor)
+            selectedColorTextView.text = selectedSrmColor.srmColor.toString()
             colorPickerDialog.dismiss()
         }
 
