@@ -13,122 +13,139 @@
     android:visibility="gone"
     tools:showIn="@layout/content_main">
 
-    <CheckBox
-        android:id="@+id/chkAbvFilter"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/abvLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/abv_checkbox_label"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Spinner
-        android:id="@+id/minAbvSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/chkAbvFilter"
-        app:layout_constraintTop_toTopOf="parent" />
+        <CheckBox
+            android:id="@+id/chkAbvFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/abv_checkbox_label"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/txtAbvMaxLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/search_range_label"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/minAbvSpinner"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <Spinner
+            android:id="@+id/minAbvSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/chkAbvFilter"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/maxAbvSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/txtAbvMaxLabel"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/txtAbvMaxLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/search_range_label"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/minAbvSpinner"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/maxAbvSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/txtAbvMaxLabel"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/searchRecipeBtn"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/search_btn_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <CheckBox
-        android:id="@+id/chkColorFilter"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/color_checkbox_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/chkAbvFilter"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/abvLayout">
 
-    <TextView
-        android:id="@+id/txtSelectedMinColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        app:layout_constraintStart_toEndOf="@id/chkColorFilter"
-        app:layout_constraintTop_toBottomOf="@id/chkAbvFilter"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <CheckBox
+            android:id="@+id/chkColorFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/color_checkbox_label"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/selectedMinColorCardView"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="5dp"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:layout_constraintStart_toEndOf="@id/txtSelectedMinColor"
-        app:layout_constraintTop_toBottomOf="@id/chkAbvFilter"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <TextView
+            android:id="@+id/txtSelectedMinColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/chkColorFilter"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/minColorBtn"
-        android:layout_width="55dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="min"
-        android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@id/selectedMinColorCardView"
-        app:layout_constraintTop_toBottomOf="@id/chkAbvFilter" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/selectedMinColorCardView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/txtSelectedMinColor"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/txtColorRangeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/search_range_label"
-        app:layout_constraintTop_toBottomOf="@id/chkAbvFilter"
-        app:layout_constraintStart_toEndOf="@id/minColorBtn"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <Button
+            android:id="@+id/minColorBtn"
+            android:layout_width="55dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:text="min"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/selectedMinColorCardView"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/txtSelectedMaxColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        app:layout_constraintStart_toEndOf="@id/txtColorRangeLabel"
-        app:layout_constraintTop_toBottomOf="@id/chkAbvFilter"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <TextView
+            android:id="@+id/txtColorRangeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_range_label"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/minColorBtn"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/selectedMaxColorCardView"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="5dp"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:layout_constraintStart_toEndOf="@id/txtSelectedMaxColor"
-        app:layout_constraintTop_toBottomOf="@id/chkAbvFilter"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <TextView
+            android:id="@+id/txtSelectedMaxColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/txtColorRangeLabel"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/maxColorBtn"
-        android:layout_width="55dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="max"
-        android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@id/selectedMaxColorCardView"
-        app:layout_constraintTop_toBottomOf="@id/chkAbvFilter" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/selectedMaxColorCardView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/txtSelectedMaxColor"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/maxColorBtn"
+            android:layout_width="55dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:text="max"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/selectedMaxColorCardView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
