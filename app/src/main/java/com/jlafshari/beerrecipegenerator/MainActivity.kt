@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = GridLayoutManager(this, 3)
         recyclerView.setPadding(5)
-        recyclerView.adapter = ColorPaletteListAdapter(srmColors, R.layout.color_item_layout) { selectedColor ->
+        recyclerView.adapter = ColorPaletteDialogListAdapter(srmColors, R.layout.color_item_layout) { selectedColor ->
             val selectedSrmColor = srmColors.find { it.srmColor == selectedColor }!!
             cardView.setCardBackgroundColor(selectedSrmColor.rbgColor)
             colorPickerDialog.dismiss()
