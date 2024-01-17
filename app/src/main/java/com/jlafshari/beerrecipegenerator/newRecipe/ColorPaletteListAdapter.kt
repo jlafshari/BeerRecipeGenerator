@@ -12,6 +12,7 @@ import com.jlafshari.beerrecipegenerator.srmColors.SrmColor
 
 class ColorPaletteListAdapter(
     private val colorList: List<SrmColor>,
+    private val resource: Int,
     private val clickListener: (Int) -> Unit
 ):
     RecyclerView.Adapter<ColorPaletteListAdapter.ViewHolder>() {
@@ -19,7 +20,7 @@ class ColorPaletteListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(
-            R.layout.color_srm_item_layout,
+            resource,
             parent,
             false
         )
@@ -31,7 +32,7 @@ class ColorPaletteListAdapter(
         holder.txtColorSrmValue.text = srmColor.srmColor.toString()
 
         holder.colorCardView.setCardBackgroundColor(srmColor.rbgColor)
-        setCardViewDimensions(holder.adapterPosition, holder.colorCardView)
+        //setCardViewDimensions(holder.adapterPosition, holder.colorCardView)
 
         holder.itemView.setOnClickListener {
             val previousItem = selectedPos

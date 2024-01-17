@@ -11,8 +11,12 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.setPadding
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
@@ -24,10 +28,12 @@ import com.jlafshari.beerrecipecore.utility.AbvUtility
 import com.jlafshari.beerrecipegenerator.about.AboutActivity
 import com.jlafshari.beerrecipegenerator.account.AccountActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
+import com.jlafshari.beerrecipegenerator.newRecipe.ColorPaletteListAdapter
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import com.jlafshari.beerrecipegenerator.recipes.RecipeListAdapter
 import com.jlafshari.beerrecipegenerator.settings.AppSettings
 import com.jlafshari.beerrecipegenerator.settings.SettingsActivity
+import com.jlafshari.beerrecipegenerator.srmColors.Colors
 import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var requestHelper: HomebrewApiRequestHelper
     private val abvValues = AbvUtility.getAbvRecipeSearchValues().map { it.toString() }.toTypedArray()
+    private val srmColors = Colors.getSrmColors()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +65,10 @@ class MainActivity : AppCompatActivity() {
             initAbvSpinner(R.id.minAbvSpinner, 0, binding.root)
             initAbvSpinner(R.id.maxAbvSpinner, abvValues.size - 1, binding.root)
 
+            val minColorPickerButton = findViewById<Button>(R.id.minColorBtn)
+            val selectedMinColorCardView = findViewById<CardView>(R.id.selectedMinColorCardView)
+            minColorPickerButton.setOnClickListener { showColorPickerDialog(selectedMinColorCardView) }
+
             loadSavedRecipePreviews(binding)
 
             loadSettings()
@@ -71,6 +82,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun showColorPickerDialog(cardView: CardView) {
+        val recyclerView = RecyclerView(this)
+        val colorPickerDialog = AlertDialog.Builder(this)
+            .setTitle("Choose a color")
+            .setView(recyclerView)
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+
+        recyclerView.layoutManager = GridLayoutManager(this, 3)
+        recyclerView.setPadding(5)
+        recyclerView.adapter = ColorPaletteListAdapter(srmColors, R.layout.color_item_layout) { selectedColor ->
+            val selectedSrmColor = srmColors.find { it.srmColor == selectedColor }!!
+            cardView.setCardBackgroundColor(selectedSrmColor.rbgColor)
+            colorPickerDialog.dismiss()
+        }
+
+        colorPickerDialog.show()
+    }
+
     private fun initAbvSpinner(id: Int, startingIndex: Int, view: View) {
         val spinner = view.findViewById<Spinner>(id)
         val adapter = ArrayAdapter(this,
@@ -79,7 +111,6 @@ class MainActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         spinner.adapter = adapter
         spinner.setSelection(startingIndex)
-        spinner.selectedItem
     }
 
     private fun initializeExpandSearchButton(binding: ActivityMainBinding) {

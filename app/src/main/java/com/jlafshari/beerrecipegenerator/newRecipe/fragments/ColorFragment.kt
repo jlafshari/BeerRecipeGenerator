@@ -54,7 +54,7 @@ class ColorFragment : Fragment() {
             srmColorThreshold.minimum.toInt(),
             srmColorThreshold.maximum.toInt()
         )
-        colorRecyclerView.adapter = ColorPaletteListAdapter(colors)
+        colorRecyclerView.adapter = ColorPaletteListAdapter(colors, R.layout.color_srm_item_layout)
             { colorValueSrm -> mCallback.onColorValueSet(colorValueSrm) }
 
         val recipeGenerationInfo = mCallback.getCurrentRecipeGenerationInfo()
