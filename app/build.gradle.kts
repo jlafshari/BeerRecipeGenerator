@@ -26,7 +26,8 @@ android {
     }
     buildTypes {
         getByName("debug") {
-            resValue("string", "homebrewApiBaseUrl", localProperties["homebrewApiBaseUrl"] as String)
+            resValue("string", "homebrewApiHttpScheme", localProperties["homebrewApiHttpScheme"] as String)
+            resValue("string", "homebrewApiBaseDomain", localProperties["homebrewApiBaseDomain"] as String)
         }
         getByName("release") {
             isMinifyEnabled = false

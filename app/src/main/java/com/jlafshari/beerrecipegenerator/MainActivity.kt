@@ -161,7 +161,12 @@ class MainActivity : AppCompatActivity() {
             val abvMin = if (abvCheckbox.isChecked) abvValues[minAbvSpinner.selectedItemPosition] else null
             val maxAbvSpinner = findViewById<Spinner>(R.id.maxAbvSpinner)
             val abvMax = if (abvCheckbox.isChecked) abvValues[maxAbvSpinner.selectedItemPosition] else null
-            requestHelper.getAllRecipes(this@MainActivity, abvMin, abvMax, callBack)
+
+            val colorCheckBox = findViewById<CheckBox>(R.id.chkColorFilter)
+            val colorMin = if (colorCheckBox.isChecked) findViewById<TextView>(R.id.txtSelectedMinColor).text.toString() else null
+            val colorMax = if (colorCheckBox.isChecked) findViewById<TextView>(R.id.txtSelectedMaxColor).text.toString() else null
+
+            requestHelper.getAllRecipes(this@MainActivity, abvMin, abvMax, colorMin, colorMax, callBack)
         }
     }
 

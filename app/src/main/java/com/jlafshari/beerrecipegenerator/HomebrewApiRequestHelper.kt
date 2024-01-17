@@ -2,6 +2,7 @@ package com.jlafshari.beerrecipegenerator
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
@@ -16,10 +17,20 @@ import javax.inject.Inject
 
 class HomebrewApiRequestHelper @Inject constructor() {
 
-    fun getAllRecipes(context: Context, abvMin: String?, abvMax: String?, callBack: VolleyCallBack) {
-        var url = getAllRecipesUrl
-        if (abvMin?.isNotEmpty() == true && abvMax?.isNotEmpty() == true) url += "?abvMin=$abvMin&abvMax=$abvMax"
-        sendStandardAuthGetRequest(getUrl(url, context), context, callBack)
+    fun getAllRecipes(context: Context, abvMin: String?, abvMax: String?,
+                      colorMin: String?, colorMax: String?,
+                      callBack: VolleyCallBack) {
+        val urlBuilder = Uri.Builder()
+        urlBuilder
+            .scheme(context.resources.getString(R.string.homebrewApiHttpScheme))
+            .encodedAuthority(context.resources.getString(R.string.homebrewApiBaseDomain))
+            .appendEncodedPath(getAllRecipesUrl)
+        if (abvMin?.isNotEmpty() == true && abvMax?.isNotEmpty() == true)
+            urlBuilder.appendQueryParameter("abvMin", abvMin).appendQueryParameter("abvMax", abvMax)
+        if (colorMin?.isNotEmpty() == true && colorMax?.isNotEmpty() == true)
+            urlBuilder.appendQueryParameter("colorMin", colorMin).appendQueryParameter("colorMax", colorMax)
+
+        sendStandardAuthGetRequest(urlBuilder.build().toString(), context, callBack)
     }
 
     fun getRecipe(recipeId: String, context: Context, callBack: VolleyCallBack) {
@@ -158,8 +169,9 @@ class HomebrewApiRequestHelper @Inject constructor() {
     }
 
     private fun getUrl(urlEnd: String, context: Context) : String {
-        val baseUrl = context.resources.getString(R.string.homebrewApiBaseUrl)
-        return "$baseUrl/$urlEnd"
+        val httpScheme = context.resources.getString(R.string.homebrewApiHttpScheme)
+        val baseAuthority = context.resources.getString(R.string.homebrewApiBaseDomain)
+        return "$httpScheme://$baseAuthority/$urlEnd"
     }
 
     private fun startLoginActivity(context: Context) {
