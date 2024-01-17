@@ -64,15 +64,8 @@ class MainActivity : AppCompatActivity() {
             initAbvSpinner(R.id.minAbvSpinner, 0, binding.root)
             initAbvSpinner(R.id.maxAbvSpinner, abvValues.size - 1, binding.root)
 
-            val minColorPickerButton = findViewById<Button>(R.id.minColorBtn)
-            minColorPickerButton.setOnClickListener { showColorPickerDialog(
-                findViewById(R.id.selectedMinColorCardView),
-                findViewById(R.id.txtSelectedMinColor)) }
-
-            val maxColorPickerButton = findViewById<Button>(R.id.maxColorBtn)
-            maxColorPickerButton.setOnClickListener { showColorPickerDialog(
-                findViewById(R.id.selectedMaxColorCardView),
-                findViewById(R.id.txtSelectedMaxColor)) }
+            initColorFilter(R.id.minColorBtn, R.id.selectedMinColorCardView, R.id.txtSelectedMinColor, 0)
+            initColorFilter(R.id.maxColorBtn, R.id.selectedMaxColorCardView, R.id.txtSelectedMaxColor, srmColors.size - 1)
 
             loadSavedRecipePreviews(binding)
 
@@ -107,6 +100,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         colorPickerDialog.show()
+    }
+
+    private fun initColorFilter(colorPickerButtonId: Int, selectedColorCardViewId: Int, selectedColorTextId: Int,
+                                startingColorIndex: Int) {
+        val minColorPickerButton = findViewById<Button>(colorPickerButtonId)
+        minColorPickerButton.setOnClickListener {
+            showColorPickerDialog(
+                findViewById(selectedColorCardViewId),
+                findViewById(selectedColorTextId)
+            )
+        }
+        val color = srmColors[startingColorIndex]
+        findViewById<TextView>(selectedColorTextId).text = color.srmColor.toString()
+        findViewById<CardView>(selectedColorCardViewId).setCardBackgroundColor(color.rbgColor)
     }
 
     private fun initAbvSpinner(id: Int, startingIndex: Int, view: View) {
