@@ -1,6 +1,7 @@
 package com.jlafshari.beerrecipegenerator.recipes
 
 import android.annotation.SuppressLint
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,7 @@ class RecipeListAdapter(private val recipeList: List<RecipePreview>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val recipePreview = recipeList[position]
         with (holder) {
-            txtName.text = recipePreview.toString()
+            setRecipeNameText(recipePreview)
             txtAbv.text = recipePreview.abv.toString() + "%"
 
             val color = Colors.getColor(recipePreview.colorSrm)
@@ -30,6 +31,15 @@ class RecipeListAdapter(private val recipeList: List<RecipePreview>,
 
             bind(recipePreview, clickListener)
         }
+    }
+
+    private fun ViewHolder.setRecipeNameText(recipePreview: RecipePreview) {
+        val nameBuilder = SpannableStringBuilder(recipePreview.toString())
+        val nameMaxLength = 28
+        if (nameBuilder.length > nameMaxLength) {
+            nameBuilder.replace(nameMaxLength - 1, nameBuilder.length, "...")
+        }
+        txtName.text = nameBuilder
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
