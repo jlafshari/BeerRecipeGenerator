@@ -23,8 +23,10 @@ class RecipeListAdapter(private val recipeList: List<RecipePreview>,
             txtAbv.text = recipePreview.abv.toString() + "%"
 
             val color = Colors.getColor(recipePreview.colorSrm)
-            if (color != null)
+            if (color != null) {
+                txtColorSrm.text = color.srmColor.toString()
                 srmColorCardView.setCardBackgroundColor(color.rbgColor)
+            }
 
             bind(recipePreview, clickListener)
         }
@@ -40,6 +42,7 @@ class RecipeListAdapter(private val recipeList: List<RecipePreview>,
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val txtName: TextView = itemView.findViewById(R.id.txtName)
         val txtAbv: TextView = itemView.findViewById(R.id.txtAbv)
+        val txtColorSrm: TextView = itemView.findViewById(R.id.txtColorSrm)
         val srmColorCardView: CardView = itemView.findViewById(R.id.srmColorCardView)
 
         fun bind(recipePreview: RecipePreview, clickListener: (RecipePreview) -> Unit) =
