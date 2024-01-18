@@ -173,7 +173,13 @@ class MainActivity : AppCompatActivity() {
             val colorMin = if (colorCheckBox.isChecked) findViewById<TextView>(R.id.txtSelectedMinColor).text.toString() else null
             val colorMax = if (colorCheckBox.isChecked) findViewById<TextView>(R.id.txtSelectedMaxColor).text.toString() else null
 
-            requestHelper.getAllRecipes(this@MainActivity, abvMin, abvMax, colorMin, colorMax, callBack)
+            val aleChecked = findViewById<CheckBox>(R.id.chkAle).isChecked
+            val lagerChecked = findViewById<CheckBox>(R.id.chkLager).isChecked
+            val yeastType = if (aleChecked && !lagerChecked) "ale"
+                else if (!aleChecked && lagerChecked) "lager"
+                else null
+
+            requestHelper.getAllRecipes(this@MainActivity, abvMin, abvMax, colorMin, colorMax, yeastType, callBack)
         }
     }
 

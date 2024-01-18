@@ -19,7 +19,7 @@ class HomebrewApiRequestHelper @Inject constructor() {
 
     fun getAllRecipes(context: Context, abvMin: String?, abvMax: String?,
                       colorMin: String?, colorMax: String?,
-                      callBack: VolleyCallBack) {
+                      yeastType: String?, callBack: VolleyCallBack) {
         val urlBuilder = Uri.Builder()
         urlBuilder
             .scheme(context.resources.getString(R.string.homebrewApiHttpScheme))
@@ -29,6 +29,8 @@ class HomebrewApiRequestHelper @Inject constructor() {
             urlBuilder.appendQueryParameter("abvMin", abvMin).appendQueryParameter("abvMax", abvMax)
         if (colorMin?.isNotEmpty() == true && colorMax?.isNotEmpty() == true)
             urlBuilder.appendQueryParameter("colorMin", colorMin).appendQueryParameter("colorMax", colorMax)
+        if (yeastType?.isNotEmpty() == true)
+            urlBuilder.appendQueryParameter("yeastType", yeastType)
 
         sendStandardAuthGetRequest(urlBuilder.build().toString(), context, callBack)
     }
