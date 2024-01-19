@@ -3,12 +3,14 @@ package com.jlafshari.beerrecipegenerator
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
@@ -154,7 +156,9 @@ class HomebrewApiRequestHelper @Inject constructor() {
                         callBack.onUnauthorizedResponse()
                     }
                     else {
-                        callBack.onError(it.toString())
+                        val errorMessage = jacksonObjectMapper().readValue<HomebrewApiError>(it.networkResponse.data)
+                        Log.e("HomebrewApi", errorMessage.message)
+                        callBack.onError(errorMessage.message)
                     }
                     println(it)
                 })
