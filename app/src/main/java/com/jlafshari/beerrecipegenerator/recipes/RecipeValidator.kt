@@ -2,7 +2,6 @@ package com.jlafshari.beerrecipegenerator.recipes
 
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
-import com.jlafshari.beerrecipegenerator.settings.AppSettings
 import javax.inject.Inject
 
 class RecipeValidator @Inject constructor() {
@@ -77,7 +76,7 @@ class RecipeValidator @Inject constructor() {
             }
         }
 
-        val boilDurationMinutes = AppSettings.recipeDefaultSettings.boilDurationMinutes
+        val boilDurationMinutes = recipeUpdateInfo.boilDurationMinutes
         for (hopIngredient in recipeUpdateInfo.hopIngredients) {
             if (hopIngredient.boilAdditionTime is Int && hopIngredient.boilAdditionTime!! > boilDurationMinutes) {
                 isRecipeValid = false
