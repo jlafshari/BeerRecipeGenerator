@@ -13,6 +13,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.setPadding
@@ -30,6 +31,7 @@ import com.jlafshari.beerrecipegenerator.account.AccountActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import com.jlafshari.beerrecipegenerator.recipes.RecipeListAdapter
+import com.jlafshari.beerrecipegenerator.recipes.RecipeViewModel
 import com.jlafshari.beerrecipegenerator.settings.AppSettings
 import com.jlafshari.beerrecipegenerator.settings.SettingsActivity
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var requestHelper: HomebrewApiRequestHelper
     private val abvValues = AbvUtility.getAbvRecipeSearchValues().map { it.toString() }.toTypedArray()
     private val srmColors = Colors.getSrmColors()
+    private val recipeViewModel: RecipeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +80,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             initializeExpandSearchButton(binding)
+
+            recipeViewModel.loadRecipePreviewsResponse.observe(this@MainActivity) {
+                displaySavedRecipePreviews(it, binding)
+            }
         }
     }
 
@@ -179,7 +186,28 @@ class MainActivity : AppCompatActivity() {
                 else if (!aleChecked && lagerChecked) "lager"
                 else null
 
-            requestHelper.getAllRecipes(this@MainActivity, abvMin, abvMax, colorMin, colorMax, yeastType, callBack)
+            //requestHelper.getAllRecipes(this@MainActivity, abvMin, abvMax, colorMin, colorMax, yeastType, callBack)
+            recipeViewModel.loadRecipePreviews()
+        }
+    }
+
+    private fun displaySavedRecipePreviews(
+        recipes: List<RecipePreview>,
+        binding: ActivityMainBinding
+    ) {
+        with (binding.root) {
+            val txtLoadingIndicator = findViewById<TextView>(com.jlafshari.beerrecipegenerator.R.id.txtLoadingIndicator)
+            val txtRecipeCount = findViewById<TextView>(com.jlafshari.beerrecipegenerator.R.id.txtRecipeCount)
+            val recipeRecyclerView = findViewById<RecyclerView>(com.jlafshari.beerrecipegenerator.R.id.recipeRecyclerView)
+            recipeRecyclerView.visibility = View.INVISIBLE
+            //txtLoadingIndicator.visibility = View.VISIBLE
+            recipeRecyclerView.adapter =
+                RecipeListAdapter(recipes) { recipePreview ->
+                    recipePreviewClicked(recipePreview)
+                }
+            recipeRecyclerView.visibility = View.VISIBLE
+            txtLoadingIndicator.visibility = View.INVISIBLE
+            txtRecipeCount.text = context.getString(R.string.recipes_count, recipes.size.toString())
         }
     }
 
