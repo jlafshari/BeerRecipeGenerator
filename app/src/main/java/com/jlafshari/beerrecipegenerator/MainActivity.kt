@@ -22,8 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipecore.utility.AbvUtility
 import com.jlafshari.beerrecipegenerator.about.AboutActivity
@@ -56,6 +54,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         AzureAuthHelper.isUserSignedIn(this) {
+            recipeViewModel.loadAccessToken()
+
             val recipeRecyclerView =
                 binding.root.findViewById<RecyclerView>(R.id.recipeRecyclerView)
             recipeRecyclerView.layoutManager =
@@ -70,8 +70,6 @@ class MainActivity : AppCompatActivity() {
             initColorFilter(R.id.minColorBtn, R.id.selectedMinColorCardView, R.id.txtSelectedMinColor, 0)
             initColorFilter(R.id.maxColorBtn, R.id.selectedMaxColorCardView, R.id.txtSelectedMaxColor, srmColors.size - 1)
 
-            loadSavedRecipePreviews(binding)
-
             loadSettings()
 
             val searchBtn = binding.root.findViewById<Button>(R.id.searchRecipeBtn)
@@ -80,6 +78,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             initializeExpandSearchButton(binding)
+
+            recipeViewModel.loadAccessTokenResponse.observe(this@MainActivity) {
+                loadSavedRecipePreviews(binding)
+            }
 
             recipeViewModel.loadRecipePreviewsResponse.observe(this@MainActivity) {
                 displaySavedRecipePreviews(it, binding)
@@ -154,22 +156,10 @@ class MainActivity : AppCompatActivity() {
     private fun loadSavedRecipePreviews(binding: ActivityMainBinding) {
         with (binding.root) {
             val txtLoadingIndicator = findViewById<TextView>(R.id.txtLoadingIndicator)
-            val txtRecipeCount = findViewById<TextView>(R.id.txtRecipeCount)
+            txtLoadingIndicator.visibility = View.VISIBLE
             val recipeRecyclerView = findViewById<RecyclerView>(R.id.recipeRecyclerView)
             recipeRecyclerView.visibility = View.INVISIBLE
-            txtLoadingIndicator.visibility = View.VISIBLE
-            val callBack = requestHelper.getVolleyCallBack(this@MainActivity) {
-                run {
-                    val recipePreviews: List<RecipePreview> = jacksonObjectMapper().readValue(it)
-                    recipeRecyclerView.adapter =
-                        RecipeListAdapter(recipePreviews) { recipePreview ->
-                            recipePreviewClicked(recipePreview)
-                        }
-                    recipeRecyclerView.visibility = View.VISIBLE
-                    txtLoadingIndicator.visibility = View.INVISIBLE
-                    txtRecipeCount.text = context.getString(R.string.recipes_count, recipePreviews.size.toString())
-                }
-            }
+
             val abvCheckbox = findViewById<CheckBox>(R.id.chkAbvFilter)
             val minAbvSpinner = findViewById<Spinner>(R.id.minAbvSpinner)
             val abvMin = if (abvCheckbox.isChecked) abvValues[minAbvSpinner.selectedItemPosition] else null
@@ -186,7 +176,6 @@ class MainActivity : AppCompatActivity() {
                 else if (!aleChecked && lagerChecked) "lager"
                 else null
 
-            //requestHelper.getAllRecipes(this@MainActivity, abvMin, abvMax, colorMin, colorMax, yeastType, callBack)
             recipeViewModel.loadRecipePreviews()
         }
     }
@@ -200,7 +189,6 @@ class MainActivity : AppCompatActivity() {
             val txtRecipeCount = findViewById<TextView>(com.jlafshari.beerrecipegenerator.R.id.txtRecipeCount)
             val recipeRecyclerView = findViewById<RecyclerView>(com.jlafshari.beerrecipegenerator.R.id.recipeRecyclerView)
             recipeRecyclerView.visibility = View.INVISIBLE
-            //txtLoadingIndicator.visibility = View.VISIBLE
             recipeRecyclerView.adapter =
                 RecipeListAdapter(recipes) { recipePreview ->
                     recipePreviewClicked(recipePreview)

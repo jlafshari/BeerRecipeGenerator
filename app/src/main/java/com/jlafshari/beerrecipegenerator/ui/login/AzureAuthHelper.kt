@@ -13,6 +13,7 @@ import com.microsoft.identity.client.IAuthenticationResult
 import com.microsoft.identity.client.IPublicClientApplication
 import com.microsoft.identity.client.ISingleAccountPublicClientApplication
 import com.microsoft.identity.client.PublicClientApplication
+import com.microsoft.identity.client.SilentAuthenticationCallback
 import com.microsoft.identity.client.exception.MsalException
 import com.microsoft.identity.common.java.providers.oauth2.IDToken
 
@@ -63,6 +64,28 @@ object AzureAuthHelper {
             .forAccount(account)
             .build()
         return b2cApplication?.acquireTokenSilent(parameters)?.accessToken
+    }
+
+    fun getAccessTokenAsync(success: (accessToken: String?) -> Unit) {
+        if (account == null) {
+            loadAccount()
+        }
+
+        val parameters = AcquireTokenSilentParameters.Builder()
+            .fromAuthority(B2CConfig.authorityUrl)
+            .withScopes(B2CConfig.scopes.toList())
+            .forAccount(account)
+            .withCallback(object : SilentAuthenticationCallback {
+                override fun onSuccess(authenticationResult: IAuthenticationResult?) {
+                    success(authenticationResult?.accessToken)
+                }
+
+                override fun onError(exception: MsalException?) {
+                }
+
+            })
+            .build()
+        b2cApplication?.acquireTokenSilentAsync(parameters)
     }
 
     fun getUserName() : String? {
