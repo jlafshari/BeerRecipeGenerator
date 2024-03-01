@@ -21,9 +21,12 @@ class HomebrewApiService @Inject constructor() {
         recipeApi = retrofit.create(RecipeApi::class.java)
     }
 
-    fun getAllRecipePreviews(accessToken: String?) : Single<List<RecipePreview>> {
+    fun getAllRecipePreviews(accessToken: String?, abvMin: String?, abvMax: String?,
+                             colorMin: String?, colorMax: String?,
+                             yeastType: String?
+        ) : Single<List<RecipePreview>> {
         val authHeader = getAuthHeader(accessToken)
-        return recipeApi.getAllRecipePreviews(authHeader)
+        return recipeApi.getAllRecipePreviews(authHeader, abvMin, abvMax, colorMin, colorMax, yeastType)
     }
 
     private fun getAuthHeader(accessToken: String?): String {

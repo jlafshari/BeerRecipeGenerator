@@ -176,7 +176,7 @@ class MainActivity : AppCompatActivity() {
                 else if (!aleChecked && lagerChecked) "lager"
                 else null
 
-            recipeViewModel.loadRecipePreviews()
+            recipeViewModel.loadRecipePreviews(abvMin, abvMax, colorMin, colorMax, yeastType)
         }
     }
 

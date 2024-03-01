@@ -21,8 +21,10 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
     val loadAccessTokenResponse: LiveData<String?> = _loadAccessTokenResponse
 
     @SuppressLint("CheckResult")
-    fun loadRecipePreviews() {
-        homebrewApiService.getAllRecipePreviews(loadAccessTokenResponse.value)
+    fun loadRecipePreviews(abvMin: String?, abvMax: String?,
+                           colorMin: String?, colorMax: String?,
+                           yeastType: String?) {
+        homebrewApiService.getAllRecipePreviews(loadAccessTokenResponse.value, abvMin, abvMax, colorMin, colorMax, yeastType)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
