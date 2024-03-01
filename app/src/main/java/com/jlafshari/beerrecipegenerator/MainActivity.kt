@@ -36,7 +36,6 @@ import com.jlafshari.beerrecipegenerator.srmColors.Colors
 import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Date
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -55,8 +54,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         AzureAuthHelper.isUserSignedIn(this) {
-            recipeViewModel.loadAccessToken()
-
             val recipeRecyclerView =
                 binding.root.findViewById<RecyclerView>(R.id.recipeRecyclerView)
             recipeRecyclerView.layoutManager =
@@ -80,13 +77,10 @@ class MainActivity : AppCompatActivity() {
 
             initializeExpandSearchButton(binding)
 
-            recipeViewModel.loadAccessTokenResponse.observe(this@MainActivity) {
-                loadSavedRecipePreviews(binding)
-            }
-
             recipeViewModel.loadRecipePreviewsResponse.observe(this@MainActivity) {
                 displaySavedRecipePreviews(it, binding)
             }
+            loadSavedRecipePreviews(binding)
         }
     }
 
@@ -177,9 +171,6 @@ class MainActivity : AppCompatActivity() {
                 else if (!aleChecked && lagerChecked) "lager"
                 else null
 
-            if (recipeViewModel.loadAccessTokenResponse.value?.expiresOn?.before(Date()) == true) {
-                AzureAuthHelper.showLoginScreen(context)
-            }
             recipeViewModel.loadRecipePreviews(abvMin, abvMax, colorMin, colorMax, yeastType)
         }
     }

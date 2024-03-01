@@ -12,6 +12,7 @@ import com.microsoft.identity.client.IAuthenticationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,14 +21,30 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
     private val _loadRecipePreviewsResponse = MutableLiveData<List<RecipePreview>>()
     val loadRecipePreviewsResponse: LiveData<List<RecipePreview>> = _loadRecipePreviewsResponse
 
-    private val _loadAccessTokenResponse = MutableLiveData<IAuthenticationResult?>()
-    val loadAccessTokenResponse: LiveData<IAuthenticationResult?> = _loadAccessTokenResponse
+    private var _authResult: IAuthenticationResult? = null
 
     @SuppressLint("CheckResult")
     fun loadRecipePreviews(abvMin: String?, abvMax: String?,
                            colorMin: String?, colorMax: String?,
                            yeastType: String?) {
-        homebrewApiService.getAllRecipePreviews(loadAccessTokenResponse.value?.accessToken, abvMin, abvMax, colorMin, colorMax, yeastType)
+        if (_authResult.isTokenInvalid()) {
+            AzureAuthHelper.getAccessTokenAsync {
+                _authResult = it
+                loadRecipePreviewsWithAuth(abvMin, abvMax, colorMin, colorMax, yeastType)
+            }
+        }
+        else {
+            loadRecipePreviewsWithAuth(abvMin, abvMax, colorMin, colorMax, yeastType)
+        }
+    }
+
+    private fun loadRecipePreviewsWithAuth(abvMin: String?, abvMax: String?,
+        colorMin: String?, colorMax: String?,
+        yeastType: String?
+    ) {
+        homebrewApiService.getAllRecipePreviews(_authResult?.accessToken,
+            abvMin, abvMax, colorMin, colorMax, yeastType
+        )
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -37,7 +54,6 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
             .disposeWhenCleared()
     }
 
-    fun loadAccessToken() {
-        AzureAuthHelper.getAccessTokenAsync { _loadAccessTokenResponse.postValue(it) }
-    }
+    private fun IAuthenticationResult?.isTokenInvalid() : Boolean =
+        this == null || this.expiresOn.before(Date())
 }
