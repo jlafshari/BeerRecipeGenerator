@@ -36,6 +36,7 @@ import com.jlafshari.beerrecipegenerator.srmColors.Colors
 import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Date
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -176,6 +177,9 @@ class MainActivity : AppCompatActivity() {
                 else if (!aleChecked && lagerChecked) "lager"
                 else null
 
+            if (recipeViewModel.loadAccessTokenResponse.value?.expiresOn?.before(Date()) == true) {
+                AzureAuthHelper.showLoginScreen(context)
+            }
             recipeViewModel.loadRecipePreviews(abvMin, abvMax, colorMin, colorMax, yeastType)
         }
     }

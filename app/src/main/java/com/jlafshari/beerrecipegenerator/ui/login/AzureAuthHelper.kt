@@ -66,7 +66,7 @@ object AzureAuthHelper {
         return b2cApplication?.acquireTokenSilent(parameters)?.accessToken
     }
 
-    fun getAccessTokenAsync(success: (accessToken: String?) -> Unit) {
+    fun getAccessTokenAsync(success: (authResult: IAuthenticationResult?) -> Unit) {
         if (account == null) {
             loadAccount()
         }
@@ -77,7 +77,7 @@ object AzureAuthHelper {
             .forAccount(account)
             .withCallback(object : SilentAuthenticationCallback {
                 override fun onSuccess(authenticationResult: IAuthenticationResult?) {
-                    success(authenticationResult?.accessToken)
+                    success(authenticationResult)
                 }
 
                 override fun onError(exception: MsalException?) {
@@ -145,7 +145,7 @@ object AzureAuthHelper {
             })
     }
 
-    private fun showLoginScreen(context: Context) {
+    fun showLoginScreen(context: Context) {
         val loginActivityIntent = Intent(context, AzureLoginActivity::class.java)
         context.startActivity(loginActivityIntent)
     }
