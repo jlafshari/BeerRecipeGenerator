@@ -2,8 +2,9 @@ package com.jlafshari.beerrecipegenerator
 
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.recipes.RecipeApi
-import retrofit2.Call
+import io.reactivex.Single
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
@@ -14,12 +15,13 @@ class HomebrewApiService @Inject constructor() {
     init {
         val retrofit = Retrofit.Builder().baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
 
         recipeApi = retrofit.create(RecipeApi::class.java)
     }
 
-    fun getAllRecipePreviews(accessToken: String?) : Call<List<RecipePreview>> {
+    fun getAllRecipePreviews(accessToken: String?) : Single<List<RecipePreview>> {
         val authHeader = getAuthHeader(accessToken)
         return recipeApi.getAllRecipePreviews(authHeader)
     }
