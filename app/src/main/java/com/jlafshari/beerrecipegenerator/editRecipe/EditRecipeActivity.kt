@@ -100,7 +100,6 @@ class EditRecipeActivity : AppCompatActivity() {
     private fun loadRecipe(recipeId: String) {
         val callBack = requestHelper.getVolleyCallBack(this@EditRecipeActivity) { run {
             val recipe: Recipe = jacksonObjectMapper().readValue(it)
-            recipe.hopIngredients[0].use.ordinal
             with(recipe) {
                 mRecipeId = id
                 mRecipeUpdateInfo = RecipeUpdateInfo(
