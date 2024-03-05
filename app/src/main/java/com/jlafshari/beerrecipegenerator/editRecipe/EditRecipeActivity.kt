@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipegenerator.*
 import com.jlafshari.beerrecipegenerator.databinding.ActivityEditRecipeBinding
 import com.jlafshari.beerrecipegenerator.recipes.RecipeValidator
+import com.jlafshari.beerrecipegenerator.recipes.RecipeViewModel
 import com.jlafshari.beerrecipegenerator.settings.AppSettings
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +34,8 @@ class EditRecipeActivity : AppCompatActivity() {
     lateinit var requestHelper: HomebrewApiRequestHelper
     @Inject
     lateinit var recipeValidator: RecipeValidator
+
+    private val recipeViewModel: RecipeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +55,13 @@ class EditRecipeActivity : AppCompatActivity() {
         setHopEditRecyclerView(emptyList())
 
         val recipeId = intent.getStringExtra(Constants.EXTRA_EDIT_RECIPE)
-        loadRecipe(recipeId!!)
+        recipeViewModel.loadRecipeDetails(recipeId!!)
+
+        recipeViewModel.loadRecipeDetailsResponse.observe(this@EditRecipeActivity) {
+            if (it != null) {
+                loadRecipe(it)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -97,35 +107,31 @@ class EditRecipeActivity : AppCompatActivity() {
         setHopEditRecyclerView(mRecipeUpdateInfo.hopIngredients)
     }
 
-    private fun loadRecipe(recipeId: String) {
-        val callBack = requestHelper.getVolleyCallBack(this@EditRecipeActivity) { run {
-            val recipe: Recipe = jacksonObjectMapper().readValue(it)
-            with(recipe) {
-                mRecipeId = id
-                mRecipeUpdateInfo = RecipeUpdateInfo(
-                    name,
-                    AppSettings.recipeDefaultSettings.recipeSize,
-                    fermentableIngredients,
-                    hopIngredients,
-                    yeastIngredient.yeastId,
-                    AppSettings.recipeDefaultSettings.extractionEfficiency,
-                    AppSettings.recipeDefaultSettings.boilDurationMinutes,
-                    AppSettings.recipeDefaultSettings.equipmentLossAmount,
-                    AppSettings.recipeDefaultSettings.trubLossAmount,
-                    MashProfileForUpdate(
-                        mashProfile.mashSteps,
-                        mashProfile.grainTemperature,
-                        mashProfile.mashThickness
-                    ),
-                    recipe.miscellaneousIngredients
-                        .map { MiscellaneousIngredientForUpdate(it.miscellaneousIngredientInfoId, it.amount) }
-                        .toMutableList(),
-                    recipe.fermentationSteps.toMutableList()
-                )
-            }
-            loadRecipeView()
-        }}
-        requestHelper.getRecipe(recipeId, this, callBack)
+    private fun loadRecipe(recipe: Recipe) {
+        with(recipe) {
+            mRecipeId = id
+            mRecipeUpdateInfo = RecipeUpdateInfo(
+                name,
+                AppSettings.recipeDefaultSettings.recipeSize,
+                fermentableIngredients,
+                hopIngredients,
+                yeastIngredient.yeastId,
+                AppSettings.recipeDefaultSettings.extractionEfficiency,
+                AppSettings.recipeDefaultSettings.boilDurationMinutes,
+                AppSettings.recipeDefaultSettings.equipmentLossAmount,
+                AppSettings.recipeDefaultSettings.trubLossAmount,
+                MashProfileForUpdate(
+                    mashProfile.mashSteps,
+                    mashProfile.grainTemperature,
+                    mashProfile.mashThickness
+                ),
+                miscellaneousIngredients
+                    .map { MiscellaneousIngredientForUpdate(it.miscellaneousIngredientInfoId, it.amount) }
+                    .toMutableList(),
+                fermentationSteps.toMutableList()
+            )
+        }
+        loadRecipeView()
     }
 
     private fun loadRecipeView() {
