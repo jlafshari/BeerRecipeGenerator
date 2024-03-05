@@ -1,5 +1,6 @@
 package com.jlafshari.beerrecipegenerator
 
+import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.recipes.RecipeApi
 import io.reactivex.Single
@@ -27,4 +28,7 @@ class HomebrewApiService @Inject constructor() {
         ) : Single<List<RecipePreview>> {
         return recipeApi.getAllRecipePreviews(authHeader, abvMin, abvMax, colorMin, colorMax, yeastType)
     }
+
+    fun getRecipeDetails(authHeader: String, recipeId: String): Single<Recipe> =
+        recipeApi.getRecipeDetails(authHeader, recipeId)
 }

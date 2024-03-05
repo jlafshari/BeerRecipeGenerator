@@ -8,15 +8,15 @@ import android.view.MenuItem
 import android.view.View.GONE
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipegenerator.*
 import com.jlafshari.beerrecipegenerator.databinding.ActivityRecipeViewBinding
 import com.jlafshari.beerrecipegenerator.editRecipe.EditRecipeActivity
+import com.jlafshari.beerrecipegenerator.recipes.RecipeViewModel
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -27,6 +27,8 @@ class RecipeViewActivity : AppCompatActivity() {
 
     @Inject
     lateinit var requestHelper: HomebrewApiRequestHelper
+
+    private val recipeViewModel: RecipeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,8 +63,8 @@ class RecipeViewActivity : AppCompatActivity() {
             this, RecyclerView.VERTICAL, false)
         binding.miscIngredientsRecyclerView.adapter = MiscIngredientListAdapter(emptyList(), this)
 
-        val recipeId = intent.getStringExtra(Constants.EXTRA_VIEW_RECIPE)
-        loadRecipe(recipeId!!, binding)
+        val recipeId = intent.getStringExtra(Constants.EXTRA_VIEW_RECIPE)!!
+        recipeViewModel.loadRecipeDetails(recipeId)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -70,6 +72,14 @@ class RecipeViewActivity : AppCompatActivity() {
                 startActivity(mainActivityIntent)
             }
         })
+
+        recipeViewModel.loadRecipeDetailsResponse.observe(this@RecipeViewActivity) {
+            if (it != null) {
+                mRecipe = it
+                loadRecipeView(binding)
+                recipeViewModel.loadRecipeDetailsComplete()
+            }
+        }
     }
 
     private fun loadRecipeView(binding: ActivityRecipeViewBinding) {
@@ -113,14 +123,6 @@ class RecipeViewActivity : AppCompatActivity() {
         } else {
             binding.miscIngredientsRecyclerView.adapter = MiscIngredientListAdapter(mRecipe.miscellaneousIngredients, this)
         }
-    }
-
-    private fun loadRecipe(recipeId: String, binding: ActivityRecipeViewBinding) {
-        val callBack = requestHelper.getVolleyCallBack(this) { run {
-            mRecipe = jacksonObjectMapper().readValue(it)
-            loadRecipeView(binding)
-        }}
-        requestHelper.getRecipe(recipeId, this, callBack)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

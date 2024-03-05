@@ -3,6 +3,7 @@ package com.jlafshari.beerrecipegenerator.recipes
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.BaseViewModel
 import com.jlafshari.beerrecipegenerator.HomebrewApiService
@@ -19,6 +20,9 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
 
     private val _loadRecipePreviewsResponse = MutableLiveData<List<RecipePreview>>()
     val loadRecipePreviewsResponse: LiveData<List<RecipePreview>> = _loadRecipePreviewsResponse
+
+    private val _loadRecipeDetailsResponse = MutableLiveData<Recipe?>()
+    val loadRecipeDetailsResponse: LiveData<Recipe?> = _loadRecipeDetailsResponse
 
     private var _authResult: IAuthenticationResult? = null
 
@@ -37,6 +41,23 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
                 )
                 .disposeWhenCleared()
         }
+    }
+
+    fun loadRecipeDetails(recipeId: String) {
+        runIfTokenIsValid {
+            homebrewApiService.getRecipeDetails(_authResult!!.authorizationHeader, recipeId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { _loadRecipeDetailsResponse.postValue(it) },
+                    { Log.d("", "load recipe details error", it) }
+                )
+                .disposeWhenCleared()
+        }
+    }
+
+    fun loadRecipeDetailsComplete() {
+        _loadRecipeDetailsResponse.postValue(null)
     }
 
     private fun runIfTokenIsValid(fn: () -> Unit) {
