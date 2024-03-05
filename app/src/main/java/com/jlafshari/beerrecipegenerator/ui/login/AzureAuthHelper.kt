@@ -81,6 +81,7 @@ object AzureAuthHelper {
                 }
 
                 override fun onError(exception: MsalException?) {
+                    Log.d("", "onError: ", exception)
                 }
 
             })

@@ -1,6 +1,5 @@
 package com.jlafshari.beerrecipegenerator.recipes
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,35 +22,32 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
 
     private var _authResult: IAuthenticationResult? = null
 
-    @SuppressLint("CheckResult")
     fun loadRecipePreviews(abvMin: String?, abvMax: String?,
                            colorMin: String?, colorMax: String?,
                            yeastType: String?) {
-        if (_authResult.isTokenInvalid()) {
-            AzureAuthHelper.getAccessTokenAsync {
-                _authResult = it
-                loadRecipePreviewsWithAuth(abvMin, abvMax, colorMin, colorMax, yeastType)
-            }
-        }
-        else {
-            loadRecipePreviewsWithAuth(abvMin, abvMax, colorMin, colorMax, yeastType)
+        runIfTokenIsValid {
+            homebrewApiService.getAllRecipePreviews(_authResult!!.authorizationHeader,
+                abvMin, abvMax, colorMin, colorMax, yeastType
+            )
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { _loadRecipePreviewsResponse.postValue(it) },
+                    { Log.d("", "load recipe previews error ", it) }
+                )
+                .disposeWhenCleared()
         }
     }
 
-    private fun loadRecipePreviewsWithAuth(abvMin: String?, abvMax: String?,
-        colorMin: String?, colorMax: String?,
-        yeastType: String?
-    ) {
-        homebrewApiService.getAllRecipePreviews(_authResult?.accessToken,
-            abvMin, abvMax, colorMin, colorMax, yeastType
-        )
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { _loadRecipePreviewsResponse.postValue(it) },
-                { Log.d("", "load recipe previews error ", it) }
-            )
-            .disposeWhenCleared()
+    private fun runIfTokenIsValid(fn: () -> Unit) {
+        if (_authResult.isTokenInvalid()) {
+            AzureAuthHelper.getAccessTokenAsync {
+                _authResult = it
+                fn()
+            }
+        } else {
+            fn()
+        }
     }
 
     private fun IAuthenticationResult?.isTokenInvalid() : Boolean =
