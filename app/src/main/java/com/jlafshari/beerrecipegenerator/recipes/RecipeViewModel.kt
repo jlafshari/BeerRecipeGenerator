@@ -3,8 +3,10 @@ package com.jlafshari.beerrecipegenerator.recipes
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
+import com.jlafshari.beerrecipegenerator.ApiResponse
 import com.jlafshari.beerrecipegenerator.BaseViewModel
 import com.jlafshari.beerrecipegenerator.HomebrewApiService
 import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
@@ -23,6 +25,9 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
 
     private val _loadRecipeDetailsResponse = MutableLiveData<Recipe?>()
     val loadRecipeDetailsResponse: LiveData<Recipe?> = _loadRecipeDetailsResponse
+
+    private val _updateRecipeResponse = MutableLiveData<ApiResponse>()
+    val updateRecipeResponse: LiveData<ApiResponse> = _updateRecipeResponse
 
     private var _authResult: IAuthenticationResult? = null
 
@@ -58,6 +63,23 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
 
     fun loadRecipeDetailsComplete() {
         _loadRecipeDetailsResponse.postValue(null)
+    }
+
+    fun updateRecipe(recipeId: String, recipeUpdateInfo: RecipeUpdateInfo) {
+        runIfTokenIsValid {
+            homebrewApiService.updateRecipe(_authResult!!.authorizationHeader, recipeId, recipeUpdateInfo)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                        _updateRecipeResponse.postValue(ApiResponse(true))
+                    },
+                    {
+                        Log.d("", "load recipe details error", it)
+                        _updateRecipeResponse.postValue(ApiResponse(false))
+                    }
+                )
+                .disposeWhenCleared()
+        }
     }
 
     private fun runIfTokenIsValid(fn: () -> Unit) {

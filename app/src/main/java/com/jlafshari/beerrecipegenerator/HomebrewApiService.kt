@@ -1,8 +1,10 @@
 package com.jlafshari.beerrecipegenerator
 
+import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.recipes.RecipeApi
+import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -31,4 +33,7 @@ class HomebrewApiService @Inject constructor() {
 
     fun getRecipeDetails(authHeader: String, recipeId: String): Single<Recipe> =
         recipeApi.getRecipeDetails(authHeader, recipeId)
+
+    fun updateRecipe(authHeader: String, recipeId: String, recipeUpdateInfo: RecipeUpdateInfo): Completable =
+        recipeApi.updateRecipe(authHeader, recipeId, recipeUpdateInfo)
 }

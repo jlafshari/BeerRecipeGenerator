@@ -62,6 +62,12 @@ class EditRecipeActivity : AppCompatActivity() {
                 loadRecipe(it)
             }
         }
+
+        recipeViewModel.updateRecipeResponse.observe(this@EditRecipeActivity) {
+            if (it.isSuccessful) {
+                goBackToRecipeView()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -226,8 +232,7 @@ class EditRecipeActivity : AppCompatActivity() {
             return
         }
 
-        val callBack = requestHelper.getVolleyCallBack(this@EditRecipeActivity) { goBackToRecipeView() }
-        requestHelper.updateRecipe(mRecipeId, mRecipeUpdateInfo, this, callBack)
+        recipeViewModel.updateRecipe(mRecipeId, mRecipeUpdateInfo)
     }
 
     private fun goBackToRecipeView() {
