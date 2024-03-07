@@ -3,6 +3,7 @@ package com.jlafshari.beerrecipegenerator.recipes
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
@@ -25,6 +26,9 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
 
     private val _loadRecipeDetailsResponse = MutableLiveData<Recipe?>()
     val loadRecipeDetailsResponse: LiveData<Recipe?> = _loadRecipeDetailsResponse
+
+    private val _generateRecipeResponse = MutableLiveData<Recipe>()
+    val generateRecipeResponse: LiveData<Recipe> = _generateRecipeResponse
 
     private val _updateRecipeResponse = MutableLiveData<ApiResponse>()
     val updateRecipeResponse: LiveData<ApiResponse> = _updateRecipeResponse
@@ -66,6 +70,19 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
 
     fun loadRecipeDetailsComplete() {
         _loadRecipeDetailsResponse.postValue(null)
+    }
+
+    fun generateRecipe(recipeGenerationInfo: RecipeGenerationInfo) {
+        runIfTokenIsValid {
+            homebrewApiService.generateRecipe(_authResult!!.authorizationHeader, recipeGenerationInfo)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { _generateRecipeResponse.postValue(it) },
+                    { Log.d("", "generate recipe error", it) }
+                )
+                .disposeWhenCleared()
+        }
     }
 
     fun updateRecipe(recipeId: String, recipeUpdateInfo: RecipeUpdateInfo) {

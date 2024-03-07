@@ -1,5 +1,6 @@
 package com.jlafshari.beerrecipegenerator.recipes
 
+import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
@@ -10,6 +11,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.PATCH
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -31,4 +33,8 @@ interface RecipeApi {
 
     @DELETE("Recipe/{recipeId}")
     fun deleteRecipe(@Header("Authorization") authHeader: String, @Path("recipeId") recipeId: String): Completable
+
+    @POST("Recipe/GenerateRecipe")
+    fun generateRecipe(@Header("Authorization") authHeader: String, @Body recipeGenerationInfo: RecipeGenerationInfo):
+            Single<Recipe>
 }

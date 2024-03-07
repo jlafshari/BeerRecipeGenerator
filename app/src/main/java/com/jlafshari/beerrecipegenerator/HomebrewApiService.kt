@@ -1,5 +1,6 @@
 package com.jlafshari.beerrecipegenerator
 
+import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
@@ -33,6 +34,9 @@ class HomebrewApiService @Inject constructor() {
 
     fun getRecipeDetails(authHeader: String, recipeId: String): Single<Recipe> =
         recipeApi.getRecipeDetails(authHeader, recipeId)
+
+    fun generateRecipe(authHeader: String, recipeGenerationInfo: RecipeGenerationInfo): Single<Recipe> =
+        recipeApi.generateRecipe(authHeader, recipeGenerationInfo)
 
     fun updateRecipe(authHeader: String, recipeId: String, recipeUpdateInfo: RecipeUpdateInfo): Completable =
         recipeApi.updateRecipe(authHeader, recipeId, recipeUpdateInfo)

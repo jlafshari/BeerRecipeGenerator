@@ -4,14 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipecore.StyleThreshold
@@ -25,6 +23,7 @@ import com.jlafshari.beerrecipegenerator.newRecipe.fragments.GenerateRecipeFragm
 import com.jlafshari.beerrecipegenerator.newRecipe.fragments.RecipeSizeFragment.OnRecipeSizeSetListener
 import com.jlafshari.beerrecipegenerator.recipes.RecipeValidationResult
 import com.jlafshari.beerrecipegenerator.recipes.RecipeValidator
+import com.jlafshari.beerrecipegenerator.recipes.RecipeViewModel
 import com.jlafshari.beerrecipegenerator.settings.AppSettings
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,8 +36,8 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
     private var mRecipeGenerationInfo: RecipeGenerationInfo = RecipeGenerationInfo()
     private lateinit var mStyle: Style
 
-    @Inject
-    lateinit var requestHelper: HomebrewApiRequestHelper
+    private val recipeViewModel by viewModels<RecipeViewModel>()
+
     @Inject
     lateinit var recipeValidator: RecipeValidator
 
@@ -60,6 +59,10 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         binding.progressBar.max = NewRecipeSteps.numberOfSteps
         mRecipeGenerationInfo.extractionEfficiency = AppSettings.recipeDefaultSettings.extractionEfficiency
         mRecipeGenerationInfo.mashThickness = AppSettings.recipeDefaultSettings.mashThickness
+
+        recipeViewModel.generateRecipeResponse.observe(this@NewRecipeWizardActivity) {
+            viewRecipe(it.id)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -133,11 +136,7 @@ class NewRecipeWizardActivity : AppCompatActivity(), OnRecipeStyleSelectedListen
         val validationResult = recipeValidator.validateRecipeGenerationInfo(mRecipeGenerationInfo)
 
         if (validationResult.succeeded) {
-            val callBack = requestHelper.getVolleyCallBack(this) { run {
-                val recipe = jacksonObjectMapper().readValue<Recipe>(it)
-                viewRecipe(recipe.id)
-            }}
-            requestHelper.generateRecipe(mRecipeGenerationInfo, this, callBack)
+            recipeViewModel.generateRecipe(mRecipeGenerationInfo)
         }
 
         return validationResult
