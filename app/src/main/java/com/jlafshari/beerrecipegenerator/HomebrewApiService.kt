@@ -13,10 +13,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
 class HomebrewApiService @Inject constructor() {
-    private val baseUrl = "http://10.0.2.2:5000"
     private var recipeApi: RecipeApi
 
     init {
+        val baseUrl = getBaseUrl()
+
         val retrofit = Retrofit.Builder().baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -24,6 +25,9 @@ class HomebrewApiService @Inject constructor() {
 
         recipeApi = retrofit.create(RecipeApi::class.java)
     }
+
+    private fun getBaseUrl(): String =
+        "${BuildConfig.homebrewApiHttpScheme}://${BuildConfig.homebrewApiBaseDomain}"
 
     fun getAllRecipePreviews(authHeader: String, abvMin: String?, abvMax: String?,
                              colorMin: String?, colorMax: String?,
