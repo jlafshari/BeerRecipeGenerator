@@ -36,4 +36,7 @@ class HomebrewApiService @Inject constructor() {
 
     fun updateRecipe(authHeader: String, recipeId: String, recipeUpdateInfo: RecipeUpdateInfo): Completable =
         recipeApi.updateRecipe(authHeader, recipeId, recipeUpdateInfo)
+
+    fun deleteRecipe(authHeader: String, recipeId: String): Completable =
+        recipeApi.deleteRecipe(authHeader, recipeId)
 }

@@ -6,6 +6,7 @@ import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.PATCH
@@ -27,4 +28,7 @@ interface RecipeApi {
     @PATCH("Recipe/{recipeId}")
     fun updateRecipe(@Header("Authorization") authHeader: String, @Path("recipeId") recipeId: String,
                      @Body recipeUpdateInfo: RecipeUpdateInfo): Completable
+
+    @DELETE("Recipe/{recipeId}")
+    fun deleteRecipe(@Header("Authorization") authHeader: String, @Path("recipeId") recipeId: String): Completable
 }

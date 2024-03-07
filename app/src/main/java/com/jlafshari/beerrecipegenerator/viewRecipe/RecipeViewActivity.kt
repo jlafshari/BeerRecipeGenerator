@@ -1,6 +1,5 @@
 package com.jlafshari.beerrecipegenerator.viewRecipe
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -80,6 +79,12 @@ class RecipeViewActivity : AppCompatActivity() {
                 recipeViewModel.loadRecipeDetailsComplete()
             }
         }
+
+        recipeViewModel.deleteRecipeResponse.observe(this@RecipeViewActivity) {
+            if (it.isSuccessful) {
+                onRecipeDeleted()
+            }
+        }
     }
 
     private fun loadRecipeView(binding: ActivityRecipeViewBinding) {
@@ -153,14 +158,14 @@ class RecipeViewActivity : AppCompatActivity() {
     }
 
     private fun deleteRecipe() {
-        requestHelper.deleteRecipe(mRecipe.id, this, object : VolleyDeleteRequestCallBack {
-            override fun onSuccess(context: Context) {
-                Toast.makeText(context, "Recipe deleted!", Toast.LENGTH_SHORT).show()
+        recipeViewModel.deleteRecipe(mRecipe.id)
+    }
 
-                val mainActivityIntent = Intent(context, MainActivity::class.java)
-                startActivity(mainActivityIntent)
-            }
-        })
+    private fun onRecipeDeleted() {
+        Toast.makeText(this, "Recipe deleted!", Toast.LENGTH_SHORT).show()
+
+        val mainActivityIntent = Intent(this, MainActivity::class.java)
+        startActivity(mainActivityIntent)
     }
 
     private fun editRecipe() {

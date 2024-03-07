@@ -29,6 +29,9 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
     private val _updateRecipeResponse = MutableLiveData<ApiResponse>()
     val updateRecipeResponse: LiveData<ApiResponse> = _updateRecipeResponse
 
+    private val _deleteRecipeResponse = MutableLiveData<ApiResponse>()
+    val deleteRecipeResponse: LiveData<ApiResponse> = _deleteRecipeResponse
+
     private var _authResult: IAuthenticationResult? = null
 
     fun loadRecipePreviews(abvMin: String?, abvMax: String?,
@@ -74,8 +77,25 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
                         _updateRecipeResponse.postValue(ApiResponse(true))
                     },
                     {
-                        Log.d("", "load recipe details error", it)
+                        Log.d("", "update recipe error", it)
                         _updateRecipeResponse.postValue(ApiResponse(false))
+                    }
+                )
+                .disposeWhenCleared()
+        }
+    }
+
+    fun deleteRecipe(recipeId: String) {
+        runIfTokenIsValid {
+            homebrewApiService.deleteRecipe(_authResult!!.authorizationHeader, recipeId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    _deleteRecipeResponse.postValue(ApiResponse(true))
+                    },
+                    {
+                        Log.d("", "delete recipe error", it)
+                        _deleteRecipeResponse.postValue(ApiResponse(false))
                     }
                 )
                 .disposeWhenCleared()
