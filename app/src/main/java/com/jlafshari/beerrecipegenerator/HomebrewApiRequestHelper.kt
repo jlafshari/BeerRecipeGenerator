@@ -2,113 +2,18 @@ package com.jlafshari.beerrecipegenerator
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.util.Log
 import android.widget.Toast
-import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.jlafshari.beerrecipecore.RecipeGenerationInfo
-import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
 import com.jlafshari.beerrecipegenerator.ui.login.AzureLoginActivity
 import javax.inject.Inject
 
 class HomebrewApiRequestHelper @Inject constructor() {
-
-    fun getAllRecipes(context: Context, abvMin: String?, abvMax: String?,
-                      colorMin: String?, colorMax: String?,
-                      yeastType: String?, callBack: VolleyCallBack) {
-        val urlBuilder = Uri.Builder()
-        urlBuilder
-            .scheme(context.resources.getString(R.string.homebrewApiHttpScheme))
-            .encodedAuthority(context.resources.getString(R.string.homebrewApiBaseDomain))
-            .appendEncodedPath(getAllRecipesUrl)
-        if (abvMin?.isNotEmpty() == true && abvMax?.isNotEmpty() == true)
-            urlBuilder.appendQueryParameter("abvMin", abvMin).appendQueryParameter("abvMax", abvMax)
-        if (colorMin?.isNotEmpty() == true && colorMax?.isNotEmpty() == true)
-            urlBuilder.appendQueryParameter("colorMin", colorMin).appendQueryParameter("colorMax", colorMax)
-        if (yeastType?.isNotEmpty() == true)
-            urlBuilder.appendQueryParameter("yeastType", yeastType)
-
-        sendStandardAuthGetRequest(urlBuilder.build().toString(), context, callBack)
-    }
-
-    fun getRecipe(recipeId: String, context: Context, callBack: VolleyCallBack) {
-        val url = getUrl("$recipeUrl/$recipeId", context)
-        sendStandardAuthGetRequest(url, context, callBack)
-    }
-
-    fun deleteRecipe(recipeId: String, context: Context, callBack: VolleyDeleteRequestCallBack) {
-        val url = getUrl("$recipeUrl/$recipeId", context)
-        val queue = Volley.newRequestQueue(context)
-        val stringRequest = object :
-            StringRequest(
-                Method.DELETE, url,
-                {
-                    callBack.onSuccess(context)
-                },
-                {
-                    println(it)
-                })
-        {
-            override fun getHeaders(): MutableMap<String, String> = getAuthHeader()
-        }
-        queue.add(stringRequest)
-    }
-
-    fun generateRecipe(recipeGenerationInfo: RecipeGenerationInfo, context: Context, callBack: VolleyCallBack) {
-        val url = getUrl(generateRecipeUrl, context)
-        val queue = Volley.newRequestQueue(context)
-        val stringRequest = object :
-            StringRequest(
-                Method.POST, url,
-                {
-                    callBack.onSuccess(it)
-                },
-                {
-                    println(it)
-                    callBack.onError(it.toString())
-                })
-        {
-            override fun getBodyContentType(): String = "application/json"
-
-            @Throws(AuthFailureError::class)
-            override fun getBody(): ByteArray =
-                jacksonObjectMapper().writeValueAsBytes(recipeGenerationInfo)
-
-            override fun getHeaders(): MutableMap<String, String> = getAuthHeader()
-        }
-        queue.add(stringRequest)
-    }
-
-    fun updateRecipe(recipeId: String, recipeUpdateInfo: RecipeUpdateInfo, context: Context, callBack: VolleyCallBack) {
-        val url = getUrl("$recipeUrl/$recipeId", context)
-        val queue = Volley.newRequestQueue(context)
-        val stringRequest = object :
-            StringRequest(
-                Method.PATCH, url,
-                {
-                    callBack.onSuccess(it)
-                },
-                {
-                    println(it)
-                    callBack.onError(it.toString())
-                })
-        {
-            override fun getBodyContentType(): String = "application/json"
-
-            @Throws(AuthFailureError::class)
-            override fun getBody(): ByteArray =
-                jacksonObjectMapper().writeValueAsBytes(recipeUpdateInfo)
-
-            override fun getHeaders(): MutableMap<String, String> = getAuthHeader()
-        }
-        queue.add(stringRequest)
-    }
 
     fun getAllStyles(context: Context, callBack: VolleyCallBack) =
         sendStandardAuthGetRequest(getUrl(getAllStylesUrl, context), context, callBack)
