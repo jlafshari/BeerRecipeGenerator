@@ -21,11 +21,6 @@ class HomebrewApiRequestHelper @Inject constructor() {
     fun getAllFermentables(context: Context, callBack: VolleyCallBack) =
         sendStandardAuthGetRequest(getUrl(getAllFermentablesUrl, context), context, callBack)
 
-    fun getFermentable(fermentableId: String, context: Context, callBack: VolleyCallBack) {
-        val url = getUrl("Fermentable/$fermentableId", context)
-        sendStandardAuthGetRequest(url, context, callBack)
-    }
-
     fun getAllHops(context: Context, callBack: VolleyCallBack) =
         sendStandardAuthGetRequest(getUrl(getAllHopsUrl, context), context, callBack)
 

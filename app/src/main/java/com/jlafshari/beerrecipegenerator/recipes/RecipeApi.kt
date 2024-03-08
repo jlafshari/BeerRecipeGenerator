@@ -1,5 +1,6 @@
 package com.jlafshari.beerrecipegenerator.recipes
 
+import com.jlafshari.beerrecipecore.Fermentable
 import com.jlafshari.beerrecipecore.Hop
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
@@ -41,4 +42,8 @@ interface RecipeApi {
 
     @GET("Hop/{hopId}")
     fun getHopDetails(@Header("Authorization") authHeader: String, @Path("hopId") hopId: String): Single<Hop>
+
+    @GET("Fermentable/{fermentableId}")
+    fun getFermentableDetails(@Header("Authorization") authHeader: String, @Path("fermentableId") fermentableId: String):
+            Single<Fermentable>
 }

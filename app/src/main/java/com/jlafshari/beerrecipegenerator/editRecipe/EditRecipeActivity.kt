@@ -11,8 +11,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.*
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipegenerator.*
@@ -30,8 +28,6 @@ class EditRecipeActivity : AppCompatActivity() {
     private lateinit var mRecipeUpdateInfo: RecipeUpdateInfo
     private lateinit var binding: ActivityEditRecipeBinding
 
-    @Inject
-    lateinit var requestHelper: HomebrewApiRequestHelper
     @Inject
     lateinit var recipeValidator: RecipeValidator
 
@@ -71,6 +67,9 @@ class EditRecipeActivity : AppCompatActivity() {
 
         ingredientViewModel.loadHopDetailsResponse.observe(this@EditRecipeActivity) {
             addHopIngredientToRecipe(it)
+        }
+        ingredientViewModel.loadFermentableDetailsResponse.observe(this@EditRecipeActivity) {
+            addFermentableIngredientToRecipe(it)
         }
     }
 
@@ -193,19 +192,11 @@ class EditRecipeActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         val fermentableId = intent?.getStringExtra(Constants.EXTRA_ADD_GRAIN)
         if (fermentableId != null) {
-            addGrainToRecipe(fermentableId)
+            ingredientViewModel.loadFermentableDetails(fermentableId)
         }
 
         val hopId = intent?.getStringExtra(Constants.EXTRA_ADD_HOP)
         if (hopId != null) ingredientViewModel.loadHopDetails(hopId)
-    }
-
-    private fun addGrainToRecipe(fermentableId: String) {
-        val callBack = requestHelper.getVolleyCallBack(this@EditRecipeActivity) { run {
-            val fermentable = jacksonObjectMapper().readValue<Fermentable>(it)
-            addFermentableIngredientToRecipe(fermentable)
-        }}
-        requestHelper.getFermentable(fermentableId, this, callBack)
     }
 
     private fun addHopIngredientToRecipe(hop: Hop) {
