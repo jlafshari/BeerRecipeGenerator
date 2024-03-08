@@ -10,12 +10,9 @@ import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.ApiResponse
 import com.jlafshari.beerrecipegenerator.BaseViewModel
 import com.jlafshari.beerrecipegenerator.HomebrewApiService
-import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
-import com.microsoft.identity.client.IAuthenticationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,13 +33,11 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
     private val _deleteRecipeResponse = MutableLiveData<ApiResponse>()
     val deleteRecipeResponse: LiveData<ApiResponse> = _deleteRecipeResponse
 
-    private var _authResult: IAuthenticationResult? = null
-
     fun loadRecipePreviews(abvMin: String?, abvMax: String?,
                            colorMin: String?, colorMax: String?,
                            yeastType: String?) {
         runIfTokenIsValid {
-            homebrewApiService.getAllRecipePreviews(_authResult!!.authorizationHeader,
+            homebrewApiService.getAllRecipePreviews(authResult!!.authorizationHeader,
                 abvMin, abvMax, colorMin, colorMax, yeastType
             )
                 .subscribeOn(Schedulers.newThread())
@@ -57,7 +52,7 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
 
     fun loadRecipeDetails(recipeId: String) {
         runIfTokenIsValid {
-            homebrewApiService.getRecipeDetails(_authResult!!.authorizationHeader, recipeId)
+            homebrewApiService.getRecipeDetails(authResult!!.authorizationHeader, recipeId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -74,7 +69,7 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
 
     fun generateRecipe(recipeGenerationInfo: RecipeGenerationInfo) {
         runIfTokenIsValid {
-            homebrewApiService.generateRecipe(_authResult!!.authorizationHeader, recipeGenerationInfo)
+            homebrewApiService.generateRecipe(authResult!!.authorizationHeader, recipeGenerationInfo)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -87,7 +82,7 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
 
     fun updateRecipe(recipeId: String, recipeUpdateInfo: RecipeUpdateInfo) {
         runIfTokenIsValid {
-            homebrewApiService.updateRecipe(_authResult!!.authorizationHeader, recipeId, recipeUpdateInfo)
+            homebrewApiService.updateRecipe(authResult!!.authorizationHeader, recipeId, recipeUpdateInfo)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -104,7 +99,7 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
 
     fun deleteRecipe(recipeId: String) {
         runIfTokenIsValid {
-            homebrewApiService.deleteRecipe(_authResult!!.authorizationHeader, recipeId)
+            homebrewApiService.deleteRecipe(authResult!!.authorizationHeader, recipeId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -118,18 +113,4 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
                 .disposeWhenCleared()
         }
     }
-
-    private fun runIfTokenIsValid(fn: () -> Unit) {
-        if (_authResult.isTokenInvalid()) {
-            AzureAuthHelper.getAccessTokenAsync {
-                _authResult = it
-                fn()
-            }
-        } else {
-            fn()
-        }
-    }
-
-    private fun IAuthenticationResult?.isTokenInvalid() : Boolean =
-        this == null || this.expiresOn.before(Date())
 }
