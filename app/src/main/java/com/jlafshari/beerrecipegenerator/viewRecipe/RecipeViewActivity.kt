@@ -18,14 +18,10 @@ import com.jlafshari.beerrecipegenerator.editRecipe.EditRecipeActivity
 import com.jlafshari.beerrecipegenerator.recipes.RecipeViewModel
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class RecipeViewActivity : AppCompatActivity() {
     private lateinit var mRecipe: Recipe
-
-    @Inject
-    lateinit var requestHelper: HomebrewApiRequestHelper
 
     private val recipeViewModel: RecipeViewModel by viewModels()
 
