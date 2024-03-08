@@ -36,6 +36,7 @@ class EditRecipeActivity : AppCompatActivity() {
     lateinit var recipeValidator: RecipeValidator
 
     private val recipeViewModel: RecipeViewModel by viewModels()
+    private val ingredientViewModel: IngredientViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,11 +63,14 @@ class EditRecipeActivity : AppCompatActivity() {
                 loadRecipe(it)
             }
         }
-
         recipeViewModel.updateRecipeResponse.observe(this@EditRecipeActivity) {
             if (it.isSuccessful) {
                 goBackToRecipeView()
             }
+        }
+
+        ingredientViewModel.loadHopDetailsResponse.observe(this@EditRecipeActivity) {
+            addHopIngredientToRecipe(it)
         }
     }
 
@@ -193,15 +197,7 @@ class EditRecipeActivity : AppCompatActivity() {
         }
 
         val hopId = intent?.getStringExtra(Constants.EXTRA_ADD_HOP)
-        if (hopId != null) addHopToRecipe(hopId)
-    }
-
-    private fun addHopToRecipe(hopId: String) {
-        val callBack = requestHelper.getVolleyCallBack(this@EditRecipeActivity) { run {
-            val hop = jacksonObjectMapper().readValue<Hop>(it)
-            addHopIngredientToRecipe(hop)
-        }}
-        requestHelper.getHop(hopId, this, callBack)
+        if (hopId != null) ingredientViewModel.loadHopDetails(hopId)
     }
 
     private fun addGrainToRecipe(fermentableId: String) {

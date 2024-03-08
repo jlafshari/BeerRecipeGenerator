@@ -29,11 +29,6 @@ class HomebrewApiRequestHelper @Inject constructor() {
     fun getAllHops(context: Context, callBack: VolleyCallBack) =
         sendStandardAuthGetRequest(getUrl(getAllHopsUrl, context), context, callBack)
 
-    fun getHop(hopId: String, context: Context, callBack: VolleyCallBack) {
-        val url = getUrl("Hop/$hopId", context)
-        sendStandardAuthGetRequest(url, context, callBack)
-    }
-
     fun getDefaultSettings(context: Context, callBack: VolleyCallBack) {
         val url = getUrl(getUserSettings, context)
         sendStandardAuthGetRequest(url, context, callBack)

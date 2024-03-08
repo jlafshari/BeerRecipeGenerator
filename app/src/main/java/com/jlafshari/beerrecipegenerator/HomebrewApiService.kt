@@ -1,5 +1,6 @@
 package com.jlafshari.beerrecipegenerator
 
+import com.jlafshari.beerrecipecore.Hop
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
@@ -47,4 +48,6 @@ class HomebrewApiService @Inject constructor() {
 
     fun deleteRecipe(authHeader: String, recipeId: String): Completable =
         recipeApi.deleteRecipe(authHeader, recipeId)
+
+    fun getHopDetails(authHeader: String, hopId: String): Single<Hop> = recipeApi.getHopDetails(authHeader, hopId)
 }
