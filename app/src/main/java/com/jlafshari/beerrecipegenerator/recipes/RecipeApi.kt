@@ -4,6 +4,7 @@ import com.jlafshari.beerrecipecore.Fermentable
 import com.jlafshari.beerrecipecore.Hop
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
+import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import io.reactivex.Completable
@@ -52,4 +53,7 @@ interface RecipeApi {
 
     @GET("Hop/GetAll")
     fun getAllHops(@Header("Authorization") authHeader: String): Single<List<Hop>>
+
+    @GET("Style/GetAll")
+    fun getAllStyles(@Header("Authorization") authHeader: String): Single<List<Style>>
 }

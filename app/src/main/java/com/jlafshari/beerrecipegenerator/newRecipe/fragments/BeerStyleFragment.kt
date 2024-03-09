@@ -9,27 +9,29 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
+import androidx.fragment.app.viewModels
 import com.jlafshari.beerrecipecore.Style
-import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
 import com.jlafshari.beerrecipegenerator.R
+import com.jlafshari.beerrecipegenerator.StyleViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class BeerStyleFragment : Fragment() {
     private lateinit var mCallback: OnRecipeStyleSelectedListener
 
-    @Inject
-    lateinit var requestHelper: HomebrewApiRequestHelper
+    private val styleViewModel: StyleViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_beer_style, container, false)
 
         val startingStyle = mCallback.getCurrentStyle()
         val styleSpinner = view.findViewById<Spinner>(R.id.styleSpinner)
-        loadRecipeStyles(styleSpinner, startingStyle)
+        this.activity?.let { it ->
+            styleViewModel.loadAllStylesResponse.observe(it) {
+                onStylesLoaded(it, styleSpinner, startingStyle)
+            }
+        }
+        styleViewModel.loadAllStyles()
 
         styleSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -43,20 +45,17 @@ class BeerStyleFragment : Fragment() {
         return view
     }
 
-    private fun loadRecipeStyles(styleSpinner: Spinner, startingStyle: Style?) {
-        val callBack = requestHelper.getVolleyCallBack(this.requireContext()) { run {
-            val recipeStyles: List<Style> = jacksonObjectMapper().readValue(it)
-            val adapter = ArrayAdapter(requireContext(),
-                R.layout.support_simple_spinner_dropdown_item,
-                recipeStyles)
-            adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-            styleSpinner.adapter = adapter
-            val startingPosition =
-                if (startingStyle != null) recipeStyles.indexOfFirst { it.id == startingStyle.id }
-                else 0
-            styleSpinner.setSelection(startingPosition)
-        }}
-        requestHelper.getAllStyles(this.requireContext(), callBack)
+    private fun onStylesLoaded(recipeStyles: List<Style>, styleSpinner: Spinner, startingStyle: Style?) {
+        val adapter = ArrayAdapter(requireContext(),
+            R.layout.support_simple_spinner_dropdown_item,
+            recipeStyles)
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        styleSpinner.adapter = adapter
+
+        val startingPosition =
+            if (startingStyle != null) recipeStyles.indexOfFirst { it.id == startingStyle.id }
+            else 0
+        styleSpinner.setSelection(startingPosition)
     }
 
     override fun onAttach(context: Context) {

@@ -15,9 +15,6 @@ import javax.inject.Inject
 
 class HomebrewApiRequestHelper @Inject constructor() {
 
-    fun getAllStyles(context: Context, callBack: VolleyCallBack) =
-        sendStandardAuthGetRequest(getUrl(getAllStylesUrl, context), context, callBack)
-
     fun getDefaultSettings(context: Context, callBack: VolleyCallBack) {
         val url = getUrl(getUserSettings, context)
         sendStandardAuthGetRequest(url, context, callBack)
@@ -79,7 +76,6 @@ class HomebrewApiRequestHelper @Inject constructor() {
         private const val getAllRecipesUrl = "Recipe/GetAll"
         private const val recipeUrl = "Recipe"
         private const val generateRecipeUrl = "Recipe/GenerateRecipe"
-        private const val getAllStylesUrl = "Style/GetAll"
         private const val getUserSettings = "UserSettings/GetSettings"
     }
 }
