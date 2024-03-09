@@ -6,26 +6,23 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Hop
 import com.jlafshari.beerrecipegenerator.Constants
-import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
+import com.jlafshari.beerrecipegenerator.IngredientViewModel
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAddHopBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddHopActivity : AppCompatActivity() {
     private lateinit var mHops: List<Hop>
     private lateinit var mBinding: ActivityAddHopBinding
 
-    @Inject
-    lateinit var requestHelper: HomebrewApiRequestHelper
+    private val ingredientViewModel: IngredientViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +42,10 @@ class AddHopActivity : AppCompatActivity() {
             false)
         setHopSelectorView(emptyList())
 
-        loadHops()
+        ingredientViewModel.loadAllHopsResponse.observe(this@AddHopActivity) {
+            onHopsLoaded(it)
+        }
+        ingredientViewModel.loadAllHops()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -64,12 +64,9 @@ class AddHopActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun loadHops() {
-        val callBack = requestHelper.getVolleyCallBack(this@AddHopActivity) { run {
-            mHops = jacksonObjectMapper().readValue(it)
-            setHopSelectorView(mHops)
-        }}
-        requestHelper.getAllHops(this, callBack)
+    private fun onHopsLoaded(hops: List<Hop>) {
+        mHops = hops
+        setHopSelectorView(mHops)
     }
 
     private fun setHopSelectorView(hopList: List<Hop>) {

@@ -49,4 +49,7 @@ interface RecipeApi {
 
     @GET("Fermentable/GetAll")
     fun getAllFermentables(@Header("Authorization") authHeader: String): Single<List<Fermentable>>
+
+    @GET("Hop/GetAll")
+    fun getAllHops(@Header("Authorization") authHeader: String): Single<List<Hop>>
 }
