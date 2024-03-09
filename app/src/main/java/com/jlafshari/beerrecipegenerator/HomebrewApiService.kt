@@ -54,4 +54,6 @@ class HomebrewApiService @Inject constructor() {
 
     fun getFermentableDetails(authHeader: String, fermentableId: String): Single<Fermentable> =
         recipeApi.getFermentableDetails(authHeader, fermentableId)
+
+    fun getAllFermentables(authHeader: String): Single<List<Fermentable>> = recipeApi.getAllFermentables(authHeader)
 }

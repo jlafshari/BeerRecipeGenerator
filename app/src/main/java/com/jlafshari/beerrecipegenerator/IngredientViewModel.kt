@@ -20,6 +20,9 @@ class IngredientViewModel @Inject constructor(private val homebrewApiService: Ho
     private val _loadFermentableDetailsResponse = MutableLiveData<Fermentable>()
     val loadFermentableDetailsResponse: LiveData<Fermentable> = _loadFermentableDetailsResponse
 
+    private val _loadAllFermentablesResponse = MutableLiveData<List<Fermentable>>()
+    val loadAllFermentablesResponse: LiveData<List<Fermentable>> = _loadAllFermentablesResponse
+
     fun loadHopDetails(hopId: String) {
         runIfTokenIsValid {
             homebrewApiService.getHopDetails(authResult!!.authorizationHeader, hopId)
@@ -41,6 +44,19 @@ class IngredientViewModel @Inject constructor(private val homebrewApiService: Ho
                 .subscribe(
                     { _loadFermentableDetailsResponse.postValue(it) },
                     { Log.d("", "get fermentable details error", it) }
+                )
+                .disposeWhenCleared()
+        }
+    }
+
+    fun loadAllFermentables() {
+        runIfTokenIsValid {
+            homebrewApiService.getAllFermentables(authResult!!.authorizationHeader)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { _loadAllFermentablesResponse.postValue(it) },
+                    { Log.d("", "get all fermentables error", it) }
                 )
                 .disposeWhenCleared()
         }

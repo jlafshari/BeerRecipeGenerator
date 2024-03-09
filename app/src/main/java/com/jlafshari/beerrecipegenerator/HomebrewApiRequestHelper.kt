@@ -18,9 +18,6 @@ class HomebrewApiRequestHelper @Inject constructor() {
     fun getAllStyles(context: Context, callBack: VolleyCallBack) =
         sendStandardAuthGetRequest(getUrl(getAllStylesUrl, context), context, callBack)
 
-    fun getAllFermentables(context: Context, callBack: VolleyCallBack) =
-        sendStandardAuthGetRequest(getUrl(getAllFermentablesUrl, context), context, callBack)
-
     fun getAllHops(context: Context, callBack: VolleyCallBack) =
         sendStandardAuthGetRequest(getUrl(getAllHopsUrl, context), context, callBack)
 
@@ -86,7 +83,6 @@ class HomebrewApiRequestHelper @Inject constructor() {
         private const val recipeUrl = "Recipe"
         private const val generateRecipeUrl = "Recipe/GenerateRecipe"
         private const val getAllStylesUrl = "Style/GetAll"
-        private const val getAllFermentablesUrl = "Fermentable/GetAll"
         private const val getAllHopsUrl = "Hop/GetAll"
         private const val getUserSettings = "UserSettings/GetSettings"
     }

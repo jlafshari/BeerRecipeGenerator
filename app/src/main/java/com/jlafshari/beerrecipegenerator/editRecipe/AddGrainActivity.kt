@@ -6,26 +6,23 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.jlafshari.beerrecipecore.Fermentable
 import com.jlafshari.beerrecipegenerator.Constants
-import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
+import com.jlafshari.beerrecipegenerator.IngredientViewModel
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAddGrainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddGrainActivity : AppCompatActivity() {
     private lateinit var mFermentables: List<Fermentable>
     private lateinit var mBinding: ActivityAddGrainBinding
 
-    @Inject
-    lateinit var requestHelper: HomebrewApiRequestHelper
+    private val ingredientViewModel: IngredientViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +43,11 @@ class AddGrainActivity : AppCompatActivity() {
         )
         setGrainSelectorView(emptyList())
 
-        val grainsToExclude = intent.getStringArrayExtra(Constants.EXTRA_ADD_GRAIN_GRAINS_TO_EXCLUDE)!!
-        loadFermentables(grainsToExclude)
+        ingredientViewModel.loadAllFermentables()
+
+        ingredientViewModel.loadAllFermentablesResponse.observe(this@AddGrainActivity) {
+            onFermentablesLoaded(it)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -66,13 +66,10 @@ class AddGrainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun loadFermentables(grainsToExclude: Array<String>) {
-        val callBack = requestHelper.getVolleyCallBack(this@AddGrainActivity) { run {
-            mFermentables = jacksonObjectMapper().readValue<List<Fermentable>>(it)
-                .filter { g -> !grainsToExclude.contains(g.id) }
-            setGrainSelectorView(mFermentables)
-        }}
-        requestHelper.getAllFermentables(this, callBack)
+    private fun onFermentablesLoaded(fermentablesFromApi: List<Fermentable>) {
+        val grainsToExclude = intent.getStringArrayExtra(Constants.EXTRA_ADD_GRAIN_GRAINS_TO_EXCLUDE)!!.toList()
+        mFermentables = fermentablesFromApi.filter { g -> !grainsToExclude.contains(g.id) }
+        setGrainSelectorView(mFermentables)
     }
 
     private fun setGrainSelectorView(grainList: List<Fermentable>) {
