@@ -7,6 +7,7 @@ import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
+import com.jlafshari.beerrecipegenerator.settings.RecipeDefaultSettings
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.Body
@@ -56,4 +57,7 @@ interface RecipeApi {
 
     @GET("Style/GetAll")
     fun getAllStyles(@Header("Authorization") authHeader: String): Single<List<Style>>
+
+    @GET("UserSettings/GetSettings")
+    fun getRecipeDefaultSettings(@Header("Authorization") authHeader: String): Single<RecipeDefaultSettings>
 }

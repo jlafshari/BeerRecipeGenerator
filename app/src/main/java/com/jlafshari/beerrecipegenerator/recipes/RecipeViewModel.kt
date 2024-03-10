@@ -10,6 +10,7 @@ import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.ApiResponse
 import com.jlafshari.beerrecipegenerator.BaseViewModel
 import com.jlafshari.beerrecipegenerator.HomebrewApiService
+import com.jlafshari.beerrecipegenerator.settings.RecipeDefaultSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -32,6 +33,9 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
 
     private val _deleteRecipeResponse = MutableLiveData<ApiResponse>()
     val deleteRecipeResponse: LiveData<ApiResponse> = _deleteRecipeResponse
+
+    private val _loadRecipeDefaultSettingsResponse = MutableLiveData<RecipeDefaultSettings>()
+    val loadRecipeDefaultSettingsResponse: LiveData<RecipeDefaultSettings> = _loadRecipeDefaultSettingsResponse
 
     fun loadRecipePreviews(abvMin: String?, abvMax: String?,
                            colorMin: String?, colorMax: String?,
@@ -109,6 +113,19 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
                         Log.d("", "delete recipe error", it)
                         _deleteRecipeResponse.postValue(ApiResponse(false))
                     }
+                )
+                .disposeWhenCleared()
+        }
+    }
+
+    fun loadRecipeDefaultSettings() {
+        runIfTokenIsValid {
+            homebrewApiService.getRecipeDefaultSettings(authResult!!.authorizationHeader)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { _loadRecipeDefaultSettingsResponse.postValue(it) },
+                    { Log.d("", "load recipe default settings error", it) }
                 )
                 .disposeWhenCleared()
         }

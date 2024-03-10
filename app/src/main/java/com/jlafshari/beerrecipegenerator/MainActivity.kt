@@ -31,18 +31,16 @@ import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import com.jlafshari.beerrecipegenerator.recipes.RecipeListAdapter
 import com.jlafshari.beerrecipegenerator.recipes.RecipeViewModel
 import com.jlafshari.beerrecipegenerator.settings.AppSettings
+import com.jlafshari.beerrecipegenerator.settings.RecipeDefaultSettings
 import com.jlafshari.beerrecipegenerator.settings.SettingsActivity
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
 import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var requestHelper: HomebrewApiRequestHelper
     private val abvValues = AbvUtility.getAbvRecipeSearchValues().map { it.toString() }.toTypedArray()
     private val srmColors = Colors.getSrmColors()
     private val recipeViewModel: RecipeViewModel by viewModels()
@@ -68,8 +66,6 @@ class MainActivity : AppCompatActivity() {
             initColorFilter(R.id.minColorBtn, R.id.selectedMinColorCardView, R.id.txtSelectedMinColor, 0)
             initColorFilter(R.id.maxColorBtn, R.id.selectedMaxColorCardView, R.id.txtSelectedMaxColor, srmColors.size - 1)
 
-            loadSettings()
-
             val searchBtn = binding.root.findViewById<Button>(R.id.searchRecipeBtn)
             searchBtn.setOnClickListener {
                 loadSavedRecipePreviews(binding)
@@ -81,6 +77,11 @@ class MainActivity : AppCompatActivity() {
                 displaySavedRecipePreviews(it, binding)
             }
             loadSavedRecipePreviews(binding)
+
+            recipeViewModel.loadRecipeDefaultSettingsResponse.observe(this@MainActivity) {
+                loadSettings(it)
+            }
+            recipeViewModel.loadRecipeDefaultSettings()
         }
     }
 
@@ -237,8 +238,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(recipeViewIntent)
     }
 
-    private fun loadSettings() {
+    private fun loadSettings(recipeDefaultSettings: RecipeDefaultSettings) {
         val settings = getSharedPreferences(AppSettings.PREFERENCE_FILE_NAME, MODE_PRIVATE)
-        AppSettings.loadSettings(settings, requestHelper, this)
+        AppSettings.loadSettings(settings, recipeDefaultSettings)
     }
 }

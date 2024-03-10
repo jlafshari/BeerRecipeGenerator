@@ -1,21 +1,16 @@
 package com.jlafshari.beerrecipegenerator.settings
 
-import android.content.Context
 import android.content.SharedPreferences
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import com.jlafshari.beerrecipegenerator.HomebrewApiRequestHelper
 
 object AppSettings {
     const val PREFERENCE_FILE_NAME = "app_setting_preference_file"
 
     lateinit var recipeDefaultSettings: RecipeDefaultSettings
 
-    fun loadSettings(settings: SharedPreferences, requestHelper: HomebrewApiRequestHelper,
-                     context: Context) {
+    fun loadSettings(settings: SharedPreferences, apiRecipeDefaultSettings: RecipeDefaultSettings) {
         if (this::recipeDefaultSettings.isInitialized) return
 
-        if (areAnySettingsMissing(settings)) getSettingsFromApi(requestHelper, context, settings)
+        if (areAnySettingsMissing(settings)) useSettingsFromApi(apiRecipeDefaultSettings, settings)
         else loadSettingsFromAppPreferences(settings)
     }
 
@@ -87,29 +82,23 @@ object AppSettings {
             grainTemperature, equipmentLoss, trubLoss)
     }
 
-    private fun getSettingsFromApi(
-        requestHelper: HomebrewApiRequestHelper,
-        context: Context,
+    private fun useSettingsFromApi(
+        apiRecipeDefaultSettings: RecipeDefaultSettings,
         settings: SharedPreferences
     ) {
-        val callBack = requestHelper.getVolleyCallBack(context) {
-            run {
-                recipeDefaultSettings = jacksonObjectMapper().readValue(it)
+        recipeDefaultSettings = apiRecipeDefaultSettings
 
-                //save settings to preferences
-                with(settings.edit()) {
-                    putFloat(RECIPE_SIZE, recipeDefaultSettings.recipeSize.toFloat())
-                    putInt(BOIL_DURATION_TIME, recipeDefaultSettings.boilDurationMinutes)
-                    putInt(EXTRACTION_EFFICIENCY, recipeDefaultSettings.extractionEfficiency)
-                    putFloat(MASH_THICKNESS, recipeDefaultSettings.mashThickness.toFloat())
-                    putInt(GRAIN_TEMPERATURE, recipeDefaultSettings.grainTemperature)
-                    putFloat(EQUIPMENT_LOSS, recipeDefaultSettings.equipmentLossAmount)
-                    putFloat(TRUB_LOSS, recipeDefaultSettings.trubLossAmount)
-                    apply()
-                }
-            }
+        //save settings to preferences
+        with(settings.edit()) {
+            putFloat(RECIPE_SIZE, recipeDefaultSettings.recipeSize.toFloat())
+            putInt(BOIL_DURATION_TIME, recipeDefaultSettings.boilDurationMinutes)
+            putInt(EXTRACTION_EFFICIENCY, recipeDefaultSettings.extractionEfficiency)
+            putFloat(MASH_THICKNESS, recipeDefaultSettings.mashThickness.toFloat())
+            putInt(GRAIN_TEMPERATURE, recipeDefaultSettings.grainTemperature)
+            putFloat(EQUIPMENT_LOSS, recipeDefaultSettings.equipmentLossAmount)
+            putFloat(TRUB_LOSS, recipeDefaultSettings.trubLossAmount)
+            apply()
         }
-        requestHelper.getDefaultSettings(context, callBack)
     }
 
     private fun areAnySettingsMissing(settings: SharedPreferences) =

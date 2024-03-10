@@ -8,6 +8,7 @@ import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.recipes.RecipeApi
+import com.jlafshari.beerrecipegenerator.settings.RecipeDefaultSettings
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.Retrofit
@@ -61,4 +62,7 @@ class HomebrewApiService @Inject constructor() {
     fun getAllHops(authHeader: String): Single<List<Hop>> = recipeApi.getAllHops(authHeader)
 
     fun getAllStyles(authHeader: String): Single<List<Style>> = recipeApi.getAllStyles(authHeader)
+
+    fun getRecipeDefaultSettings(authHeader: String): Single<RecipeDefaultSettings> =
+        recipeApi.getRecipeDefaultSettings(authHeader)
 }
