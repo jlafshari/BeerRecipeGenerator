@@ -77,7 +77,6 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0")
     implementation(project(":BeerRecipeCore"))
     implementation("com.microsoft.identity.client:msal:4.10.0") {
         exclude(group = "io.opentelemetry")
