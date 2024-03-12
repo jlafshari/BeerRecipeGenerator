@@ -26,8 +26,6 @@ android {
     }
     buildTypes {
         getByName("debug") {
-            resValue("string", "homebrewApiHttpScheme", localProperties["homebrewApiHttpScheme"] as String)
-            resValue("string", "homebrewApiBaseDomain", localProperties["homebrewApiBaseDomain"] as String)
             buildConfigField("String", "homebrewApiHttpScheme", localProperties["homebrewApiHttpScheme"] as String)
             buildConfigField("String", "homebrewApiBaseDomain", localProperties["homebrewApiBaseDomain"] as String)
         }
