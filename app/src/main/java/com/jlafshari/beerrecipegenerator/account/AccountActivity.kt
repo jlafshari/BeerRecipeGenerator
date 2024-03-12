@@ -8,8 +8,8 @@ import androidx.activity.OnBackPressedCallback
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAccountBinding
-import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
-import com.jlafshari.beerrecipegenerator.ui.login.AzureLoginActivity
+import com.jlafshari.beerrecipegenerator.login.AzureAuthHelper
+import com.jlafshari.beerrecipegenerator.login.AzureLoginActivity
 
 class AccountActivity : AppCompatActivity() {
 

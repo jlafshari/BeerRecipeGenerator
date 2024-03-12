@@ -1,4 +1,4 @@
-package com.jlafshari.beerrecipegenerator.ui.login
+package com.jlafshari.beerrecipegenerator.login
 
 import android.content.Intent
 import android.os.Bundle

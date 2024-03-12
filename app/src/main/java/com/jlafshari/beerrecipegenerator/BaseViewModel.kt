@@ -1,7 +1,7 @@
 package com.jlafshari.beerrecipegenerator
 
 import androidx.lifecycle.ViewModel
-import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
+import com.jlafshari.beerrecipegenerator.login.AzureAuthHelper
 import com.microsoft.identity.client.IAuthenticationResult
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

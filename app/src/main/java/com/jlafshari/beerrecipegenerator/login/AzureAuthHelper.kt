@@ -1,10 +1,9 @@
-package com.jlafshari.beerrecipegenerator.ui.login
+package com.jlafshari.beerrecipegenerator.login
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.jlafshari.beerrecipegenerator.B2CConfig
 import com.jlafshari.beerrecipegenerator.R
 import com.microsoft.identity.client.AcquireTokenSilentParameters
 import com.microsoft.identity.client.AuthenticationCallback

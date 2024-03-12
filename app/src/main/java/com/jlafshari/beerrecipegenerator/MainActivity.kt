@@ -34,7 +34,7 @@ import com.jlafshari.beerrecipegenerator.settings.AppSettings
 import com.jlafshari.beerrecipegenerator.settings.RecipeDefaultSettings
 import com.jlafshari.beerrecipegenerator.settings.SettingsActivity
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
-import com.jlafshari.beerrecipegenerator.ui.login.AzureAuthHelper
+import com.jlafshari.beerrecipegenerator.login.AzureAuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 

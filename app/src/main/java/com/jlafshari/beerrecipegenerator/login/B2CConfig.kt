@@ -1,4 +1,4 @@
-package com.jlafshari.beerrecipegenerator
+package com.jlafshari.beerrecipegenerator.login
 
 object B2CConfig {
     val scopes = arrayOf("https://homebrewingapp.onmicrosoft.com/homebrew-api/homebrew.recipeCreator")
