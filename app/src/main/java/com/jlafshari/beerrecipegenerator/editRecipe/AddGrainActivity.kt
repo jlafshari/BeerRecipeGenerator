@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipecore.Fermentable
 import com.jlafshari.beerrecipegenerator.Constants
-import com.jlafshari.beerrecipegenerator.IngredientViewModel
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAddGrainBinding
 import dagger.hilt.android.AndroidEntryPoint
