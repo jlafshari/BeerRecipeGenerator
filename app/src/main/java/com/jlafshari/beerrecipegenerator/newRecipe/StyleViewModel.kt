@@ -7,8 +7,6 @@ import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipegenerator.BaseViewModel
 import com.jlafshari.beerrecipegenerator.homebrewApi.HomebrewApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,13 +19,10 @@ class StyleViewModel @Inject constructor(private val homebrewApiService: Homebre
     fun loadAllStyles() {
         runIfTokenIsValid {
             homebrewApiService.getAllStyles(authResult!!.authorizationHeader)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
+                .subscribeThenDispose(
                     { _loadAllStylesResponse.postValue(it) },
                     { Log.d("", "get all styles error", it) }
                 )
-                .disposeWhenCleared()
         }
     }
 }

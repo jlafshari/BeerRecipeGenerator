@@ -8,8 +8,6 @@ import com.jlafshari.beerrecipecore.Hop
 import com.jlafshari.beerrecipegenerator.BaseViewModel
 import com.jlafshari.beerrecipegenerator.homebrewApi.HomebrewApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,52 +29,40 @@ class IngredientViewModel @Inject constructor(private val homebrewApiService: Ho
     fun loadHopDetails(hopId: String) {
         runIfTokenIsValid {
             homebrewApiService.getHopDetails(authResult!!.authorizationHeader, hopId)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
+                .subscribeThenDispose(
                     { _loadHopDetailsResponse.postValue(it) },
                     { Log.d("", "get hop details error", it) }
                 )
-                .disposeWhenCleared()
         }
     }
 
     fun loadFermentableDetails(fermentableId: String) {
         runIfTokenIsValid {
             homebrewApiService.getFermentableDetails(authResult!!.authorizationHeader, fermentableId)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
+                .subscribeThenDispose(
                     { _loadFermentableDetailsResponse.postValue(it) },
                     { Log.d("", "get fermentable details error", it) }
                 )
-                .disposeWhenCleared()
         }
     }
 
     fun loadAllFermentables() {
         runIfTokenIsValid {
             homebrewApiService.getAllFermentables(authResult!!.authorizationHeader)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
+                .subscribeThenDispose(
                     { _loadAllFermentablesResponse.postValue(it) },
                     { Log.d("", "get all fermentables error", it) }
                 )
-                .disposeWhenCleared()
         }
     }
 
     fun loadAllHops() {
         runIfTokenIsValid {
             homebrewApiService.getAllHops(authResult!!.authorizationHeader)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
+                .subscribeThenDispose(
                     { _loadAllHopsResponse.postValue(it) },
                     { Log.d("", "get all hops error", it) }
                 )
-                .disposeWhenCleared()
         }
     }
 }

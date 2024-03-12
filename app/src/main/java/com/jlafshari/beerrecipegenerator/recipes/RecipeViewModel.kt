@@ -7,13 +7,11 @@ import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
-import com.jlafshari.beerrecipegenerator.homebrewApi.ApiResponse
 import com.jlafshari.beerrecipegenerator.BaseViewModel
+import com.jlafshari.beerrecipegenerator.homebrewApi.ApiResponse
 import com.jlafshari.beerrecipegenerator.homebrewApi.HomebrewApiService
 import com.jlafshari.beerrecipegenerator.settings.RecipeDefaultSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,26 +42,20 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
             homebrewApiService.getAllRecipePreviews(authResult!!.authorizationHeader,
                 abvMin, abvMax, colorMin, colorMax, yeastType
             )
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
+                .subscribeThenDispose(
                     { _loadRecipePreviewsResponse.postValue(it) },
-                    { Log.d("", "load recipe previews error ", it) }
+                    { Log.d("", "load recipe previews error ", it)}
                 )
-                .disposeWhenCleared()
         }
     }
 
     fun loadRecipeDetails(recipeId: String) {
         runIfTokenIsValid {
             homebrewApiService.getRecipeDetails(authResult!!.authorizationHeader, recipeId)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
+                .subscribeThenDispose(
                     { _loadRecipeDetailsResponse.postValue(it) },
                     { Log.d("", "load recipe details error", it) }
                 )
-                .disposeWhenCleared()
         }
     }
 
@@ -74,22 +66,17 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
     fun generateRecipe(recipeGenerationInfo: RecipeGenerationInfo) {
         runIfTokenIsValid {
             homebrewApiService.generateRecipe(authResult!!.authorizationHeader, recipeGenerationInfo)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
+                .subscribeThenDispose(
                     { _generateRecipeResponse.postValue(it) },
                     { Log.d("", "generate recipe error", it) }
                 )
-                .disposeWhenCleared()
         }
     }
 
     fun updateRecipe(recipeId: String, recipeUpdateInfo: RecipeUpdateInfo) {
         runIfTokenIsValid {
             homebrewApiService.updateRecipe(authResult!!.authorizationHeader, recipeId, recipeUpdateInfo)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .subscribeThenDispose({
                         _updateRecipeResponse.postValue(ApiResponse(true))
                     },
                     {
@@ -97,16 +84,13 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
                         _updateRecipeResponse.postValue(ApiResponse(false))
                     }
                 )
-                .disposeWhenCleared()
         }
     }
 
     fun deleteRecipe(recipeId: String) {
         runIfTokenIsValid {
             homebrewApiService.deleteRecipe(authResult!!.authorizationHeader, recipeId)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .subscribeThenDispose({
                     _deleteRecipeResponse.postValue(ApiResponse(true))
                     },
                     {
@@ -114,20 +98,16 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
                         _deleteRecipeResponse.postValue(ApiResponse(false))
                     }
                 )
-                .disposeWhenCleared()
         }
     }
 
     fun loadRecipeDefaultSettings() {
         runIfTokenIsValid {
             homebrewApiService.getRecipeDefaultSettings(authResult!!.authorizationHeader)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
+                .subscribeThenDispose(
                     { _loadRecipeDefaultSettingsResponse.postValue(it) },
                     { Log.d("", "load recipe default settings error", it) }
                 )
-                .disposeWhenCleared()
         }
     }
 }
