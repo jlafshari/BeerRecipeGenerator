@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipegenerator.R
-import com.jlafshari.beerrecipegenerator.StyleViewModel
+import com.jlafshari.beerrecipegenerator.newRecipe.StyleViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

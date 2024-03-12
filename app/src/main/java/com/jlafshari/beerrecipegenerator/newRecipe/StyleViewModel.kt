@@ -1,9 +1,10 @@
-package com.jlafshari.beerrecipegenerator
+package com.jlafshari.beerrecipegenerator.newRecipe
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jlafshari.beerrecipecore.Style
+import com.jlafshari.beerrecipegenerator.BaseViewModel
 import com.jlafshari.beerrecipegenerator.homebrewApi.HomebrewApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
