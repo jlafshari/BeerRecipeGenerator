@@ -53,19 +53,6 @@ object AzureAuthHelper {
         })
     }
 
-    fun getAccessToken() : String? {
-        if (account == null) {
-            loadAccount()
-        }
-
-        val parameters = AcquireTokenSilentParameters.Builder()
-            .fromAuthority(B2CConfig.authorityUrl)
-            .withScopes(B2CConfig.scopes.toList())
-            .forAccount(account)
-            .build()
-        return b2cApplication?.acquireTokenSilent(parameters)?.accessToken
-    }
-
     fun getAccessTokenAsync(success: (authResult: IAuthenticationResult?) -> Unit) {
         if (account == null) {
             loadAccount()
