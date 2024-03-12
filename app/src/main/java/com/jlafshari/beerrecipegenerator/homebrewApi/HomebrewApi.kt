@@ -1,4 +1,4 @@
-package com.jlafshari.beerrecipegenerator.recipes
+package com.jlafshari.beerrecipegenerator.homebrewApi
 
 import com.jlafshari.beerrecipecore.Fermentable
 import com.jlafshari.beerrecipecore.Hop
@@ -19,7 +19,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface RecipeApi {
+interface HomebrewApi {
     @GET("Recipe/GetAll")
     fun getAllRecipePreviews(@Header("Authorization") authHeader: String,
                              @Query("abvMin") abvMin: String?, @Query("abvMax") abvMax: String?,

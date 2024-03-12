@@ -8,7 +8,6 @@ import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.BuildConfig
-import com.jlafshari.beerrecipegenerator.recipes.RecipeApi
 import com.jlafshari.beerrecipegenerator.settings.RecipeDefaultSettings
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -18,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
 class HomebrewApiService @Inject constructor() {
-    private var recipeApi: RecipeApi
+    private var api: HomebrewApi
 
     init {
         val baseUrl = getBaseUrl()
@@ -28,7 +27,7 @@ class HomebrewApiService @Inject constructor() {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
 
-        recipeApi = retrofit.create(RecipeApi::class.java)
+        api = retrofit.create(HomebrewApi::class.java)
     }
 
     private fun getBaseUrl(): String =
@@ -38,32 +37,32 @@ class HomebrewApiService @Inject constructor() {
                              colorMin: String?, colorMax: String?,
                              yeastType: String?
         ) : Single<List<RecipePreview>> {
-        return recipeApi.getAllRecipePreviews(authHeader, abvMin, abvMax, colorMin, colorMax, yeastType)
+        return api.getAllRecipePreviews(authHeader, abvMin, abvMax, colorMin, colorMax, yeastType)
     }
 
     fun getRecipeDetails(authHeader: String, recipeId: String): Single<Recipe> =
-        recipeApi.getRecipeDetails(authHeader, recipeId)
+        api.getRecipeDetails(authHeader, recipeId)
 
     fun generateRecipe(authHeader: String, recipeGenerationInfo: RecipeGenerationInfo): Single<Recipe> =
-        recipeApi.generateRecipe(authHeader, recipeGenerationInfo)
+        api.generateRecipe(authHeader, recipeGenerationInfo)
 
     fun updateRecipe(authHeader: String, recipeId: String, recipeUpdateInfo: RecipeUpdateInfo): Completable =
-        recipeApi.updateRecipe(authHeader, recipeId, recipeUpdateInfo)
+        api.updateRecipe(authHeader, recipeId, recipeUpdateInfo)
 
     fun deleteRecipe(authHeader: String, recipeId: String): Completable =
-        recipeApi.deleteRecipe(authHeader, recipeId)
+        api.deleteRecipe(authHeader, recipeId)
 
-    fun getHopDetails(authHeader: String, hopId: String): Single<Hop> = recipeApi.getHopDetails(authHeader, hopId)
+    fun getHopDetails(authHeader: String, hopId: String): Single<Hop> = api.getHopDetails(authHeader, hopId)
 
     fun getFermentableDetails(authHeader: String, fermentableId: String): Single<Fermentable> =
-        recipeApi.getFermentableDetails(authHeader, fermentableId)
+        api.getFermentableDetails(authHeader, fermentableId)
 
-    fun getAllFermentables(authHeader: String): Single<List<Fermentable>> = recipeApi.getAllFermentables(authHeader)
+    fun getAllFermentables(authHeader: String): Single<List<Fermentable>> = api.getAllFermentables(authHeader)
 
-    fun getAllHops(authHeader: String): Single<List<Hop>> = recipeApi.getAllHops(authHeader)
+    fun getAllHops(authHeader: String): Single<List<Hop>> = api.getAllHops(authHeader)
 
-    fun getAllStyles(authHeader: String): Single<List<Style>> = recipeApi.getAllStyles(authHeader)
+    fun getAllStyles(authHeader: String): Single<List<Style>> = api.getAllStyles(authHeader)
 
     fun getRecipeDefaultSettings(authHeader: String): Single<RecipeDefaultSettings> =
-        recipeApi.getRecipeDefaultSettings(authHeader)
+        api.getRecipeDefaultSettings(authHeader)
 }
