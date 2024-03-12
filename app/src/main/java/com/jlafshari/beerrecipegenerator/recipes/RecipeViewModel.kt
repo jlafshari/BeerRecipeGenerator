@@ -7,9 +7,9 @@ import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
-import com.jlafshari.beerrecipegenerator.ApiResponse
+import com.jlafshari.beerrecipegenerator.homebrewApi.ApiResponse
 import com.jlafshari.beerrecipegenerator.BaseViewModel
-import com.jlafshari.beerrecipegenerator.HomebrewApiService
+import com.jlafshari.beerrecipegenerator.homebrewApi.HomebrewApiService
 import com.jlafshari.beerrecipegenerator.settings.RecipeDefaultSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -1,4 +1,4 @@
-package com.jlafshari.beerrecipegenerator
+package com.jlafshari.beerrecipegenerator.homebrewApi
 
 import com.jlafshari.beerrecipecore.Fermentable
 import com.jlafshari.beerrecipecore.Hop
@@ -7,6 +7,7 @@ import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
+import com.jlafshari.beerrecipegenerator.BuildConfig
 import com.jlafshari.beerrecipegenerator.recipes.RecipeApi
 import com.jlafshari.beerrecipegenerator.settings.RecipeDefaultSettings
 import io.reactivex.Completable
