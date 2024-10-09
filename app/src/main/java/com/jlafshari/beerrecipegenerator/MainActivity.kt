@@ -11,6 +11,8 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.viewModels
@@ -27,6 +29,7 @@ import com.jlafshari.beerrecipecore.utility.AbvUtility
 import com.jlafshari.beerrecipegenerator.about.AboutActivity
 import com.jlafshari.beerrecipegenerator.account.AccountActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
+import com.jlafshari.beerrecipegenerator.editRecipe.AddGrainActivity
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import com.jlafshari.beerrecipegenerator.recipes.RecipeListAdapter
 import com.jlafshari.beerrecipegenerator.recipes.RecipeViewModel
@@ -40,6 +43,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     private val abvValues = AbvUtility.getAbvRecipeSearchValues().map { it.toString() }.toTypedArray()
     private val srmColors = Colors.getSrmColors()
@@ -50,6 +54,16 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val data: Intent? = result.data
+                val fermentableId = data?.getStringExtra(Constants.EXTRA_ADD_GRAIN)
+                if (fermentableId != null) {
+                    //TODO: add fermentable to search criteria
+                }
+            }
+        }
 
         AzureAuthHelper.isUserSignedIn(this) {
             val recipeRecyclerView =
@@ -72,6 +86,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             initializeExpandSearchButton(binding)
+            initializeSearchButtons(binding)
 
             recipeViewModel.loadRecipePreviewsResponse.observe(this@MainActivity) {
                 displaySavedRecipePreviews(it, binding)
@@ -146,6 +161,13 @@ class MainActivity : AppCompatActivity() {
                     expandSearchBtn.setImageResource(R.drawable.baseline_expand_less_24)
                 }
             }
+        }
+    }
+
+    private fun initializeSearchButtons(binding: ActivityMainBinding) {
+        with (binding.root) {
+            val newFermentableBtn = findViewById<Button>(R.id.btnNewFermentableSearch)
+            newFermentableBtn.setOnClickListener { addFermentable() }
         }
     }
 
@@ -241,5 +263,11 @@ class MainActivity : AppCompatActivity() {
     private fun loadSettings(recipeDefaultSettings: RecipeDefaultSettings) {
         val settings = getSharedPreferences(AppSettings.PREFERENCE_FILE_NAME, MODE_PRIVATE)
         AppSettings.loadSettings(settings, recipeDefaultSettings)
+    }
+
+    private fun addFermentable() {
+        val addGrainIntent = Intent(this, AddGrainActivity::class.java)
+        addGrainIntent.putExtra(Constants.EXTRA_ADD_GRAIN_GRAINS_TO_EXCLUDE, arrayOf<String>())
+        resultLauncher.launch(addGrainIntent)
     }
 }

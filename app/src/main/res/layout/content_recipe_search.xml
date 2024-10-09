@@ -11,6 +11,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/expandSearchLayout"
     android:visibility="gone"
+    tools:visibility="visible"
     tools:showIn="@layout/content_main">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -150,6 +151,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/yeastTypeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -172,4 +174,27 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fermentableLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yeastTypeLayout">
+        <TextView
+            android:id="@+id/txtFermentable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fermentable_section_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnNewFermentableSearch"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:text="@string/fermentable_search_btn_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtFermentable" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
