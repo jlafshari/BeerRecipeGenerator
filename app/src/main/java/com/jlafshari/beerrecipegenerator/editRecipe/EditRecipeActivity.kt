@@ -7,6 +7,8 @@ import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +29,7 @@ class EditRecipeActivity : AppCompatActivity() {
     private lateinit var mRecipeId: String
     private lateinit var mRecipeUpdateInfo: RecipeUpdateInfo
     private lateinit var binding: ActivityEditRecipeBinding
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     @Inject
     lateinit var recipeValidator: RecipeValidator
@@ -71,6 +74,17 @@ class EditRecipeActivity : AppCompatActivity() {
         ingredientViewModel.loadFermentableDetailsResponse.observe(this@EditRecipeActivity) {
             addFermentableIngredientToRecipe(it)
         }
+
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val data: Intent? = result.data
+                val fermentableId = data?.getStringExtra(Constants.EXTRA_ADD_GRAIN)
+                if (fermentableId != null) {
+                    ingredientViewModel.loadFermentableDetails(fermentableId)
+                }
+            }
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -175,10 +189,9 @@ class EditRecipeActivity : AppCompatActivity() {
     @Suppress("UNUSED_PARAMETER")
     fun addGrain(view: View) {
         val addGrainIntent = Intent(this, AddGrainActivity::class.java)
-        addGrainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         addGrainIntent.putExtra(Constants.EXTRA_ADD_GRAIN_GRAINS_TO_EXCLUDE,
             mRecipeUpdateInfo.fermentableIngredients.map { it.fermentableId }.toTypedArray())
-        startActivity(addGrainIntent)
+        resultLauncher.launch(addGrainIntent)
     }
 
     @Suppress("UNUSED_PARAMETER")

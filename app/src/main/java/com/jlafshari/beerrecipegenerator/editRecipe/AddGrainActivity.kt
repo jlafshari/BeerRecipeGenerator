@@ -58,8 +58,7 @@ class AddGrainActivity : AppCompatActivity() {
         val id = item.itemId
 
         if (id == R.id.action_cancel_add_grain) {
-            val editRecipeIntent = Intent(this, EditRecipeActivity::class.java)
-            startActivity(editRecipeIntent)
+            finish()
         }
 
         return super.onOptionsItemSelected(item)
@@ -77,9 +76,10 @@ class AddGrainActivity : AppCompatActivity() {
     }
 
     private fun grainClicked(fermentable: Fermentable) {
-        val editRecipeIntent = Intent(this, EditRecipeActivity::class.java)
-        editRecipeIntent.putExtra(Constants.EXTRA_ADD_GRAIN, fermentable.id)
-        startActivity(editRecipeIntent)
+        val intent = Intent()
+        intent.putExtra(Constants.EXTRA_ADD_GRAIN, fermentable.id)
+        setResult(RESULT_OK, intent)
+        finish()
     }
 
     fun searchGrains() {
