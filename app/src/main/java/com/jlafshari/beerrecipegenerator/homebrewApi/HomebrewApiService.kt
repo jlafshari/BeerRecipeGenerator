@@ -33,11 +33,13 @@ class HomebrewApiService @Inject constructor() {
     private fun getBaseUrl(): String =
         "${BuildConfig.homebrewApiHttpScheme}://${BuildConfig.homebrewApiBaseDomain}"
 
-    fun getAllRecipePreviews(authHeader: String, abvMin: String?, abvMax: String?,
-                             colorMin: String?, colorMax: String?,
-                             yeastType: String?
-        ) : Single<List<RecipePreview>> {
-        return api.getAllRecipePreviews(authHeader, abvMin, abvMax, colorMin, colorMax, yeastType)
+    fun getAllRecipePreviews(
+        authHeader: String, abvMin: String?, abvMax: String?,
+        colorMin: String?, colorMax: String?,
+        yeastType: String?,
+        fermentableIds: List<String>
+    ) : Single<List<RecipePreview>> {
+        return api.getAllRecipePreviews(authHeader, abvMin, abvMax, colorMin, colorMax, yeastType, fermentableIds)
     }
 
     fun getRecipeDetails(authHeader: String, recipeId: String): Single<Recipe> =

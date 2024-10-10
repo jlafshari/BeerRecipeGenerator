@@ -21,10 +21,12 @@ import retrofit2.http.Query
 
 interface HomebrewApi {
     @GET("Recipe/GetAll")
-    fun getAllRecipePreviews(@Header("Authorization") authHeader: String,
-                             @Query("abvMin") abvMin: String?, @Query("abvMax") abvMax: String?,
-                             @Query("colorMin") colorMin: String?, @Query("colorMax") colorMax: String?,
-                             @Query("yeastType") yeastType: String?
+    fun getAllRecipePreviews(
+        @Header("Authorization") authHeader: String,
+        @Query("abvMin") abvMin: String?, @Query("abvMax") abvMax: String?,
+        @Query("colorMin") colorMin: String?, @Query("colorMax") colorMax: String?,
+        @Query("yeastType") yeastType: String?,
+        @Query("fermentableIds") fermentableIds: List<String>
     ): Single<List<RecipePreview>>
 
     @GET("Recipe/{recipeId}")

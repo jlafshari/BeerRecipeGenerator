@@ -35,12 +35,15 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
     private val _loadRecipeDefaultSettingsResponse = MutableLiveData<RecipeDefaultSettings>()
     val loadRecipeDefaultSettingsResponse: LiveData<RecipeDefaultSettings> = _loadRecipeDefaultSettingsResponse
 
-    fun loadRecipePreviews(abvMin: String?, abvMax: String?,
-                           colorMin: String?, colorMax: String?,
-                           yeastType: String?) {
+    fun loadRecipePreviews(
+        abvMin: String?, abvMax: String?,
+        colorMin: String?, colorMax: String?,
+        yeastType: String?,
+        fermentableIds: List<String>
+    ) {
         runIfTokenIsValid {
             homebrewApiService.getAllRecipePreviews(authResult!!.authorizationHeader,
-                abvMin, abvMax, colorMin, colorMax, yeastType
+                abvMin, abvMax, colorMin, colorMax, yeastType, fermentableIds
             )
                 .subscribeThenDispose(
                     { _loadRecipePreviewsResponse.postValue(it) },

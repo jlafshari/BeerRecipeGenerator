@@ -217,7 +217,8 @@ class MainActivity : AppCompatActivity() {
                 else if (!aleChecked && lagerChecked) "lager"
                 else null
 
-            recipeViewModel.loadRecipePreviews(abvMin, abvMax, colorMin, colorMax, yeastType)
+            val fermentableIds = fermentablesToSearch.map { it.id }
+            recipeViewModel.loadRecipePreviews(abvMin, abvMax, colorMin, colorMax, yeastType, fermentableIds)
         }
     }
 
