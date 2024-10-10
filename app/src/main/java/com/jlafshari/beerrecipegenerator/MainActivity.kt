@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
         val fermentableSearchRecyclerView = binding.root.findViewById<RecyclerView>(R.id.fermentableSearchRecyclerView)
         fermentableSearchRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        fermentableSearchRecyclerView.adapter = FermentableSearchListAdapter(emptyList())
+        fermentableSearchRecyclerView.adapter = FermentableSearchListAdapter(emptyList()) {}
 
         AzureAuthHelper.isUserSignedIn(this) {
             val recipeRecyclerView =
@@ -120,7 +120,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun setFermentableToSearchRecyclerView(fermentableList: List<Fermentable>) {
         val recyclerView = binding.root.findViewById<RecyclerView>(R.id.fermentableSearchRecyclerView)
-        recyclerView.adapter = FermentableSearchListAdapter(fermentableList)
+        recyclerView.adapter = FermentableSearchListAdapter(fermentableList) {
+            fermentable -> removeFermentableFromSearch(fermentable) }
+    }
+
+    private fun removeFermentableFromSearch(fermentable: Fermentable) {
+        fermentablesToSearch.remove(fermentable)
+        setFermentableToSearchRecyclerView(fermentablesToSearch)
     }
 
     private fun showColorPickerDialog(selectedColorCardView: CardView, selectedColorTextView: TextView) {

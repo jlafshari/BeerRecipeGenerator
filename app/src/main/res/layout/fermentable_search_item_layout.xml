@@ -3,10 +3,16 @@
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_marginEnd="5dp">
     <TextView
         android:id="@+id/txtFermentableSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnDeleteFermentableSearch"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:text="×"/>
 
 </LinearLayout>
