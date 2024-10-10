@@ -24,12 +24,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.jlafshari.beerrecipecore.Fermentable
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipecore.utility.AbvUtility
 import com.jlafshari.beerrecipegenerator.about.AboutActivity
 import com.jlafshari.beerrecipegenerator.account.AccountActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.editRecipe.AddGrainActivity
+import com.jlafshari.beerrecipegenerator.editRecipe.IngredientViewModel
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import com.jlafshari.beerrecipegenerator.recipes.RecipeListAdapter
 import com.jlafshari.beerrecipegenerator.recipes.RecipeViewModel
@@ -44,14 +46,17 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var binding: ActivityMainBinding
 
     private val abvValues = AbvUtility.getAbvRecipeSearchValues().map { it.toString() }.toTypedArray()
     private val srmColors = Colors.getSrmColors()
+    private val fermentablesToSearch = mutableListOf<Fermentable>()
     private val recipeViewModel: RecipeViewModel by viewModels()
+    private val ingredientViewModel: IngredientViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
@@ -60,10 +65,14 @@ class MainActivity : AppCompatActivity() {
                 val data: Intent? = result.data
                 val fermentableId = data?.getStringExtra(Constants.EXTRA_ADD_GRAIN)
                 if (fermentableId != null) {
-                    //TODO: add fermentable to search criteria
+                    ingredientViewModel.loadFermentableDetails(fermentableId)
                 }
             }
         }
+
+        val fermentableSearchRecyclerView = binding.root.findViewById<RecyclerView>(R.id.fermentableSearchRecyclerView)
+        fermentableSearchRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        fermentableSearchRecyclerView.adapter = FermentableSearchListAdapter(emptyList())
 
         AzureAuthHelper.isUserSignedIn(this) {
             val recipeRecyclerView =
@@ -97,7 +106,21 @@ class MainActivity : AppCompatActivity() {
                 loadSettings(it)
             }
             recipeViewModel.loadRecipeDefaultSettings()
+
+            ingredientViewModel.loadFermentableDetailsResponse.observe(this@MainActivity) {
+                addFermentableToSearchCriteria(it)
+            }
         }
+    }
+
+    private fun addFermentableToSearchCriteria(fermentable: Fermentable) {
+        fermentablesToSearch.add(fermentable)
+        setFermentableToSearchRecyclerView(fermentablesToSearch)
+    }
+
+    private fun setFermentableToSearchRecyclerView(fermentableList: List<Fermentable>) {
+        val recyclerView = binding.root.findViewById<RecyclerView>(R.id.fermentableSearchRecyclerView)
+        recyclerView.adapter = FermentableSearchListAdapter(fermentableList)
     }
 
     private fun showColorPickerDialog(selectedColorCardView: CardView, selectedColorTextView: TextView) {
