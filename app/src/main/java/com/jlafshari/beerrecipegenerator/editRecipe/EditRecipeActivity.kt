@@ -203,10 +203,6 @@ class EditRecipeActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        val fermentableId = intent?.getStringExtra(Constants.EXTRA_ADD_GRAIN)
-        if (fermentableId != null) {
-            ingredientViewModel.loadFermentableDetails(fermentableId)
-        }
 
         val hopId = intent?.getStringExtra(Constants.EXTRA_ADD_HOP)
         if (hopId != null) ingredientViewModel.loadHopDetails(hopId)
