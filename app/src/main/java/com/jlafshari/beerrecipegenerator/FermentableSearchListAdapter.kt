@@ -13,7 +13,7 @@ class FermentableSearchListAdapter(
     RecyclerView.Adapter<FermentableSearchListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.fermentable_search_layout, parent,
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.fermentable_search_item_layout, parent,
             false)
         return ViewHolder(v)
     }
