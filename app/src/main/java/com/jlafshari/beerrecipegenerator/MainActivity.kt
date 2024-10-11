@@ -42,6 +42,8 @@ import com.jlafshari.beerrecipegenerator.srmColors.Colors
 import com.jlafshari.beerrecipegenerator.login.AzureAuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -53,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     private val fermentablesToSearch = mutableListOf<Fermentable>()
     private val recipeViewModel: RecipeViewModel by viewModels()
     private val ingredientViewModel: IngredientViewModel by viewModels()
+    private val recipeSearchFilterFileName = "recipeSearchFilter"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,11 +86,8 @@ class MainActivity : AppCompatActivity() {
                     RecyclerView.VERTICAL,
                     false
                 )
-            initAbvSpinner(R.id.minAbvSpinner, 0, binding.root)
-            initAbvSpinner(R.id.maxAbvSpinner, abvValues.size - 1, binding.root)
 
-            initColorFilter(R.id.minColorBtn, R.id.selectedMinColorCardView, R.id.txtSelectedMinColor, 0)
-            initColorFilter(R.id.maxColorBtn, R.id.selectedMaxColorCardView, R.id.txtSelectedMaxColor, srmColors.size - 1)
+            initializeRecipeSearchFilterUi()
 
             val searchBtn = binding.root.findViewById<Button>(R.id.searchRecipeBtn)
             searchBtn.setOnClickListener {
@@ -111,6 +111,12 @@ class MainActivity : AppCompatActivity() {
                 addFermentableToSearchCriteria(it)
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        saveRecipeSearchFilter()
     }
 
     private fun addFermentableToSearchCriteria(fermentable: Fermentable) {
@@ -149,6 +155,48 @@ class MainActivity : AppCompatActivity() {
         }
 
         colorPickerDialog.show()
+    }
+
+    private fun initializeRecipeSearchFilterUi() {
+        val recipeSearchFilter = loadRecipeSearchFilter()
+
+        val abvCheckbox = findViewById<CheckBox>(R.id.chkAbvFilter)
+        abvCheckbox.isChecked = recipeSearchFilter?.abvEnabled ?: false
+
+        val minAbvIndex = if (recipeSearchFilter?.abvMin != null) abvValues.indexOf(recipeSearchFilter.abvMin) else 0
+        initAbvSpinner(R.id.minAbvSpinner, minAbvIndex, binding.root)
+        val maxAbvIndex = if (recipeSearchFilter?.abvMax != null) abvValues.indexOf(recipeSearchFilter.abvMax) else abvValues.size - 1
+        initAbvSpinner(R.id.maxAbvSpinner, maxAbvIndex, binding.root)
+
+        val colorCheckbox = findViewById<CheckBox>(R.id.chkColorFilter)
+        colorCheckbox.isChecked = recipeSearchFilter?.colorEnabled ?: false
+
+        val minColorIndex = if (recipeSearchFilter?.colorMin != null) srmColors.indexOfFirst { it.srmColor.toString() == recipeSearchFilter.colorMin } else 0
+        initColorFilter(
+            R.id.minColorBtn,
+            R.id.selectedMinColorCardView,
+            R.id.txtSelectedMinColor,
+            minColorIndex
+        )
+        val maxColorIndex = if (recipeSearchFilter?.colorMax != null)
+            srmColors.indexOfFirst { it.srmColor.toString() == recipeSearchFilter.colorMax }
+        else srmColors.size - 1
+        initColorFilter(
+            R.id.maxColorBtn,
+            R.id.selectedMaxColorCardView,
+            R.id.txtSelectedMaxColor,
+            maxColorIndex
+        )
+
+        val aleCheckBox = findViewById<CheckBox>(R.id.chkAle)
+        aleCheckBox.isChecked = recipeSearchFilter?.aleEnabled ?: false
+        val lagerCheckBox = findViewById<CheckBox>(R.id.chkLager)
+        lagerCheckBox.isChecked = recipeSearchFilter?.lagerEnabled ?: false
+
+        if (!recipeSearchFilter?.fermentables.isNullOrEmpty()) {
+            fermentablesToSearch.addAll(recipeSearchFilter!!.fermentables)
+            setFermentableToSearchRecyclerView(fermentablesToSearch)
+        }
     }
 
     private fun initColorFilter(colorPickerButtonId: Int, selectedColorCardViewId: Int, selectedColorTextId: Int,
@@ -230,10 +278,32 @@ class MainActivity : AppCompatActivity() {
             else if (!aleChecked && lagerChecked) "lager"
             else null
 
-            val fermentableIds = fermentablesToSearch.map { it.id }
-
             return RecipeSearchFilter(abvCheckbox.isChecked, abvMin, abvMax, colorCheckBox.isChecked,
-                colorMin, colorMax, aleChecked, lagerChecked, yeastType, fermentableIds)
+                colorMin, colorMax, aleChecked, lagerChecked, yeastType, fermentablesToSearch)
+        }
+    }
+
+    private fun saveRecipeSearchFilter() {
+        val recipeSearchFilter = getRecipeSearchFilter()
+
+        openFileOutput(recipeSearchFilterFileName, MODE_PRIVATE).use { fos ->
+            val objectOutputStream = ObjectOutputStream(fos)
+            objectOutputStream.writeObject(recipeSearchFilter)
+            objectOutputStream.close()
+        }
+    }
+
+    private fun loadRecipeSearchFilter() : RecipeSearchFilter? {
+        return try {
+            openFileInput(recipeSearchFilterFileName).use { fis ->
+                val objectInputStream = ObjectInputStream(fis)
+                val recipeSearchFilter = objectInputStream.readObject() as RecipeSearchFilter
+                objectInputStream.close()
+                recipeSearchFilter
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
         }
     }
 

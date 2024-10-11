@@ -45,7 +45,7 @@ class HomebrewApiService @Inject constructor() {
                 colorMin,
                 colorMax,
                 yeastType,
-                fermentableIds
+                fermentables.map { it.id }
             )
         }
     }

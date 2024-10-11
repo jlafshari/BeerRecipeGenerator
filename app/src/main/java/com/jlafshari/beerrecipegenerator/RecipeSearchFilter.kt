@@ -1,5 +1,6 @@
 package com.jlafshari.beerrecipegenerator
 
+import com.jlafshari.beerrecipecore.Fermentable
 import java.io.Serializable
 
 data class RecipeSearchFilter(
@@ -12,5 +13,5 @@ data class RecipeSearchFilter(
     val aleEnabled: Boolean,
     val lagerEnabled: Boolean,
     val yeastType: String?,
-    val fermentableIds: List<String>
+    val fermentables: List<Fermentable>
 ) : Serializable
