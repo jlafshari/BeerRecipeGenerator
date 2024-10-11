@@ -8,6 +8,7 @@ import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.BaseViewModel
+import com.jlafshari.beerrecipegenerator.RecipeSearchFilter
 import com.jlafshari.beerrecipegenerator.homebrewApi.ApiResponse
 import com.jlafshari.beerrecipegenerator.homebrewApi.HomebrewApiService
 import com.jlafshari.beerrecipegenerator.settings.RecipeDefaultSettings
@@ -36,15 +37,10 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
     val loadRecipeDefaultSettingsResponse: LiveData<RecipeDefaultSettings> = _loadRecipeDefaultSettingsResponse
 
     fun loadRecipePreviews(
-        abvMin: String?, abvMax: String?,
-        colorMin: String?, colorMax: String?,
-        yeastType: String?,
-        fermentableIds: List<String>
+        recipeSearchFilter: RecipeSearchFilter
     ) {
         runIfTokenIsValid {
-            homebrewApiService.getAllRecipePreviews(authResult!!.authorizationHeader,
-                abvMin, abvMax, colorMin, colorMax, yeastType, fermentableIds
-            )
+            homebrewApiService.getAllRecipePreviews(authResult!!.authorizationHeader, recipeSearchFilter)
                 .subscribeThenDispose(
                     { _loadRecipePreviewsResponse.postValue(it) },
                     { Log.d("", "load recipe previews error ", it)}

@@ -8,6 +8,7 @@ import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.BuildConfig
+import com.jlafshari.beerrecipegenerator.RecipeSearchFilter
 import com.jlafshari.beerrecipegenerator.settings.RecipeDefaultSettings
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -34,12 +35,19 @@ class HomebrewApiService @Inject constructor() {
         "${BuildConfig.homebrewApiHttpScheme}://${BuildConfig.homebrewApiBaseDomain}"
 
     fun getAllRecipePreviews(
-        authHeader: String, abvMin: String?, abvMax: String?,
-        colorMin: String?, colorMax: String?,
-        yeastType: String?,
-        fermentableIds: List<String>
+        authHeader: String, recipeSearchFilter: RecipeSearchFilter
     ) : Single<List<RecipePreview>> {
-        return api.getAllRecipePreviews(authHeader, abvMin, abvMax, colorMin, colorMax, yeastType, fermentableIds)
+        with(recipeSearchFilter) {
+            return api.getAllRecipePreviews(
+                authHeader,
+                abvMin,
+                abvMax,
+                colorMin,
+                colorMax,
+                yeastType,
+                fermentableIds
+            )
+        }
     }
 
     fun getRecipeDetails(authHeader: String, recipeId: String): Single<Recipe> =

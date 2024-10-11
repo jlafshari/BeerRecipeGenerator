@@ -207,6 +207,13 @@ class MainActivity : AppCompatActivity() {
             val recipeRecyclerView = findViewById<RecyclerView>(R.id.recipeRecyclerView)
             recipeRecyclerView.visibility = View.INVISIBLE
 
+            val recipeSearchFilter = getRecipeSearchFilter()
+            recipeViewModel.loadRecipePreviews(recipeSearchFilter)
+        }
+    }
+
+    private fun getRecipeSearchFilter() : RecipeSearchFilter {
+        with(binding.root) {
             val abvCheckbox = findViewById<CheckBox>(R.id.chkAbvFilter)
             val minAbvSpinner = findViewById<Spinner>(R.id.minAbvSpinner)
             val abvMin = if (abvCheckbox.isChecked) abvValues[minAbvSpinner.selectedItemPosition] else null
@@ -220,11 +227,13 @@ class MainActivity : AppCompatActivity() {
             val aleChecked = findViewById<CheckBox>(R.id.chkAle).isChecked
             val lagerChecked = findViewById<CheckBox>(R.id.chkLager).isChecked
             val yeastType = if (aleChecked && !lagerChecked) "ale"
-                else if (!aleChecked && lagerChecked) "lager"
-                else null
+            else if (!aleChecked && lagerChecked) "lager"
+            else null
 
             val fermentableIds = fermentablesToSearch.map { it.id }
-            recipeViewModel.loadRecipePreviews(abvMin, abvMax, colorMin, colorMax, yeastType, fermentableIds)
+
+            return RecipeSearchFilter(abvCheckbox.isChecked, abvMin, abvMax, colorCheckBox.isChecked,
+                colorMin, colorMax, aleChecked, lagerChecked, yeastType, fermentableIds)
         }
     }
 
