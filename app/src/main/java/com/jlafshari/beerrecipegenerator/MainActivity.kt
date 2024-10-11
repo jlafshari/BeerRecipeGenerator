@@ -297,7 +297,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun addFermentable() {
         val addGrainIntent = Intent(this, AddGrainActivity::class.java)
-        addGrainIntent.putExtra(Constants.EXTRA_ADD_GRAIN_GRAINS_TO_EXCLUDE, arrayOf<String>())
+        addGrainIntent.putExtra(Constants.EXTRA_ADD_GRAIN_GRAINS_TO_EXCLUDE, fermentablesToSearch.map { it.id }.toTypedArray())
         resultLauncher.launch(addGrainIntent)
     }
 }
