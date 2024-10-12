@@ -94,9 +94,6 @@ class MainActivity : AppCompatActivity() {
                 loadSavedRecipePreviews(binding)
             }
 
-            initializeExpandSearchButton(binding)
-            initializeSearchButtons(binding)
-
             recipeViewModel.loadRecipePreviewsResponse.observe(this@MainActivity) {
                 displaySavedRecipePreviews(it, binding)
             }
@@ -158,11 +155,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeRecipeSearchFilterUi() {
+        initializeExpandSearchButton(binding)
+        initializeSearchButtons(binding)
+
         val recipeSearchFilter = loadRecipeSearchFilter()
 
         val abvCheckbox = findViewById<CheckBox>(R.id.chkAbvFilter)
         abvCheckbox.isChecked = recipeSearchFilter?.abvEnabled ?: false
-
         val minAbvIndex = if (recipeSearchFilter?.abvMin != null) abvValues.indexOf(recipeSearchFilter.abvMin) else 0
         initAbvSpinner(R.id.minAbvSpinner, minAbvIndex, binding.root)
         val maxAbvIndex = if (recipeSearchFilter?.abvMax != null) abvValues.indexOf(recipeSearchFilter.abvMax) else abvValues.size - 1
@@ -170,7 +169,6 @@ class MainActivity : AppCompatActivity() {
 
         val colorCheckbox = findViewById<CheckBox>(R.id.chkColorFilter)
         colorCheckbox.isChecked = recipeSearchFilter?.colorEnabled ?: false
-
         val minColorIndex = if (recipeSearchFilter?.colorMin != null) srmColors.indexOfFirst { it.srmColor.toString() == recipeSearchFilter.colorMin } else 0
         initColorFilter(
             R.id.minColorBtn,
