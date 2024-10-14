@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.viewModels
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -195,6 +196,11 @@ class MainActivity : AppCompatActivity() {
             fermentablesToSearch.addAll(recipeSearchFilter!!.fermentables)
             setFermentableToSearchRecyclerView(fermentablesToSearch)
         }
+
+        if (recipeSearchFilter?.searchFilterVisible == true) {
+            findViewById<ConstraintLayout>(R.id.recipeSearchLayout).visibility = View.VISIBLE
+            findViewById<ImageButton>(R.id.expandSearchBtn).setImageResource(R.drawable.baseline_expand_less_24)
+        }
     }
 
     private fun initColorFilter(colorPickerButtonId: Int, selectedColorCardViewId: Int, selectedColorTextId: Int,
@@ -276,8 +282,10 @@ class MainActivity : AppCompatActivity() {
             else if (!aleChecked && lagerChecked) "lager"
             else null
 
+            val searchFilterVisible = findViewById<ConstraintLayout>(R.id.recipeSearchLayout).isVisible
+
             return RecipeSearchFilter(abvCheckbox.isChecked, abvMin, abvMax, colorCheckBox.isChecked,
-                colorMin, colorMax, aleChecked, lagerChecked, yeastType, fermentablesToSearch)
+                colorMin, colorMax, aleChecked, lagerChecked, yeastType, fermentablesToSearch, searchFilterVisible)
         }
     }
 

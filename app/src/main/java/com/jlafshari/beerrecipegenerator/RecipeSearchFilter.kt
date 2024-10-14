@@ -13,5 +13,6 @@ data class RecipeSearchFilter(
     val aleEnabled: Boolean,
     val lagerEnabled: Boolean,
     val yeastType: String?,
-    val fermentables: List<Fermentable>
+    val fermentables: List<Fermentable>,
+    val searchFilterVisible: Boolean
 ) : Serializable
