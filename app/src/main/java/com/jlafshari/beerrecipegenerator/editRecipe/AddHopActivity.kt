@@ -56,8 +56,7 @@ class AddHopActivity : AppCompatActivity() {
         val id = item.itemId
 
         if (id == R.id.action_cancel_add_hop) {
-            val editRecipeIntent = Intent(this, EditRecipeActivity::class.java)
-            startActivity(editRecipeIntent)
+            finish()
         }
 
         return super.onOptionsItemSelected(item)
@@ -74,9 +73,10 @@ class AddHopActivity : AppCompatActivity() {
     }
 
     private fun hopClicked(hop: Hop) {
-        val editRecipeIntent = Intent(this, EditRecipeActivity::class.java)
-        editRecipeIntent.putExtra(Constants.EXTRA_ADD_HOP, hop.id)
-        startActivity(editRecipeIntent)
+        val intent = Intent()
+        intent.putExtra(Constants.EXTRA_ADD_HOP, hop.id)
+        setResult(RESULT_OK, intent)
+        finish()
     }
 
     private fun searchHops() {

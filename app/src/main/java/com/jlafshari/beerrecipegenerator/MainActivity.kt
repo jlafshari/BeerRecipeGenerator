@@ -26,12 +26,14 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.jlafshari.beerrecipecore.Fermentable
+import com.jlafshari.beerrecipecore.Hop
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipecore.utility.AbvUtility
 import com.jlafshari.beerrecipegenerator.about.AboutActivity
 import com.jlafshari.beerrecipegenerator.account.AccountActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.editRecipe.AddGrainActivity
+import com.jlafshari.beerrecipegenerator.editRecipe.AddHopActivity
 import com.jlafshari.beerrecipegenerator.editRecipe.IngredientViewModel
 import com.jlafshari.beerrecipegenerator.newRecipe.NewRecipeWizardActivity
 import com.jlafshari.beerrecipegenerator.recipes.RecipeListAdapter
@@ -54,6 +56,7 @@ class MainActivity : AppCompatActivity() {
     private val abvValues = AbvUtility.getAbvRecipeSearchValues().map { it.toString() }.toTypedArray()
     private val srmColors = Colors.getSrmColors()
     private val fermentablesToSearch = mutableListOf<Fermentable>()
+    private val hopsToSearch = mutableListOf<Hop>()
     private val recipeViewModel: RecipeViewModel by viewModels()
     private val ingredientViewModel: IngredientViewModel by viewModels()
     private val recipeSearchFilterFileName = "recipeSearchFilter"
@@ -71,12 +74,21 @@ class MainActivity : AppCompatActivity() {
                 if (fermentableId != null) {
                     ingredientViewModel.loadFermentableDetails(fermentableId)
                 }
+
+                val hopId = data?.getStringExtra(Constants.EXTRA_ADD_HOP)
+                if (hopId != null) {
+                    ingredientViewModel.loadHopDetails(hopId)
+                }
             }
         }
 
         val fermentableSearchRecyclerView = binding.root.findViewById<RecyclerView>(R.id.fermentableSearchRecyclerView)
         fermentableSearchRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         fermentableSearchRecyclerView.adapter = FermentableSearchListAdapter(emptyList()) {}
+
+        val hopSearchRecyclerView = binding.root.findViewById<RecyclerView>(R.id.hopSearchRecyclerView)
+        hopSearchRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        hopSearchRecyclerView.adapter = HopSearchListAdapter(emptyList()) {}
 
         AzureAuthHelper.isUserSignedIn(this) {
             val recipeRecyclerView =
@@ -108,6 +120,10 @@ class MainActivity : AppCompatActivity() {
             ingredientViewModel.loadFermentableDetailsResponse.observe(this@MainActivity) {
                 addFermentableToSearchCriteria(it)
             }
+
+            ingredientViewModel.loadHopDetailsResponse.observe(this@MainActivity) {
+                addHopToSearchCriteria(it)
+            }
         }
     }
 
@@ -131,6 +147,22 @@ class MainActivity : AppCompatActivity() {
     private fun removeFermentableFromSearch(fermentable: Fermentable) {
         fermentablesToSearch.remove(fermentable)
         setFermentableToSearchRecyclerView(fermentablesToSearch)
+    }
+
+    private fun addHopToSearchCriteria(hop: Hop) {
+        hopsToSearch.add(hop)
+        setHopToSearchRecyclerView(hopsToSearch)
+    }
+
+    private fun setHopToSearchRecyclerView(hopList: List<Hop>) {
+        val recyclerView = binding.root.findViewById<RecyclerView>(R.id.hopSearchRecyclerView)
+        recyclerView.adapter = HopSearchListAdapter(hopList) {
+                hop -> removeHopFromSearch(hop) }
+    }
+
+    private fun removeHopFromSearch(hop: Hop) {
+        hopsToSearch.remove(hop)
+        setHopToSearchRecyclerView(hopsToSearch)
     }
 
     private fun showColorPickerDialog(selectedColorCardView: CardView, selectedColorTextView: TextView) {
@@ -249,6 +281,9 @@ class MainActivity : AppCompatActivity() {
         with (binding.root) {
             val newFermentableBtn = findViewById<Button>(R.id.btnNewFermentableSearch)
             newFermentableBtn.setOnClickListener { addFermentable() }
+
+            val newHopBtn = findViewById<Button>(R.id.btnNewHopSearch)
+            newHopBtn.setOnClickListener { addHop() }
         }
     }
 
@@ -384,5 +419,10 @@ class MainActivity : AppCompatActivity() {
         val addGrainIntent = Intent(this, AddGrainActivity::class.java)
         addGrainIntent.putExtra(Constants.EXTRA_ADD_GRAIN_GRAINS_TO_EXCLUDE, fermentablesToSearch.map { it.id }.toTypedArray())
         resultLauncher.launch(addGrainIntent)
+    }
+
+    private fun addHop() {
+        val addHopIntent = Intent(this, AddHopActivity::class.java)
+        resultLauncher.launch(addHopIntent)
     }
 }

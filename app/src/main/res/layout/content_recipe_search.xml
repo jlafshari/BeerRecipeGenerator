@@ -206,4 +206,37 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/hopLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fermentableLayout">
+        <TextView
+            android:id="@+id/txtHop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hop_section_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnNewHopSearch"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:text="@string/hop_search_btn_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtHop" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/hopSearchRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="35dp"
+            app:layout_constraintStart_toEndOf="@+id/btnNewHopSearch"
+            app:layout_constraintTop_toBottomOf="@id/txtHop"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

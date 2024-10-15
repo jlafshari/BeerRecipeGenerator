@@ -99,4 +99,6 @@
     <string name="lager_checkbox_label">Lager</string>
     <string name="fermentable_section_label">Fermentables</string>
     <string name="fermentable_search_btn_label">+</string>
+    <string name="hop_section_label">Hops</string>
+    <string name="hop_search_btn_label">+</string>
 </resources>

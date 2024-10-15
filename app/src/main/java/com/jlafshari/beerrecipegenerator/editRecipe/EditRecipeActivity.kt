@@ -82,6 +82,11 @@ class EditRecipeActivity : AppCompatActivity() {
                 if (fermentableId != null) {
                     ingredientViewModel.loadFermentableDetails(fermentableId)
                 }
+
+                val hopId = data?.getStringExtra(Constants.EXTRA_ADD_HOP)
+                if (hopId != null) {
+                    ingredientViewModel.loadHopDetails(hopId)
+                }
             }
         }
 
@@ -197,8 +202,7 @@ class EditRecipeActivity : AppCompatActivity() {
     @Suppress("UNUSED_PARAMETER")
     fun addHop(view: View) {
         val addHopIntent = Intent(this, AddHopActivity::class.java)
-        addHopIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(addHopIntent)
+        resultLauncher.launch(addHopIntent)
     }
 
     override fun onNewIntent(intent: Intent?) {
