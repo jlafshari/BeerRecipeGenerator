@@ -92,22 +92,12 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/selectedMinColorCardView"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginStart="5dp"
             app:cardBackgroundColor="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/txtSelectedMinColor"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/minColorBtn"
-            android:layout_width="55dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:text="min"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/selectedMinColorCardView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -115,8 +105,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/search_range_label"
+            android:layout_marginStart="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/minColorBtn"
+            app:layout_constraintStart_toEndOf="@id/selectedMinColorCardView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -130,22 +121,12 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/selectedMaxColorCardView"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginStart="5dp"
             app:cardBackgroundColor="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/txtSelectedMaxColor"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/maxColorBtn"
-            android:layout_width="55dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:text="max"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/selectedMaxColorCardView"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

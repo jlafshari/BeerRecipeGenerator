@@ -202,22 +202,13 @@ class MainActivity : AppCompatActivity() {
 
         val colorCheckbox = findViewById<CheckBox>(R.id.chkColorFilter)
         colorCheckbox.isChecked = recipeSearchFilter?.colorEnabled ?: false
-        val minColorIndex = if (recipeSearchFilter?.colorMin != null) srmColors.indexOfFirst { it.srmColor.toString() == recipeSearchFilter.colorMin } else 0
-        initColorFilter(
-            R.id.minColorBtn,
-            R.id.selectedMinColorCardView,
-            R.id.txtSelectedMinColor,
-            minColorIndex
-        )
+        val minColorIndex = if (recipeSearchFilter?.colorMin != null)
+            srmColors.indexOfFirst { it.srmColor.toString() == recipeSearchFilter.colorMin } else 0
+        initColorFilter(R.id.selectedMinColorCardView, R.id.txtSelectedMinColor, minColorIndex)
         val maxColorIndex = if (recipeSearchFilter?.colorMax != null)
             srmColors.indexOfFirst { it.srmColor.toString() == recipeSearchFilter.colorMax }
-        else srmColors.size - 1
-        initColorFilter(
-            R.id.maxColorBtn,
-            R.id.selectedMaxColorCardView,
-            R.id.txtSelectedMaxColor,
-            maxColorIndex
-        )
+            else srmColors.size - 1
+        initColorFilter(R.id.selectedMaxColorCardView, R.id.txtSelectedMaxColor, maxColorIndex)
 
         val aleCheckBox = findViewById<CheckBox>(R.id.chkAle)
         aleCheckBox.isChecked = recipeSearchFilter?.aleEnabled ?: false
@@ -240,18 +231,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initColorFilter(colorPickerButtonId: Int, selectedColorCardViewId: Int, selectedColorTextId: Int,
+    private fun initColorFilter(selectedColorCardViewId: Int, selectedColorTextId: Int,
                                 startingColorIndex: Int) {
-        val minColorPickerButton = findViewById<Button>(colorPickerButtonId)
-        minColorPickerButton.setOnClickListener {
-            showColorPickerDialog(
-                findViewById(selectedColorCardViewId),
-                findViewById(selectedColorTextId)
-            )
+        val colorCardView = findViewById<CardView>(selectedColorCardViewId)
+        val selectedColorTextView = findViewById<TextView>(selectedColorTextId)
+        colorCardView.setOnClickListener {
+            showColorPickerDialog(colorCardView, selectedColorTextView)
         }
+
         val color = srmColors[startingColorIndex]
-        findViewById<TextView>(selectedColorTextId).text = color.srmColor.toString()
-        findViewById<CardView>(selectedColorCardViewId).setCardBackgroundColor(color.rbgColor)
+        selectedColorTextView.text = color.srmColor.toString()
+        colorCardView.setCardBackgroundColor(color.rbgColor)
     }
 
     private fun initAbvSpinner(id: Int, startingIndex: Int, view: View) {
