@@ -229,6 +229,11 @@ class MainActivity : AppCompatActivity() {
             setFermentableToSearchRecyclerView(fermentablesToSearch)
         }
 
+        if (!recipeSearchFilter?.hops.isNullOrEmpty()) {
+            hopsToSearch.addAll(recipeSearchFilter!!.hops)
+            setHopToSearchRecyclerView(hopsToSearch)
+        }
+
         if (recipeSearchFilter?.searchFilterVisible == true) {
             findViewById<ConstraintLayout>(R.id.recipeSearchLayout).visibility = View.VISIBLE
             findViewById<ImageButton>(R.id.expandSearchBtn).setImageResource(R.drawable.baseline_expand_less_24)
@@ -320,7 +325,8 @@ class MainActivity : AppCompatActivity() {
             val searchFilterVisible = findViewById<ConstraintLayout>(R.id.recipeSearchLayout).isVisible
 
             return RecipeSearchFilter(abvCheckbox.isChecked, abvMin, abvMax, colorCheckBox.isChecked,
-                colorMin, colorMax, aleChecked, lagerChecked, yeastType, fermentablesToSearch, searchFilterVisible)
+                colorMin, colorMax, aleChecked, lagerChecked, yeastType,
+                fermentablesToSearch, hopsToSearch, searchFilterVisible)
         }
     }
 

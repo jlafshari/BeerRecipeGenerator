@@ -1,3 +1,5 @@
 package com.jlafshari.beerrecipecore
 
-data class Hop(val id: String, val name: String, val notes: String)
+import java.io.Serializable
+
+data class Hop(val id: String, val name: String, val notes: String) : Serializable
