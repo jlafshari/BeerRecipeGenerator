@@ -429,6 +429,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun addHop() {
         val addHopIntent = Intent(this, AddHopActivity::class.java)
+        addHopIntent.putExtra(Constants.EXTRA_ADD_HOP_HOPS_TO_EXCLUDE, hopsToSearch.map { it.id }.toTypedArray())
         resultLauncher.launch(addHopIntent)
     }
 }

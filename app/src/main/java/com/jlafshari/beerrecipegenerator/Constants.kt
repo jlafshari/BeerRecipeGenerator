@@ -2,6 +2,7 @@ package com.jlafshari.beerrecipegenerator
 
 object Constants {
     const val EXTRA_ADD_HOP = "AddHop"
+    const val EXTRA_ADD_HOP_HOPS_TO_EXCLUDE = "AddHopHopsToExclude"
     const val EXTRA_ADD_GRAIN = "AddGrain"
     const val EXTRA_ADD_GRAIN_GRAINS_TO_EXCLUDE = "AddGrainGrainsToExclude"
     const val EXTRA_EDIT_RECIPE = "EditRecipe"
