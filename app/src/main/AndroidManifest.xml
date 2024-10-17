@@ -63,7 +63,7 @@
 
                 <data
                     android:host="com.jlafshari.beerrecipegenerator"
-                    android:path="/z0QEaUUnaUP3HFIbkdR1DSLXVmk="
+                    android:path="/xlzx1kcAZlGX6q6o8GruotMYu7Y="
                     android:scheme="msauth" />
             </intent-filter>
         </activity>
