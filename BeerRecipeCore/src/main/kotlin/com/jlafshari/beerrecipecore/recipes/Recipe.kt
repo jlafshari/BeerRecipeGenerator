@@ -1,5 +1,6 @@
 package com.jlafshari.beerrecipecore.recipes
 
+import com.jlafshari.beerrecipecore.batches.BatchPreview
 import com.jlafshari.beerrecipecore.FermentableIngredient
 import com.jlafshari.beerrecipecore.FermentationStep
 import com.jlafshari.beerrecipecore.HopIngredient
@@ -19,5 +20,6 @@ data class Recipe(val id: String,
                   val mashProfile: MashProfile,
                   val spargeWaterAmount: Float,
                   val fermentationSteps: List<FermentationStep>,
-                  val miscellaneousIngredients: List<MiscellaneousIngredient>
+                  val miscellaneousIngredients: List<MiscellaneousIngredient>,
+                  val batches: List<BatchPreview>
 )

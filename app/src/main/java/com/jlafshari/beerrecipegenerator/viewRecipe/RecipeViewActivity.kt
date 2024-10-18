@@ -58,6 +58,10 @@ class RecipeViewActivity : AppCompatActivity() {
             this, RecyclerView.VERTICAL, false)
         binding.miscIngredientsRecyclerView.adapter = MiscIngredientListAdapter(emptyList(), this)
 
+        binding.recipeBatchesRecyclerView.layoutManager = LinearLayoutManager(
+            this, RecyclerView.VERTICAL, false)
+        binding.recipeBatchesRecyclerView.adapter = BatchListAdapter(emptyList())
+
         val recipeId = intent.getStringExtra(Constants.EXTRA_VIEW_RECIPE)!!
         recipeViewModel.loadRecipeDetails(recipeId)
 
@@ -124,6 +128,8 @@ class RecipeViewActivity : AppCompatActivity() {
         } else {
             binding.miscIngredientsRecyclerView.adapter = MiscIngredientListAdapter(mRecipe.miscellaneousIngredients, this)
         }
+
+        binding.recipeBatchesRecyclerView.adapter = BatchListAdapter(mRecipe.batches)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
