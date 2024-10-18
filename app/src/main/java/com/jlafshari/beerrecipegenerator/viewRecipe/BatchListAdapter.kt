@@ -24,7 +24,7 @@ class BatchListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val batch = batchList[position]
-        holder.txtBatch.text = "${batch.brewingDate} (${batch.status})"
+        holder.txtBatch.text = "${batch.getFormattedBrewingDate()} (${batch.status})"
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
