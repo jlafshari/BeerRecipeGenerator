@@ -76,4 +76,7 @@ class HomebrewApiService @Inject constructor() {
 
     fun getRecipeDefaultSettings(authHeader: String): Single<RecipeDefaultSettings> =
         api.getRecipeDefaultSettings(authHeader)
+
+    fun getBatchDetails(authHeader: String, batchId: String) =
+        api.getBatchDetails(authHeader, batchId)
 }
