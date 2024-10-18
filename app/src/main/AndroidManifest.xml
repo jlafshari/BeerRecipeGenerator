@@ -17,6 +17,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".viewBatch.BatchViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".about.AboutActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />

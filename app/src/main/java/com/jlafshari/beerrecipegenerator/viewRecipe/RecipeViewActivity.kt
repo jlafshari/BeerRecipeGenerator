@@ -11,12 +11,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jlafshari.beerrecipecore.batches.BatchPreview
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipegenerator.*
 import com.jlafshari.beerrecipegenerator.databinding.ActivityRecipeViewBinding
 import com.jlafshari.beerrecipegenerator.editRecipe.EditRecipeActivity
 import com.jlafshari.beerrecipegenerator.recipes.RecipeViewModel
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
+import com.jlafshari.beerrecipegenerator.viewBatch.BatchViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,7 +62,7 @@ class RecipeViewActivity : AppCompatActivity() {
 
         binding.recipeBatchesRecyclerView.layoutManager = LinearLayoutManager(
             this, RecyclerView.VERTICAL, false)
-        binding.recipeBatchesRecyclerView.adapter = BatchListAdapter(emptyList())
+        binding.recipeBatchesRecyclerView.adapter = BatchListAdapter(emptyList()) {}
 
         val recipeId = intent.getStringExtra(Constants.EXTRA_VIEW_RECIPE)!!
         recipeViewModel.loadRecipeDetails(recipeId)
@@ -129,7 +131,9 @@ class RecipeViewActivity : AppCompatActivity() {
             binding.miscIngredientsRecyclerView.adapter = MiscIngredientListAdapter(mRecipe.miscellaneousIngredients, this)
         }
 
-        binding.recipeBatchesRecyclerView.adapter = BatchListAdapter(mRecipe.batches)
+        binding.recipeBatchesRecyclerView.adapter = BatchListAdapter(mRecipe.batches) { batchPreview ->
+            batchViewClicked(batchPreview)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -175,5 +179,11 @@ class RecipeViewActivity : AppCompatActivity() {
         editRecipeIntent.putExtra(Constants.EXTRA_EDIT_RECIPE, mRecipe.id)
         editRecipeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(editRecipeIntent)
+    }
+
+    private fun batchViewClicked(batchPreview: BatchPreview) {
+        val viewBatchIntent = Intent(this, BatchViewActivity::class.java)
+        viewBatchIntent.putExtra(Constants.EXTRA_VIEW_BATCH, batchPreview.id)
+        startActivity(viewBatchIntent)
     }
 }
