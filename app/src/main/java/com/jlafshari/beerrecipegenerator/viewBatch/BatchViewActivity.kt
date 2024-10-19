@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.jlafshari.beerrecipecore.batches.Batch
+import com.jlafshari.beerrecipecore.utility.DateUtility
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.batches.BatchViewModel
@@ -35,7 +36,12 @@ class BatchViewActivity : AppCompatActivity() {
     }
 
     private fun loadBatchView(binding: ActivityBatchViewBinding) {
-        val txtBrewingDate = binding.root.findViewById<TextView>(R.id.txtBrewingDate)
-        txtBrewingDate.text = mBatch.brewingDate
+        with (binding.root) {
+            val txtRecipeName = findViewById<TextView>(R.id.txtRecipeName)
+            txtRecipeName.text = mBatch.recipe.name
+
+            val txtBrewingDate = findViewById<TextView>(R.id.txtBrewingDate)
+            txtBrewingDate.text = DateUtility.getFormattedDate(mBatch.brewingDate)
+        }
     }
 }
