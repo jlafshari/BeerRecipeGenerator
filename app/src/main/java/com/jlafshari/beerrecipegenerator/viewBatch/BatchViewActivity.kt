@@ -1,6 +1,7 @@
 package com.jlafshari.beerrecipegenerator.viewBatch
 
 import android.os.Bundle
+import android.view.Menu
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +34,11 @@ class BatchViewActivity : AppCompatActivity() {
                 batchViewModel.loadBatchDetailsComplete()
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_view_batch, menu)
+        return true
     }
 
     private fun loadBatchView(binding: ActivityBatchViewBinding) {
