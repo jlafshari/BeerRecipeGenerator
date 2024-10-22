@@ -4,9 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipecore.batches.Batch
 import com.jlafshari.beerrecipecore.utility.DateUtility
 import com.jlafshari.beerrecipegenerator.Constants
@@ -66,6 +70,37 @@ class BatchViewActivity : AppCompatActivity() {
 
             val txtBrewingDate = findViewById<TextView>(R.id.txtBrewingDate)
             txtBrewingDate.text = DateUtility.getFormattedDate(mBatch.brewingDate)
+
+            val txtStatus = findViewById<TextView>(R.id.txtStatus)
+            txtStatus.text = mBatch.statusHistory.last().status.name
+
+            if (!mBatch.assistantBrewerName.isNullOrEmpty()) {
+                val txtAssistantBrewerName = findViewById<TextView>(R.id.txtAssistantBrewerName)
+                txtAssistantBrewerName.text = mBatch.assistantBrewerName
+            } else {
+                val assistantBrewerNameLayout = findViewById<LinearLayout>(R.id.assistantBrewerNameLayout)
+                assistantBrewerNameLayout.visibility = View.GONE
+            }
+
+            if (!mBatch.notes.isNullOrEmpty()) {
+                val txtNotes = findViewById<TextView>(R.id.txtNotes)
+                txtNotes.text = mBatch.notes
+            } else {
+                val notesLayout = findViewById<LinearLayout>(R.id.notesLayout)
+                notesLayout.visibility = View.GONE
+            }
+
+            if (mBatch.gravityReadings.isNotEmpty()) {
+                val gravityReadingRecyclerView = findViewById<RecyclerView>(R.id.gravityReadingRecyclerView)
+                gravityReadingRecyclerView.layoutManager = LinearLayoutManager(
+                    this@BatchViewActivity,
+                    RecyclerView.VERTICAL,
+                    false)
+                gravityReadingRecyclerView.adapter = GravityReadingListAdapter(mBatch.gravityReadings)
+            } else {
+                val gravityReadingLayout = findViewById<LinearLayout>(R.id.gravityReadingLayout)
+                gravityReadingLayout.visibility = View.GONE
+            }
         }
     }
 
