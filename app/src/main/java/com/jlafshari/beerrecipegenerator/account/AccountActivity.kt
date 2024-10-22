@@ -3,7 +3,6 @@ package com.jlafshari.beerrecipegenerator.account
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAccountBinding
 import com.jlafshari.beerrecipegenerator.login.AzureAuthHelper
@@ -20,14 +19,16 @@ class AccountActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
+        val signOutButton = binding.btnSignOut
+        signOutButton.setOnClickListener { signOut() }
+
         AzureAuthHelper.isUserSignedIn(this) {
             val txtUserName = binding.txtUserName
             txtUserName.text = AzureAuthHelper.getUserName()
         }
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    fun signOut(view: View) {
+    private fun signOut() {
         val loginActivityIntent = Intent(this, AzureLoginActivity::class.java)
         loginActivityIntent.putExtra(Constants.EXTRA_SIGN_OUT, true)
         startActivity(loginActivityIntent)
