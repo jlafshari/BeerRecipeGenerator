@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View.GONE
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -66,13 +65,6 @@ class RecipeViewActivity : AppCompatActivity() {
 
         val recipeId = intent.getStringExtra(Constants.EXTRA_VIEW_RECIPE)!!
         recipeViewModel.loadRecipeDetails(recipeId)
-
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val mainActivityIntent = Intent(this@RecipeViewActivity, MainActivity::class.java)
-                startActivity(mainActivityIntent)
-            }
-        })
 
         recipeViewModel.loadRecipeDetailsResponse.observe(this@RecipeViewActivity) {
             if (it != null) {
@@ -155,7 +147,7 @@ class RecipeViewActivity : AppCompatActivity() {
             }
 
             android.R.id.home -> {
-                onBackPressedDispatcher.onBackPressed()
+                goToMainActivity()
                 true
             }
 
@@ -170,6 +162,10 @@ class RecipeViewActivity : AppCompatActivity() {
     private fun onRecipeDeleted() {
         Toast.makeText(this, "Recipe deleted!", Toast.LENGTH_SHORT).show()
 
+        goToMainActivity()
+    }
+
+    private fun goToMainActivity() {
         val mainActivityIntent = Intent(this, MainActivity::class.java)
         startActivity(mainActivityIntent)
     }

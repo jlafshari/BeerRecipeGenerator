@@ -1,12 +1,9 @@
 package com.jlafshari.beerrecipegenerator.about
 
-import android.content.Intent
 import android.content.pm.PackageInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import com.jlafshari.beerrecipegenerator.BuildConfig
-import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAboutBinding
 import java.util.Date
 
@@ -21,13 +18,6 @@ class AboutActivity : AppCompatActivity() {
         }
 
         loadAppInfo(binding)
-
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val mainActivityIntent = Intent(this@AboutActivity, MainActivity::class.java)
-                startActivity(mainActivityIntent)
-            }
-        })
     }
 
     private fun loadAppInfo(binding: ActivityAboutBinding) {

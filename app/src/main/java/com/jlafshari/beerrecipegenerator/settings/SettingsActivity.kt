@@ -1,15 +1,12 @@
 package com.jlafshari.beerrecipegenerator.settings
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivitySettingsBinding
 
@@ -37,13 +34,6 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         sharedPreferences = getSharedPreferences(AppSettings.PREFERENCE_FILE_NAME, MODE_PRIVATE)
-
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val mainActivityIntent = Intent(this@SettingsActivity, MainActivity::class.java)
-                startActivity(mainActivityIntent)
-            }
-        })
     }
 
     private fun setUpTrubLoss(txtTrubLossAmount: EditText) {

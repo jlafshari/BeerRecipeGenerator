@@ -4,9 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import com.jlafshari.beerrecipegenerator.Constants
-import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAccountBinding
 import com.jlafshari.beerrecipegenerator.login.AzureAuthHelper
 import com.jlafshari.beerrecipegenerator.login.AzureLoginActivity
@@ -25,13 +23,6 @@ class AccountActivity : AppCompatActivity() {
         AzureAuthHelper.isUserSignedIn(this) {
             val txtUserName = binding.txtUserName
             txtUserName.text = AzureAuthHelper.getUserName()
-
-            onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    val mainActivityIntent = Intent(this@AccountActivity, MainActivity::class.java)
-                    startActivity(mainActivityIntent)
-                }
-            })
         }
     }
 
