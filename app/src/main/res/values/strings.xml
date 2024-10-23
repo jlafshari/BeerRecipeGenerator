@@ -102,4 +102,7 @@
     <string name="hop_section_label">Hops</string>
     <string name="hop_search_btn_label">+</string>
     <string name="batches_heading_label">Batches</string>
+    <string name="assistant_brewer_label">Assistant Brewer:</string>
+    <string name="notes_label">Notes:</string>
+    <string name="gravity_readings_label">Gravity Readings:</string>
 </resources>

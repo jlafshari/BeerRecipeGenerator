@@ -38,7 +38,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Assistant Brewer:"
+            android:text="@string/assistant_brewer_label"
             android:textSize="12sp" />
 
         <TextView
@@ -57,7 +57,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notes:" />
+            android:text="@string/notes_label" />
         <TextView
             android:id="@+id/txtNotes"
             android:layout_width="wrap_content"
@@ -73,8 +73,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:text="Gravity Readings:" />
+            android:textSize="18sp"
+            android:text="@string/gravity_readings_label" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/gravityReadingRecyclerView"
             android:layout_width="wrap_content"
