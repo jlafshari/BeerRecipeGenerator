@@ -63,8 +63,12 @@ class AddHopActivity : AppCompatActivity() {
     }
 
     private fun onHopsLoaded(hops: List<Hop>) {
-        val hopsToExclude = intent.getStringArrayExtra(Constants.EXTRA_ADD_HOP_HOPS_TO_EXCLUDE)!!.toList()
-        mHops = hops.filter { h -> !hopsToExclude.contains(h.id) }
+        val hopsToExclude = intent.getStringArrayExtra(Constants.EXTRA_ADD_HOP_HOPS_TO_EXCLUDE)
+        mHops = if (!hopsToExclude.isNullOrEmpty()) {
+            hops.filter { h -> !hopsToExclude.contains(h.id) }
+        } else {
+            hops
+        }
         setHopSelectorView(mHops)
     }
 
