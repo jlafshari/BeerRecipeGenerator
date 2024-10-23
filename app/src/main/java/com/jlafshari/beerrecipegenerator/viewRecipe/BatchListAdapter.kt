@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipecore.batches.BatchPreview
+import com.jlafshari.beerrecipecore.batches.displayText
 import com.jlafshari.beerrecipecore.utility.DateUtility
 import com.jlafshari.beerrecipegenerator.R
 
@@ -28,7 +29,7 @@ class BatchListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val batch = batchList[position]
         val formattedBrewingDate = DateUtility.getFormattedDate(batch.brewingDate)
-        holder.txtBatch.text = "${formattedBrewingDate} (${batch.status})"
+        holder.txtBatch.text = "${formattedBrewingDate} (${batch.status.displayText()})"
 
         holder.btnViewBatch.setOnClickListener { clickListener(batch) }
     }
