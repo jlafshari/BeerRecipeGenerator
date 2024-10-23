@@ -6,7 +6,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -41,6 +40,10 @@ class EditRecipeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEditRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.btnUpdate.setOnClickListener { updateRecipe() }
+        binding.btnAddGrain.setOnClickListener { addGrain() }
+        binding.btnAddHop.setOnClickListener { addHop() }
 
         binding.grainEditRecyclerView.layoutManager = LinearLayoutManager(
             this,
@@ -191,16 +194,14 @@ class EditRecipeActivity : AppCompatActivity() {
             { h -> deleteHopListener(h) })
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    fun addGrain(view: View) {
+    private fun addGrain() {
         val addGrainIntent = Intent(this, AddGrainActivity::class.java)
         addGrainIntent.putExtra(Constants.EXTRA_ADD_GRAIN_GRAINS_TO_EXCLUDE,
             mRecipeUpdateInfo.fermentableIngredients.map { it.fermentableId }.toTypedArray())
         resultLauncher.launch(addGrainIntent)
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    fun addHop(view: View) {
+    private fun addHop() {
         val addHopIntent = Intent(this, AddHopActivity::class.java)
         resultLauncher.launch(addHopIntent)
     }
@@ -224,8 +225,7 @@ class EditRecipeActivity : AppCompatActivity() {
         setGrainEditRecyclerView(mRecipeUpdateInfo.fermentableIngredients)
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    fun updateRecipe(view: View) {
+    private fun updateRecipe() {
         val validationResult = recipeValidator.validateRecipeUpdateInfo(mRecipeUpdateInfo)
         if (!validationResult.succeeded) {
             binding.txtErrorMsg.text = validationResult.message

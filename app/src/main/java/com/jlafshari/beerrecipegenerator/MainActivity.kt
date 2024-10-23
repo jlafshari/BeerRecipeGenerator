@@ -82,6 +82,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        binding.btnNewRecipe.setOnClickListener { newRecipe() }
+
         val fermentableSearchRecyclerView = binding.root.findViewById<RecyclerView>(R.id.fermentableSearchRecyclerView)
         fermentableSearchRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         fermentableSearchRecyclerView.adapter = FermentableSearchListAdapter(emptyList()) {}
@@ -394,8 +396,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    fun newRecipe(view: View) {
+    fun newRecipe() {
         val newRecipeIntent = Intent(this, NewRecipeWizardActivity::class.java)
         startActivity(newRecipeIntent)
     }

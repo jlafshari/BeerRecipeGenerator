@@ -2,7 +2,6 @@ package com.jlafshari.beerrecipegenerator.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.jlafshari.beerrecipegenerator.Constants
@@ -22,6 +21,8 @@ class AzureLoginActivity : AppCompatActivity() {
 
         binding = ActivityAzureLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.login.setOnClickListener { signIn() }
 
         AzureAuthHelper.initializeB2CApp(this, currentAccountCallback())
 
@@ -47,7 +48,7 @@ class AzureLoginActivity : AppCompatActivity() {
         }
     }
 
-    fun signIn(@Suppress("UNUSED_PARAMETER") view: View) {
+    private fun signIn() {
         AzureAuthHelper.signIn(this, { signInSuccess() }, { exception ->
             showMessage(exception?.message!!)
             print(exception) })
