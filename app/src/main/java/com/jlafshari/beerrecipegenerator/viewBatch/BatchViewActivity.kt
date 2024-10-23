@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipecore.batches.Batch
 import com.jlafshari.beerrecipecore.batches.displayText
+import com.jlafshari.beerrecipecore.utility.AbvUtility
 import com.jlafshari.beerrecipecore.utility.DateUtility
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.R
@@ -74,6 +75,10 @@ class BatchViewActivity : AppCompatActivity() {
 
             val txtStatus = findViewById<TextView>(R.id.txtStatus)
             txtStatus.text = mBatch.statusHistory.last().status.displayText()
+
+            binding.txtCurrentAbv.text = if (mBatch.currentAbv != null) AbvUtility.printAbvValue(mBatch.currentAbv!!)
+                else "--"
+            binding.txtProjectedAbv.text = AbvUtility.printAbvValue(mBatch.recipe.projectedOutcome.abv)
 
             if (!mBatch.assistantBrewerName.isNullOrEmpty()) {
                 val txtAssistantBrewerName = findViewById<TextView>(R.id.txtAssistantBrewerName)

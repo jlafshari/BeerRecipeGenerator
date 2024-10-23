@@ -9,5 +9,6 @@ data class Batch(
     val assistantBrewerName: String?,
     val notes: String?,
     val statusHistory: List<BatchStatusItem>,
-    val gravityReadings: List<GravityReading>
+    val gravityReadings: List<GravityReading>,
+    val currentAbv: Double?
 )
