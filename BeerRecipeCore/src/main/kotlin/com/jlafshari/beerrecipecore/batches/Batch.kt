@@ -10,5 +10,7 @@ data class Batch(
     val notes: String?,
     val statusHistory: List<BatchStatusItem>,
     val gravityReadings: List<GravityReading>,
-    val currentAbv: Double?
+    val currentAbv: Double?,
+    val fermentationScheduleSteps: List<FermentationScheduleStep>,
+    val fermentationCompleteDate: String?
 )

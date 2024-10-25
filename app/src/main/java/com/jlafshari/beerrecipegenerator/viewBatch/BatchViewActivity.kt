@@ -107,6 +107,25 @@ class BatchViewActivity : AppCompatActivity() {
                 val gravityReadingLayout = findViewById<LinearLayout>(R.id.gravityReadingLayout)
                 gravityReadingLayout.visibility = View.GONE
             }
+
+            if (mBatch.fermentationScheduleSteps.isNotEmpty()) {
+                val fermentationScheduleRecyclerView = binding.fermentationScheduleStepsRecyclerView
+                fermentationScheduleRecyclerView.layoutManager = LinearLayoutManager(
+                    this@BatchViewActivity,
+                    RecyclerView.VERTICAL,
+                    false
+                )
+                fermentationScheduleRecyclerView.adapter = FermentationScheduleListAdapter(mBatch.fermentationScheduleSteps, this@BatchViewActivity)
+
+                val fermentationCompletionDate = DateUtility.getFormattedDate(mBatch.fermentationCompleteDate!!)
+                binding.txtFermentationCompletionDate.text = context.getString(
+                    R.string.fermentation_complete_template,
+                    fermentationCompletionDate
+                )
+            } else {
+                val fermentationScheduleStepsLayout = findViewById<LinearLayout>(R.id.fermentationScheduleStepsLayout)
+                fermentationScheduleStepsLayout.visibility = View.GONE
+            }
         }
     }
 

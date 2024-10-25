@@ -105,4 +105,7 @@
     <string name="assistant_brewer_label">Assistant Brewer:</string>
     <string name="notes_label">Notes:</string>
     <string name="gravity_readings_label">Gravity Readings:</string>
+    <string name="fermentation_schedule_heading">Fermentation Schedule</string>
+    <string name="fermentation_complete_template">%1$s: Complete</string>
+    <string name="fermentation_step_template">%1$s: %2$s°F</string>
 </resources>
