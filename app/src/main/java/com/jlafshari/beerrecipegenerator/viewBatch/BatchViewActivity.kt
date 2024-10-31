@@ -19,6 +19,7 @@ import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.batches.BatchViewModel
 import com.jlafshari.beerrecipegenerator.databinding.ActivityBatchViewBinding
+import com.jlafshari.beerrecipegenerator.editBatch.EditBatchActivity
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -56,13 +57,24 @@ class BatchViewActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            android.R.id.home -> {
+            R.id.action_edit -> {
+                editBatch()
+                true
+            }
+
+            R.id.home -> {
                 goBackToRecipeView()
                 true
             }
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun editBatch() {
+        val editBatchIntent = Intent(this, EditBatchActivity::class.java)
+        editBatchIntent.putExtra(Constants.EXTRA_EDIT_BATCH, mBatch.id)
+        startActivity(editBatchIntent)
     }
 
     private fun loadBatchView(binding: ActivityBatchViewBinding) {
