@@ -62,7 +62,7 @@ class BatchViewActivity : AppCompatActivity() {
                 true
             }
 
-            R.id.home -> {
+            android.R.id.home -> {
                 goBackToRecipeView()
                 true
             }
