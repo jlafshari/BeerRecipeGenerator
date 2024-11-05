@@ -110,4 +110,5 @@
     <string name="fermentation_step_template">%1$s: %2$s°F</string>
     <string name="current_abv_label">Current ABV:</string>
     <string name="projected_abv_label">Projected ABV:</string>
+    <string name="batch_notes_hint">Batch notes…</string>
 </resources>

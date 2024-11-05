@@ -69,5 +69,8 @@ class EditBatchActivity : AppCompatActivity() {
 
     private fun loadBatchView() {
         binding.txtRecipeName.text = mBatch.recipe.name
+        if (mBatch.notes != null) {
+            binding.txtBatchNotes.text.insert(0, mBatch.notes!!)
+        }
     }
 }
