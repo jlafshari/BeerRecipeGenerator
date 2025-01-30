@@ -28,10 +28,13 @@ abstract class BaseViewModel : ViewModel() {
 
     protected fun runIfTokenIsValid(fn: () -> Unit) {
         if (authResult.isTokenInvalid()) {
-            AzureAuthHelper.getAccessTokenAsync {
-                authResult = it
-                fn()
-            }
+            AzureAuthHelper.getAccessTokenAsync(
+                {
+                    authResult = it
+                    fn()
+                },
+                { }
+            )
         } else {
             fn()
         }

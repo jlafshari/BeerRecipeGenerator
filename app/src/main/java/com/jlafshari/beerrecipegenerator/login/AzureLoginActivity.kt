@@ -8,6 +8,7 @@ import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.MainActivity
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.databinding.ActivityAzureLoginBinding
+import com.jlafshari.beerrecipegenerator.login.AzureAuthHelper.getAccessTokenAsync
 import com.microsoft.identity.client.IAccount
 import com.microsoft.identity.client.ISingleAccountPublicClientApplication.CurrentAccountCallback
 import com.microsoft.identity.client.exception.MsalException
@@ -35,8 +36,11 @@ class AzureLoginActivity : AppCompatActivity() {
         return object : CurrentAccountCallback {
             override fun onAccountLoaded(activeAccount: IAccount?) {
                 if (activeAccount != null) {
-                    AzureAuthHelper.loadAccount()
-                    signInSuccess()
+                    AzureAuthHelper.loadAccount(activeAccount)
+                    getAccessTokenAsync({
+                        signInSuccess()
+                    },
+                    { signOut() })
                 }
             }
 

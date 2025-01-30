@@ -52,7 +52,8 @@ object AzureAuthHelper {
         })
     }
 
-    fun getAccessTokenAsync(success: (authResult: IAuthenticationResult?) -> Unit) {
+    fun getAccessTokenAsync(success: (authResult: IAuthenticationResult?) -> Unit,
+                            error: (exception: MsalException?) -> Unit) {
         if (account == null) {
             loadAccount()
         }
@@ -67,6 +68,7 @@ object AzureAuthHelper {
                 }
 
                 override fun onError(exception: MsalException?) {
+                    error(exception)
                     Log.d("", "onError: ", exception)
                 }
 
@@ -95,21 +97,27 @@ object AzureAuthHelper {
         })
     }
 
+    fun loadAccount(newAccount : IAccount?) {
+        account = newAccount
+    }
+
     fun isUserSignedIn(context: Context, isSignedInCallback: () -> Unit) {
         b2cApplication!!.getCurrentAccountAsync(object :
             ISingleAccountPublicClientApplication.CurrentAccountCallback {
             override fun onAccountLoaded(activeAccount: IAccount?) {
                 if (activeAccount != null) {
-                    isSignedInCallback()
+                    getAccessTokenAsync({ isSignedInCallback() }, {
+                        signOutAndShowLoginScreen(context)
+                    })
                 } else {
-                    showLoginScreen(context)
+                    signOutAndShowLoginScreen(context)
                 }
             }
 
             override fun onAccountChanged(priorAccount: IAccount?, currentAccount: IAccount?) { }
 
             override fun onError(exception: MsalException) {
-                showLoginScreen(context)
+                signOutAndShowLoginScreen(context)
             }
         })
     }
@@ -132,7 +140,8 @@ object AzureAuthHelper {
             })
     }
 
-    fun showLoginScreen(context: Context) {
+    fun signOutAndShowLoginScreen(context: Context) {
+        signOut()
         val loginActivityIntent = Intent(context, AzureLoginActivity::class.java)
         context.startActivity(loginActivityIntent)
     }
