@@ -21,15 +21,52 @@
         android:id="@+id/statusSpinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtRecipeName"
+        android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/txtAddGravityReadingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_gravity_reading_label"
+        android:layout_marginTop="11dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/statusSpinner" />
+
+    <EditText
+        android:id="@+id/txtGravityReading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toEndOf="@id/txtAddGravityReadingLabel"
+        app:layout_constraintTop_toBottomOf="@id/statusSpinner" />
+
+    <CheckBox
+        android:id="@+id/chkRefractometerReading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtAddGravityReadingLabel"
+        android:text="@string/checkbox_refractometer_reading_label" />
+
+    <EditText
+        android:id="@+id/txtAssistantBrewer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="Assistant brewer name"
+        android:inputType="text"
+        android:hint="@string/assistant_brewer_name_hint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chkRefractometerReading" />
 
     <TextView
         android:id="@+id/txtNotesLabel"
         android:text="@string/notes_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/statusSpinner"
-        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/txtAssistantBrewer"
+        android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

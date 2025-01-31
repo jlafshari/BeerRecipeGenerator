@@ -81,6 +81,9 @@ class EditBatchActivity : AppCompatActivity() {
         if (mBatch.notes != null) {
             binding.txtBatchNotes.text.insert(0, mBatch.notes!!)
         }
+        if (mBatch.assistantBrewerName != null) {
+            binding.txtAssistantBrewer.text.insert(0, mBatch.assistantBrewerName!!)
+        }
 
         val currentStatus = mBatch.statusHistory.last().status
         val currentStatusIndex = batchStatusDisplayItems.indexOf(currentStatus.displayText())

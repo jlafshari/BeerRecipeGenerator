@@ -111,4 +111,7 @@
     <string name="current_abv_label">Current ABV:</string>
     <string name="projected_abv_label">Projected ABV:</string>
     <string name="batch_notes_hint">Batch notes…</string>
+    <string name="add_gravity_reading_label">Add Gravity Reading:</string>
+    <string name="checkbox_refractometer_reading_label">Convert from refractometer reading</string>
+    <string name="assistant_brewer_name_hint">Assistant brewer name</string>
 </resources>
