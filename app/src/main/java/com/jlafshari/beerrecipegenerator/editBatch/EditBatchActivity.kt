@@ -4,9 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.jlafshari.beerrecipecore.batches.Batch
+import com.jlafshari.beerrecipecore.batches.BatchStatus
+import com.jlafshari.beerrecipecore.batches.batchStatusEnumDisplayMap
+import com.jlafshari.beerrecipecore.batches.displayText
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.batches.BatchViewModel
@@ -21,6 +27,7 @@ class EditBatchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditBatchBinding
     private val batchViewModel: BatchViewModel by viewModels()
+    private val batchStatusDisplayItems = BatchStatus.entries.map { it.displayText() }.toList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +36,8 @@ class EditBatchActivity : AppCompatActivity() {
 
         val batchId = intent.getStringExtra(Constants.EXTRA_EDIT_BATCH)!!
         batchViewModel.loadBatchDetails(batchId)
+
+        initializeStatusSpinner()
 
         batchViewModel.loadBatchDetailsResponse.observe(this@EditBatchActivity) {
             if (it != null) {
@@ -71,6 +80,36 @@ class EditBatchActivity : AppCompatActivity() {
         binding.txtRecipeName.text = mBatch.recipe.name
         if (mBatch.notes != null) {
             binding.txtBatchNotes.text.insert(0, mBatch.notes!!)
+        }
+
+        val currentStatus = mBatch.statusHistory.last().status
+        val currentStatusIndex = batchStatusDisplayItems.indexOf(currentStatus.displayText())
+        binding.statusSpinner.setSelection(currentStatusIndex)
+    }
+
+    private fun initializeStatusSpinner() {
+        binding.statusSpinner.adapter = ArrayAdapter(
+            this,
+            R.layout.support_simple_spinner_dropdown_item,
+            batchStatusDisplayItems
+        )
+        binding.statusSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedDisplayText = parent?.getItemAtPosition(position).toString()
+                val selectedEnum =
+                    batchStatusEnumDisplayMap.entries.firstOrNull { it.value == selectedDisplayText }?.key
+                selectedEnum?.let {
+                    //TODO: save status selection
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
         }
     }
 }

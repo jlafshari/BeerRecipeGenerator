@@ -8,12 +8,12 @@ enum class BatchStatus {
     Completed
 }
 
-fun BatchStatus.displayText(): String {
-    return when (this) {
-        BatchStatus.NotStarted -> "Not Started"
-        BatchStatus.Brewing -> "Brewing"
-        BatchStatus.Fermenting -> "Fermenting"
-        BatchStatus.Carbonating -> "Carbonating"
-        BatchStatus.Completed -> "Completed"
-    }
-}
+fun BatchStatus.displayText(): String = batchStatusEnumDisplayMap[this]!!
+
+val batchStatusEnumDisplayMap = mapOf(
+    BatchStatus.NotStarted to "Not Started",
+    BatchStatus.Brewing to "Brewing",
+    BatchStatus.Fermenting to "Fermenting",
+    BatchStatus.Carbonating to "Carbonating",
+    BatchStatus.Completed to "Completed"
+)
