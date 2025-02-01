@@ -6,6 +6,7 @@ import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipecore.batches.Batch
+import com.jlafshari.beerrecipecore.batches.BatchUpdateInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.settings.RecipeDefaultSettings
@@ -68,4 +69,8 @@ interface HomebrewApi {
     @GET("Batch/{batchId}")
     fun getBatchDetails(@Header("Authorization") authHeader: String, @Path("batchId") batchId: String):
             Single<Batch>
+
+    @PATCH("Batch/{batchId}")
+    fun updateBatch(@Header("Authorization") authHeader: String, @Path("batchId") batchId: String,
+                    @Body batchUpdateInfo: BatchUpdateInfo): Completable
 }

@@ -11,6 +11,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.jlafshari.beerrecipecore.batches.Batch
 import com.jlafshari.beerrecipecore.batches.BatchStatus
+import com.jlafshari.beerrecipecore.batches.BatchUpdateInfo
+import com.jlafshari.beerrecipecore.batches.GravityReading
 import com.jlafshari.beerrecipecore.batches.batchStatusEnumDisplayMap
 import com.jlafshari.beerrecipecore.batches.displayText
 import com.jlafshari.beerrecipegenerator.Constants
@@ -19,11 +21,15 @@ import com.jlafshari.beerrecipegenerator.batches.BatchViewModel
 import com.jlafshari.beerrecipegenerator.databinding.ActivityEditBatchBinding
 import com.jlafshari.beerrecipegenerator.viewBatch.BatchViewActivity
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Double.parseDouble
+import java.util.Date
 
 @AndroidEntryPoint
 class EditBatchActivity : AppCompatActivity() {
 
+    private lateinit var mBatchId: String
     private lateinit var mBatch: Batch
+    private lateinit var mBatchUpdateInfo: BatchUpdateInfo
 
     private lateinit var binding: ActivityEditBatchBinding
     private val batchViewModel: BatchViewModel by viewModels()
@@ -34,15 +40,21 @@ class EditBatchActivity : AppCompatActivity() {
         binding = ActivityEditBatchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val batchId = intent.getStringExtra(Constants.EXTRA_EDIT_BATCH)!!
-        batchViewModel.loadBatchDetails(batchId)
+        mBatchId = intent.getStringExtra(Constants.EXTRA_EDIT_BATCH)!!
+        batchViewModel.loadBatchDetails(mBatchId)
 
-        initializeStatusSpinner()
+        binding.btnUpdate.setOnClickListener { updateBatch() }
 
         batchViewModel.loadBatchDetailsResponse.observe(this@EditBatchActivity) {
             if (it != null) {
                 loadBatch(it)
                 batchViewModel.loadBatchDetailsComplete()
+            }
+        }
+
+        batchViewModel.updateBatchResponse.observe(this@EditBatchActivity) {
+            if (it.isSuccessful) {
+                goBackToBatchView()
             }
         }
     }
@@ -60,6 +72,24 @@ class EditBatchActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
+    private fun updateBatch() {
+        mBatchUpdateInfo.notes = binding.txtBatchNotes.text.toString()
+        mBatchUpdateInfo.assistantBrewerName = binding.txtAssistantBrewer.text.toString()
+
+        val gravityReadingText = binding.txtGravityReading.text.toString()
+        if (gravityReadingText.isNotEmpty()) {
+            val gravityDoubleValue = parseDouble(binding.txtGravityReading.text.toString())
+            mBatchUpdateInfo.gravityReadings.plus(
+                GravityReading(
+                    gravityDoubleValue,
+                    Date().toString()
+                )
+            )
+        }
+
+        batchViewModel.updateBatch(mBatchId, mBatchUpdateInfo)
+    }
+
     private fun cancelEditBatch() = goBackToBatchView()
 
     private fun goBackToBatchView() {
@@ -71,6 +101,12 @@ class EditBatchActivity : AppCompatActivity() {
     private fun loadBatch(batch: Batch) {
         with(batch) {
             mBatch = this
+            mBatchUpdateInfo = BatchUpdateInfo(
+                mBatch.gravityReadings.toMutableList(),
+                mBatch.statusHistory.last().status,
+                mBatch.assistantBrewerName,
+                mBatch.notes
+            )
         }
 
         loadBatchView()
@@ -85,6 +121,7 @@ class EditBatchActivity : AppCompatActivity() {
             binding.txtAssistantBrewer.text.insert(0, mBatch.assistantBrewerName!!)
         }
 
+        initializeStatusSpinner()
         val currentStatus = mBatch.statusHistory.last().status
         val currentStatusIndex = batchStatusDisplayItems.indexOf(currentStatus.displayText())
         binding.statusSpinner.setSelection(currentStatusIndex)
@@ -104,15 +141,14 @@ class EditBatchActivity : AppCompatActivity() {
                 id: Long
             ) {
                 val selectedDisplayText = parent?.getItemAtPosition(position).toString()
-                val selectedEnum =
+                val selectedBatchStatusEnum =
                     batchStatusEnumDisplayMap.entries.firstOrNull { it.value == selectedDisplayText }?.key
-                selectedEnum?.let {
-                    //TODO: save status selection
+                selectedBatchStatusEnum?.let {
+                    mBatchUpdateInfo.status = it
                 }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) { }
         }
     }
 }

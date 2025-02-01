@@ -61,6 +61,7 @@
     <string name="grainAmountUnit">lbs</string>
     <string name="addGrainHeading">Add Grain</string>
     <string name="btnUpdateRecipe">Update</string>
+    <string name="btnUpdateBatch">Update</string>
     <string name="deleteText">Delete</string>
     <string name="searchHintText">Search …</string>
     <string name="hopOuncesHint"><font size="14">oz.</font></string>

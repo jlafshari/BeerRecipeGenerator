@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jlafshari.beerrecipecore.batches.Batch
+import com.jlafshari.beerrecipecore.batches.BatchUpdateInfo
 import com.jlafshari.beerrecipegenerator.BaseViewModel
+import com.jlafshari.beerrecipegenerator.homebrewApi.ApiResponse
 import com.jlafshari.beerrecipegenerator.homebrewApi.HomebrewApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -14,6 +16,9 @@ class BatchViewModel @Inject constructor(private val homebrewApiService: Homebre
     BaseViewModel() {
     private val _loadBatchDetailsResponse = MutableLiveData<Batch?>()
     val loadBatchDetailsResponse: LiveData<Batch?> = _loadBatchDetailsResponse
+
+    private val _updateBatchResponse = MutableLiveData<ApiResponse>()
+    val updateBatchResponse: LiveData<ApiResponse> = _updateBatchResponse
 
     fun loadBatchDetails(batchId: String) {
         runIfTokenIsValid {
@@ -27,5 +32,18 @@ class BatchViewModel @Inject constructor(private val homebrewApiService: Homebre
 
     fun loadBatchDetailsComplete() {
         _loadBatchDetailsResponse.postValue(null)
+    }
+
+    fun updateBatch(batchId: String, batchUpdateInfo: BatchUpdateInfo) {
+        runIfTokenIsValid {
+            homebrewApiService.updateBatch(authResult!!.authorizationHeader, batchId, batchUpdateInfo)
+                .subscribeThenDispose({
+                    _updateBatchResponse.postValue(ApiResponse(true))
+                },
+                {
+                    Log.d("", "update batch error", it)
+                    _updateBatchResponse.postValue(ApiResponse(false))
+                })
+        }
     }
 }

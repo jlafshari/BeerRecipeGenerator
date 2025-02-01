@@ -5,6 +5,7 @@ import com.jlafshari.beerrecipecore.Hop
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.Style
+import com.jlafshari.beerrecipecore.batches.BatchUpdateInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.BuildConfig
@@ -79,4 +80,7 @@ class HomebrewApiService @Inject constructor() {
 
     fun getBatchDetails(authHeader: String, batchId: String) =
         api.getBatchDetails(authHeader, batchId)
+
+    fun updateBatch(authHeader: String, batchId: String, batchUpdateInfo: BatchUpdateInfo): Completable =
+        api.updateBatch(authHeader, batchId, batchUpdateInfo)
 }
