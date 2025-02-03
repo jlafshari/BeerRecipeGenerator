@@ -88,9 +88,10 @@
 
     <Button
         android:id="@+id/btnUpdate"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtBatchNotes"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/btnUpdateBatch"
+        android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </androidx.constraintlayout.widget.ConstraintLayout>
