@@ -99,6 +99,10 @@ class EditBatchActivity : AppCompatActivity() {
         mBatchUpdateInfo.notes = binding.txtBatchNotes.text.toString()
         mBatchUpdateInfo.assistantBrewerName = binding.txtAssistantBrewer.text.toString()
 
+        if (mBatchUpdateInfo.status == mBatch.currentStatus()) {
+            mBatchUpdateInfo.status = null
+        }
+
         if (mGravityReadingValue > 1) {
             mBatchUpdateInfo.gravityReadings.add(
                 GravityReading(
@@ -140,7 +144,7 @@ class EditBatchActivity : AppCompatActivity() {
             mBatch = this
             mBatchUpdateInfo = BatchUpdateInfo(
                 mBatch.gravityReadings.toMutableList(),
-                mBatch.statusHistory.last().status,
+                mBatch.currentStatus(),
                 mBatch.assistantBrewerName,
                 mBatch.notes
             )
@@ -159,7 +163,7 @@ class EditBatchActivity : AppCompatActivity() {
         }
 
         initializeStatusSpinner()
-        val currentStatus = mBatch.statusHistory.last().status
+        val currentStatus = mBatch.currentStatus()
         val currentStatusIndex = batchStatusDisplayItems.indexOf(currentStatus.displayText())
         binding.statusSpinner.setSelection(currentStatusIndex)
     }

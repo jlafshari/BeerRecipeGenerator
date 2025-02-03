@@ -13,4 +13,6 @@ data class Batch(
     val currentAbv: Double?,
     val fermentationScheduleSteps: List<FermentationScheduleStep>,
     val fermentationCompleteDate: String?
-)
+) {
+    fun currentStatus() = statusHistory.last().status
+}
