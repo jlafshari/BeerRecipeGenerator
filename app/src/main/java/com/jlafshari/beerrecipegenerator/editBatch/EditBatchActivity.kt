@@ -15,6 +15,7 @@ import com.jlafshari.beerrecipecore.batches.BatchUpdateInfo
 import com.jlafshari.beerrecipecore.batches.GravityReading
 import com.jlafshari.beerrecipecore.batches.batchStatusEnumDisplayMap
 import com.jlafshari.beerrecipecore.batches.displayText
+import com.jlafshari.beerrecipecore.utility.DateUtility
 import com.jlafshari.beerrecipegenerator.Constants
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.batches.BatchViewModel
@@ -22,7 +23,7 @@ import com.jlafshari.beerrecipegenerator.databinding.ActivityEditBatchBinding
 import com.jlafshari.beerrecipegenerator.viewBatch.BatchViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.Double.parseDouble
-import java.util.Date
+import java.time.Instant
 
 @AndroidEntryPoint
 class EditBatchActivity : AppCompatActivity() {
@@ -79,10 +80,10 @@ class EditBatchActivity : AppCompatActivity() {
         val gravityReadingText = binding.txtGravityReading.text.toString()
         if (gravityReadingText.isNotEmpty()) {
             val gravityDoubleValue = parseDouble(binding.txtGravityReading.text.toString())
-            mBatchUpdateInfo.gravityReadings.plus(
+            mBatchUpdateInfo.gravityReadings.add(
                 GravityReading(
                     gravityDoubleValue,
-                    Date().toString()
+                    DateUtility.getFormattedTimeStamp(Instant.now())
                 )
             )
         }
