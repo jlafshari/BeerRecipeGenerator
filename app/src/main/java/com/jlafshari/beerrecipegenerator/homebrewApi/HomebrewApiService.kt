@@ -83,4 +83,8 @@ class HomebrewApiService @Inject constructor() {
 
     fun updateBatch(authHeader: String, batchId: String, batchUpdateInfo: BatchUpdateInfo): Completable =
         api.updateBatch(authHeader, batchId, batchUpdateInfo)
+
+    fun getCorrectedRefractometerReading(
+        authHeader: String, originalGravity: Double, finalGravity: Double
+    ) : Single<Double> = api.getCorrectedRefractometerReading(authHeader, originalGravity, finalGravity)
 }

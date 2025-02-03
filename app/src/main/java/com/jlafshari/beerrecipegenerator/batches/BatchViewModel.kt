@@ -20,6 +20,9 @@ class BatchViewModel @Inject constructor(private val homebrewApiService: Homebre
     private val _updateBatchResponse = MutableLiveData<ApiResponse>()
     val updateBatchResponse: LiveData<ApiResponse> = _updateBatchResponse
 
+    private val _getCorrectedRefractometerReadingResponse = MutableLiveData<Double?>()
+    val getCorrectedRefractometerReadingResponse: LiveData<Double?> = _getCorrectedRefractometerReadingResponse
+
     fun loadBatchDetails(batchId: String) {
         runIfTokenIsValid {
             homebrewApiService.getBatchDetails(authResult!!.authorizationHeader, batchId)
@@ -45,5 +48,22 @@ class BatchViewModel @Inject constructor(private val homebrewApiService: Homebre
                     _updateBatchResponse.postValue(ApiResponse(false))
                 })
         }
+    }
+
+    fun getCorrectedRefractometerReading(originalGravity: Double, finalGravity: Double) {
+        runIfTokenIsValid {
+            homebrewApiService.getCorrectedRefractometerReading(authResult!!.authorizationHeader,
+                originalGravity, finalGravity)
+                .subscribeThenDispose({
+                    _getCorrectedRefractometerReadingResponse.postValue(it)
+                },
+                {
+                    Log.d("", "get corrected refractometer reading error", it)
+                })
+        }
+    }
+
+    fun getCorrectedRefractometerReadingComplete() {
+        _getCorrectedRefractometerReadingResponse.postValue(null)
     }
 }

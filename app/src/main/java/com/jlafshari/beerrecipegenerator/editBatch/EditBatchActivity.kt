@@ -2,6 +2,8 @@ package com.jlafshari.beerrecipegenerator.editBatch
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -22,7 +24,6 @@ import com.jlafshari.beerrecipegenerator.batches.BatchViewModel
 import com.jlafshari.beerrecipegenerator.databinding.ActivityEditBatchBinding
 import com.jlafshari.beerrecipegenerator.viewBatch.BatchViewActivity
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Double.parseDouble
 import java.time.Instant
 
 @AndroidEntryPoint
@@ -31,6 +32,7 @@ class EditBatchActivity : AppCompatActivity() {
     private lateinit var mBatchId: String
     private lateinit var mBatch: Batch
     private lateinit var mBatchUpdateInfo: BatchUpdateInfo
+    private var mGravityReadingValue: Double = 0.0
 
     private lateinit var binding: ActivityEditBatchBinding
     private val batchViewModel: BatchViewModel by viewModels()
@@ -46,6 +48,19 @@ class EditBatchActivity : AppCompatActivity() {
 
         binding.btnUpdate.setOnClickListener { updateBatch() }
 
+        binding.txtGravityReading.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                getGravityReading()
+            }
+
+            override fun afterTextChanged(s: Editable?) { }
+        })
+        binding.chkRefractometerReading.setOnCheckedChangeListener { _, _ ->
+            getGravityReading()
+        }
+
         batchViewModel.loadBatchDetailsResponse.observe(this@EditBatchActivity) {
             if (it != null) {
                 loadBatch(it)
@@ -56,6 +71,13 @@ class EditBatchActivity : AppCompatActivity() {
         batchViewModel.updateBatchResponse.observe(this@EditBatchActivity) {
             if (it.isSuccessful) {
                 goBackToBatchView()
+            }
+        }
+
+        batchViewModel.getCorrectedRefractometerReadingResponse.observe(this@EditBatchActivity) {
+            if (it != null) {
+                mGravityReadingValue = it
+                batchViewModel.getCorrectedRefractometerReadingComplete()
             }
         }
     }
@@ -77,18 +99,32 @@ class EditBatchActivity : AppCompatActivity() {
         mBatchUpdateInfo.notes = binding.txtBatchNotes.text.toString()
         mBatchUpdateInfo.assistantBrewerName = binding.txtAssistantBrewer.text.toString()
 
-        val gravityReadingText = binding.txtGravityReading.text.toString()
-        if (gravityReadingText.isNotEmpty()) {
-            val gravityDoubleValue = parseDouble(binding.txtGravityReading.text.toString())
+        if (mGravityReadingValue > 1) {
             mBatchUpdateInfo.gravityReadings.add(
                 GravityReading(
-                    gravityDoubleValue,
+                    mGravityReadingValue,
                     DateUtility.getFormattedTimeStamp(Instant.now())
                 )
             )
         }
 
         batchViewModel.updateBatch(mBatchId, mBatchUpdateInfo)
+    }
+
+    private fun getGravityReading() {
+        val gravityReadingText = binding.txtGravityReading.text.toString()
+        if (gravityReadingText.isEmpty()) return
+
+        val gravityDoubleValue = gravityReadingText.toDoubleOrNull() ?: return
+
+        if (binding.chkRefractometerReading.isChecked) {
+            val originalGravity = mBatch.gravityReadings.firstOrNull()
+            originalGravity?.let {
+                batchViewModel.getCorrectedRefractometerReading(it.value, gravityDoubleValue)
+            }
+        } else {
+            mGravityReadingValue = gravityDoubleValue
+        }
     }
 
     private fun cancelEditBatch() = goBackToBatchView()

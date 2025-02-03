@@ -73,4 +73,9 @@ interface HomebrewApi {
     @PATCH("Batch/{batchId}")
     fun updateBatch(@Header("Authorization") authHeader: String, @Path("batchId") batchId: String,
                     @Body batchUpdateInfo: BatchUpdateInfo): Completable
+
+    @GET("Formula/CorrectRefractometerReading")
+    fun getCorrectedRefractometerReading(@Header("Authorization") authHeader: String,
+                                         @Query("originalGravity") originalGravity: Double,
+                                         @Query("finalGravity") finalGravity: Double): Single<Double>
 }
