@@ -2,8 +2,6 @@ package com.jlafshari.beerrecipegenerator.editBatch
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -25,6 +23,7 @@ import com.jlafshari.beerrecipegenerator.databinding.ActivityEditBatchBinding
 import com.jlafshari.beerrecipegenerator.viewBatch.BatchViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
+import java.util.Locale
 
 @AndroidEntryPoint
 class EditBatchActivity : AppCompatActivity() {
@@ -48,15 +47,6 @@ class EditBatchActivity : AppCompatActivity() {
 
         binding.btnUpdate.setOnClickListener { updateBatch() }
 
-        binding.txtGravityReading.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                getGravityReading()
-            }
-
-            override fun afterTextChanged(s: Editable?) { }
-        })
         binding.chkRefractometerReading.setOnCheckedChangeListener { _, _ ->
             getGravityReading()
         }
@@ -116,7 +106,7 @@ class EditBatchActivity : AppCompatActivity() {
     }
 
     private fun getGravityReading() {
-        val gravityReadingText = binding.txtGravityReading.text.toString()
+        val gravityReadingText = binding.gravityReadingSpinner.selectedItem.toString()
         if (gravityReadingText.isEmpty()) return
 
         val gravityDoubleValue = gravityReadingText.toDoubleOrNull() ?: return
@@ -163,6 +153,7 @@ class EditBatchActivity : AppCompatActivity() {
         }
 
         initializeStatusSpinner()
+        initializeGravityReadingSpinner()
         val currentStatus = mBatch.currentStatus()
         val currentStatusIndex = batchStatusDisplayItems.indexOf(currentStatus.displayText())
         binding.statusSpinner.setSelection(currentStatusIndex)
@@ -187,6 +178,36 @@ class EditBatchActivity : AppCompatActivity() {
                 selectedBatchStatusEnum?.let {
                     mBatchUpdateInfo.status = it
                 }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) { }
+        }
+    }
+
+    private fun initializeGravityReadingSpinner() {
+        val recentBatchGravityReading = mBatch.gravityReadings.lastOrNull()?.value?.let {
+            (it * 1000) - 1000
+        }
+        val maxGravityReadingValue = recentBatchGravityReading?.toInt() ?: 75
+        val gravityReadingValues = mutableListOf("Select")
+        for (n in maxGravityReadingValue downTo 0) {
+            val formattedNumber = String.format(Locale.getDefault(), "%02d", n)
+            gravityReadingValues.add("1.0$formattedNumber")
+        }
+
+        binding.gravityReadingSpinner.adapter = ArrayAdapter(this,
+            R.layout.support_simple_spinner_dropdown_item,
+            gravityReadingValues
+        )
+
+        binding.gravityReadingSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                getGravityReading()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) { }
