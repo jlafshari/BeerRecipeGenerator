@@ -6,6 +6,7 @@ import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipecore.batches.BatchUpdateInfo
+import com.jlafshari.beerrecipecore.batches.NewBatchInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.BuildConfig
@@ -16,6 +17,7 @@ import io.reactivex.Single
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Inject
 
 class HomebrewApiService @Inject constructor() {
@@ -25,6 +27,7 @@ class HomebrewApiService @Inject constructor() {
         val baseUrl = getBaseUrl()
 
         val retrofit = Retrofit.Builder().baseUrl(baseUrl)
+            .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
@@ -87,4 +90,7 @@ class HomebrewApiService @Inject constructor() {
     fun getCorrectedRefractometerReading(
         authHeader: String, originalGravity: Double, finalGravity: Double
     ) : Single<Double> = api.getCorrectedRefractometerReading(authHeader, originalGravity, finalGravity)
+
+    fun newBatch(authHeader: String, newBatchInfo: NewBatchInfo): Single<String> =
+        api.newBatch(authHeader, newBatchInfo)
 }

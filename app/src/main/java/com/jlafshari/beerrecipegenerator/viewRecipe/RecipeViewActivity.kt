@@ -10,21 +10,25 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jlafshari.beerrecipecore.batches.BatchPreview
+import com.jlafshari.beerrecipecore.batches.NewBatchInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
+import com.jlafshari.beerrecipecore.utility.DateUtility
 import com.jlafshari.beerrecipegenerator.*
+import com.jlafshari.beerrecipegenerator.batches.BatchViewModel
 import com.jlafshari.beerrecipegenerator.databinding.ActivityRecipeViewBinding
 import com.jlafshari.beerrecipegenerator.editRecipe.EditRecipeActivity
 import com.jlafshari.beerrecipegenerator.recipes.RecipeViewModel
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
 import com.jlafshari.beerrecipegenerator.viewBatch.BatchViewActivity
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.Instant
 
 @AndroidEntryPoint
 class RecipeViewActivity : AppCompatActivity() {
     private lateinit var mRecipe: Recipe
 
     private val recipeViewModel: RecipeViewModel by viewModels()
+    private val batchViewModel: BatchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +83,13 @@ class RecipeViewActivity : AppCompatActivity() {
                 onRecipeDeleted()
             }
         }
+
+        batchViewModel.newBatchResponse.observe(this@RecipeViewActivity) {
+            if (it != null) {
+                batchViewModel.newBatchComplete()
+                goToBatchView(it)
+            }
+        }
     }
 
     private fun loadRecipeView(binding: ActivityRecipeViewBinding) {
@@ -124,7 +135,7 @@ class RecipeViewActivity : AppCompatActivity() {
         }
 
         binding.recipeBatchesRecyclerView.adapter = BatchListAdapter(mRecipe.batches) { batchPreview ->
-            batchViewClicked(batchPreview)
+            goToBatchView(batchPreview.id)
         }
     }
 
@@ -146,6 +157,11 @@ class RecipeViewActivity : AppCompatActivity() {
                 true
             }
 
+            R.id.action_new_batch -> {
+                newBatch()
+                true
+            }
+
             android.R.id.home -> {
                 goToMainActivity()
                 true
@@ -153,6 +169,11 @@ class RecipeViewActivity : AppCompatActivity() {
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun newBatch() {
+        val currentTimestamp = DateUtility.getFormattedTimeStamp(Instant.now())
+        batchViewModel.newBatch(NewBatchInfo(mRecipe.id, currentTimestamp))
     }
 
     private fun deleteRecipe() {
@@ -177,9 +198,9 @@ class RecipeViewActivity : AppCompatActivity() {
         startActivity(editRecipeIntent)
     }
 
-    private fun batchViewClicked(batchPreview: BatchPreview) {
+    private fun goToBatchView(batchId: String) {
         val viewBatchIntent = Intent(this, BatchViewActivity::class.java)
-        viewBatchIntent.putExtra(Constants.EXTRA_VIEW_BATCH, batchPreview.id)
+        viewBatchIntent.putExtra(Constants.EXTRA_VIEW_BATCH, batchId)
         startActivity(viewBatchIntent)
     }
 }

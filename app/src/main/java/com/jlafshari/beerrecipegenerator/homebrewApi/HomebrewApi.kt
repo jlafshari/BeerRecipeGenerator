@@ -7,6 +7,7 @@ import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipecore.batches.Batch
 import com.jlafshari.beerrecipecore.batches.BatchUpdateInfo
+import com.jlafshari.beerrecipecore.batches.NewBatchInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
 import com.jlafshari.beerrecipegenerator.settings.RecipeDefaultSettings
@@ -78,4 +79,7 @@ interface HomebrewApi {
     fun getCorrectedRefractometerReading(@Header("Authorization") authHeader: String,
                                          @Query("originalGravity") originalGravity: Double,
                                          @Query("finalGravity") finalGravity: Double): Single<Double>
+
+    @POST("Batch/Save")
+    fun newBatch(@Header("Authorization") authHeader: String, @Body newBatchInfo: NewBatchInfo): Single<String>
 }

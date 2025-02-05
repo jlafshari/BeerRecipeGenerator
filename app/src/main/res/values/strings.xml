@@ -115,4 +115,5 @@
     <string name="add_gravity_reading_label">Add Gravity Reading:</string>
     <string name="checkbox_refractometer_reading_label">Convert from refractometer reading</string>
     <string name="assistant_brewer_name_hint">Assistant brewer name</string>
+    <string name="new_batch">New Batch</string>
 </resources>
