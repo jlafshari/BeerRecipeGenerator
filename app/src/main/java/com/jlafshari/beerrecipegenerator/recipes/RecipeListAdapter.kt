@@ -23,6 +23,8 @@ class RecipeListAdapter(private val recipeList: List<RecipePreview>,
             setRecipeNameText(recipePreview)
             txtAbv.text = recipePreview.abv.toString() + "%"
 
+            txtVersionNumber.text = if (recipePreview.isVersioned) "(v. ${recipePreview.versionNumber})" else ""
+
             val color = Colors.getColor(recipePreview.colorSrm)
             if (color != null) {
                 txtColorSrm.text = color.srmColor.toString()
@@ -53,6 +55,7 @@ class RecipeListAdapter(private val recipeList: List<RecipePreview>,
         val txtName: TextView = itemView.findViewById(R.id.txtName)
         val txtAbv: TextView = itemView.findViewById(R.id.txtAbv)
         val txtColorSrm: TextView = itemView.findViewById(R.id.txtColorSrm)
+        val txtVersionNumber: TextView = itemView.findViewById(R.id.txtVersionNumber)
         val srmColorCardView: CardView = itemView.findViewById(R.id.srmColorCardView)
 
         fun bind(recipePreview: RecipePreview, clickListener: (RecipePreview) -> Unit) =
