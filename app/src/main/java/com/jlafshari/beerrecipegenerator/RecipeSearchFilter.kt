@@ -13,7 +13,7 @@ data class RecipeSearchFilter(
     val colorMax: String?,
     val aleEnabled: Boolean,
     val lagerEnabled: Boolean,
-    val yeastType: String?,
+    val recipeType: String?,
     val fermentables: List<Fermentable>,
     val hops: List<Hop>,
     val searchFilterVisible: Boolean

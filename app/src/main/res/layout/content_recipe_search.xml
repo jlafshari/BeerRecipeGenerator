@@ -132,7 +132,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/yeastTypeLayout"
+        android:id="@+id/recipeTypeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -160,7 +160,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yeastTypeLayout">
+        app:layout_constraintTop_toBottomOf="@+id/recipeTypeLayout">
         <TextView
             android:id="@+id/txtFermentable"
             android:layout_width="wrap_content"

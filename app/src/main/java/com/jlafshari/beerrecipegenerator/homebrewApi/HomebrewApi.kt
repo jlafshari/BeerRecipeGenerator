@@ -28,7 +28,7 @@ interface HomebrewApi {
         @Header("Authorization") authHeader: String,
         @Query("abvMin") abvMin: String?, @Query("abvMax") abvMax: String?,
         @Query("colorMin") colorMin: String?, @Query("colorMax") colorMax: String?,
-        @Query("yeastType") yeastType: String?,
+        @Query("recipeType") recipeType: String?,
         @Query("fermentableIds") fermentableIds: List<String>,
         @Query("hopIds") hopIds: List<String>
     ): Single<List<RecipePreview>>

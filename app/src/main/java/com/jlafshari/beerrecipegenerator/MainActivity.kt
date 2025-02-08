@@ -310,14 +310,14 @@ class MainActivity : AppCompatActivity() {
 
             val aleChecked = findViewById<CheckBox>(R.id.chkAle).isChecked
             val lagerChecked = findViewById<CheckBox>(R.id.chkLager).isChecked
-            val yeastType = if (aleChecked && !lagerChecked) "ale"
+            val recipeType = if (aleChecked && !lagerChecked) "ale"
             else if (!aleChecked && lagerChecked) "lager"
             else null
 
             val searchFilterVisible = findViewById<ConstraintLayout>(R.id.recipeSearchLayout).isVisible
 
             return RecipeSearchFilter(abvCheckbox.isChecked, abvMin, abvMax, colorCheckBox.isChecked,
-                colorMin, colorMax, aleChecked, lagerChecked, yeastType,
+                colorMin, colorMax, aleChecked, lagerChecked, recipeType,
                 fermentablesToSearch, hopsToSearch, searchFilterVisible)
         }
     }
