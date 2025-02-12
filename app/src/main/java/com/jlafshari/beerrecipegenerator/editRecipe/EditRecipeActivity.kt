@@ -144,8 +144,8 @@ class EditRecipeActivity : AppCompatActivity() {
             mRecipeUpdateInfo = RecipeUpdateInfo(
                 name,
                 AppSettings.recipeDefaultSettings.recipeSize,
-                fermentableIngredients,
-                hopIngredients,
+                fermentableIngredients.toMutableList(),
+                hopIngredients.toMutableList(),
                 yeastIngredient.yeastId,
                 AppSettings.recipeDefaultSettings.extractionEfficiency,
                 AppSettings.recipeDefaultSettings.boilDurationMinutes,
