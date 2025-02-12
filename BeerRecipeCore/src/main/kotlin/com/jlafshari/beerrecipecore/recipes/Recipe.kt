@@ -23,5 +23,6 @@ data class Recipe(val id: String,
                   val miscellaneousIngredients: List<MiscellaneousIngredient>,
                   val batches: List<BatchPreview>,
                   val isVersioned: Boolean,
-                  val versionNumber: Int
+                  val versionNumber: Int,
+                  val type: RecipeType
 )

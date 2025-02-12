@@ -104,6 +104,7 @@ class RecipeViewActivity : AppCompatActivity() {
             binding.txtVersionNumber.text =
                 getString(R.string.recipe_view_version_number, mRecipe.versionNumber)
         }
+        binding.txtType.text = mRecipe.type.toString()
         binding.txtAbv.text =
             getString(R.string.recipe_view_abv, mRecipe.projectedOutcome.abv.toString())
         val srmColor: Int = mRecipe.projectedOutcome.colorSrm

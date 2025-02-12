@@ -36,6 +36,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/txtType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            tools:text="Ale"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtSize" />
+
+        <TextView
             android:id="@+id/txtVersionNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +53,7 @@
             android:layout_marginEnd="16dp"
             tools:text="Version 2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtSize" />
+            app:layout_constraintTop_toBottomOf="@+id/txtType" />
 
         <TextView
             android:id="@+id/txtStyle"
