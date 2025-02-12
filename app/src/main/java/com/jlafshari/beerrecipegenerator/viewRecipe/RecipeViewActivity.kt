@@ -100,6 +100,10 @@ class RecipeViewActivity : AppCompatActivity() {
             binding.txtStyle.visibility = GONE
         }
         binding.txtSize.text = getString(R.string.recipe_view_size, mRecipe.size.toString())
+        if (mRecipe.isVersioned) {
+            binding.txtVersionNumber.text =
+                getString(R.string.recipe_view_version_number, mRecipe.versionNumber)
+        }
         binding.txtAbv.text =
             getString(R.string.recipe_view_abv, mRecipe.projectedOutcome.abv.toString())
         val srmColor: Int = mRecipe.projectedOutcome.colorSrm

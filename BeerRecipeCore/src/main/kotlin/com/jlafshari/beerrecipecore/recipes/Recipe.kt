@@ -21,5 +21,7 @@ data class Recipe(val id: String,
                   val spargeWaterAmount: Float,
                   val fermentationSteps: List<FermentationStep>,
                   val miscellaneousIngredients: List<MiscellaneousIngredient>,
-                  val batches: List<BatchPreview>
+                  val batches: List<BatchPreview>,
+                  val isVersioned: Boolean,
+                  val versionNumber: Int
 )
