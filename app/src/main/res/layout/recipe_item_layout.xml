@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:text="@string/recipe_name"
             android:textSize="18sp"
+            android:maxWidth="280dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
