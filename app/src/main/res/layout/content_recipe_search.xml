@@ -135,8 +135,9 @@
         android:id="@+id/recipeTypeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/colorLayout">
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/colorLayout"
+        app:layout_constraintTop_toBottomOf="@id/abvLayout">
 
         <CheckBox
             android:id="@+id/chkAle"
@@ -160,7 +161,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipeTypeLayout">
+        app:layout_constraintTop_toBottomOf="@+id/colorLayout">
         <TextView
             android:id="@+id/txtFermentable"
             android:layout_width="wrap_content"
