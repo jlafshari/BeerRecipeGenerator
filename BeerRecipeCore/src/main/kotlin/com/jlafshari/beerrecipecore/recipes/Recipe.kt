@@ -24,5 +24,6 @@ data class Recipe(val id: String,
                   val batches: List<BatchPreview>,
                   val isVersioned: Boolean,
                   val versionNumber: Int,
-                  val type: RecipeType
+                  val type: RecipeType,
+                  val lastUpdatedDate: String?
 )

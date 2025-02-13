@@ -25,6 +25,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/txtLastUpdated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            tools:text="Last updated on March 3, 2021"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtRecipeViewName" />
+
+        <TextView
             android:id="@+id/txtSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,7 +72,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:minWidth="60dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtLastUpdated"
             app:layout_constraintTop_toBottomOf="@+id/txtRecipeViewName" />
 
         <TextView
@@ -73,7 +83,7 @@
             android:layout_marginTop="8dp"
             tools:text="4.5% ABV"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtStyle" />
+            app:layout_constraintTop_toBottomOf="@+id/txtLastUpdated" />
 
         <TextView
             android:id="@+id/txtColor"
@@ -83,7 +93,7 @@
             android:layout_marginTop="8dp"
             tools:text="13 SRM"
             app:layout_constraintStart_toEndOf="@+id/txtIbu"
-            app:layout_constraintTop_toBottomOf="@+id/txtStyle" />
+            app:layout_constraintTop_toBottomOf="@+id/txtLastUpdated" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/srmColorCardView"
@@ -92,7 +102,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toEndOf="@+id/txtColor"
-            app:layout_constraintTop_toBottomOf="@+id/txtStyle" />
+            app:layout_constraintTop_toBottomOf="@+id/txtLastUpdated" />
 
         <TextView
             android:id="@+id/txtIbu"
@@ -102,7 +112,7 @@
             android:layout_marginTop="8dp"
             tools:text="35 IBU"
             app:layout_constraintStart_toEndOf="@+id/txtAbv"
-            app:layout_constraintTop_toBottomOf="@+id/txtStyle" />
+            app:layout_constraintTop_toBottomOf="@+id/txtLastUpdated" />
 
         <TextView
             android:id="@+id/txtOG"

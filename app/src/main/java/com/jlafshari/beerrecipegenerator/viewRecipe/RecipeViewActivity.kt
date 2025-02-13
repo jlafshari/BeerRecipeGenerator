@@ -94,6 +94,11 @@ class RecipeViewActivity : AppCompatActivity() {
 
     private fun loadRecipeView(binding: ActivityRecipeViewBinding) {
         binding.txtRecipeViewName.text = mRecipe.name
+        if (mRecipe.lastUpdatedDate != null) {
+            binding.txtLastUpdated.text = getString(R.string.last_updated_on_label, DateUtility.getFormattedDate(mRecipe.lastUpdatedDate!!))
+        } else {
+            binding.txtLastUpdated.visibility = GONE
+        }
         if (mRecipe.styleName != null) {
             binding.txtStyle.text = getString(R.string.recipe_view_style_name, mRecipe.styleName)
         } else {
