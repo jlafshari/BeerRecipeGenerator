@@ -196,21 +196,29 @@ class MainActivity : AppCompatActivity() {
         val recipeSearchFilter = loadRecipeSearchFilter()
 
         val abvCheckbox = findViewById<CheckBox>(R.id.chkAbvFilter)
+        abvCheckbox.setOnCheckedChangeListener { _, isChecked: Boolean ->
+            binding.root.findViewById<Spinner>(R.id.minAbvSpinner).isEnabled = isChecked
+            binding.root.findViewById<Spinner>(R.id.maxAbvSpinner).isEnabled = isChecked
+        }
         abvCheckbox.isChecked = recipeSearchFilter?.abvEnabled ?: false
         val minAbvIndex = if (recipeSearchFilter?.abvMin != null) abvValues.indexOf(recipeSearchFilter.abvMin) else 0
-        initAbvSpinner(R.id.minAbvSpinner, minAbvIndex, binding.root)
+        initAbvSpinner(R.id.minAbvSpinner, minAbvIndex, binding.root, abvCheckbox.isChecked)
         val maxAbvIndex = if (recipeSearchFilter?.abvMax != null) abvValues.indexOf(recipeSearchFilter.abvMax) else abvValues.size - 1
-        initAbvSpinner(R.id.maxAbvSpinner, maxAbvIndex, binding.root)
+        initAbvSpinner(R.id.maxAbvSpinner, maxAbvIndex, binding.root, abvCheckbox.isChecked)
 
         val colorCheckbox = findViewById<CheckBox>(R.id.chkColorFilter)
+        colorCheckbox.setOnCheckedChangeListener { _, isChecked: Boolean ->
+            binding.root.findViewById<CardView>(R.id.selectedMinColorCardView).isEnabled = isChecked
+            binding.root.findViewById<CardView>(R.id.selectedMaxColorCardView).isEnabled = isChecked
+        }
         colorCheckbox.isChecked = recipeSearchFilter?.colorEnabled ?: false
         val minColorIndex = if (recipeSearchFilter?.colorMin != null)
             srmColors.indexOfFirst { it.srmColor.toString() == recipeSearchFilter.colorMin } else 0
-        initColorFilter(R.id.selectedMinColorCardView, R.id.txtSelectedMinColor, minColorIndex)
+        initColorFilter(R.id.selectedMinColorCardView, R.id.txtSelectedMinColor, minColorIndex, colorCheckbox.isChecked)
         val maxColorIndex = if (recipeSearchFilter?.colorMax != null)
             srmColors.indexOfFirst { it.srmColor.toString() == recipeSearchFilter.colorMax }
             else srmColors.size - 1
-        initColorFilter(R.id.selectedMaxColorCardView, R.id.txtSelectedMaxColor, maxColorIndex)
+        initColorFilter(R.id.selectedMaxColorCardView, R.id.txtSelectedMaxColor, maxColorIndex, colorCheckbox.isChecked)
 
         val aleCheckBox = findViewById<CheckBox>(R.id.chkAle)
         aleCheckBox.isChecked = recipeSearchFilter?.aleEnabled ?: false
@@ -233,9 +241,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initColorFilter(selectedColorCardViewId: Int, selectedColorTextId: Int,
-                                startingColorIndex: Int) {
+    private fun initColorFilter(
+        selectedColorCardViewId: Int, selectedColorTextId: Int,
+        startingColorIndex: Int,
+        isEnabled: Boolean
+    ) {
         val colorCardView = findViewById<CardView>(selectedColorCardViewId)
+        colorCardView.isEnabled = isEnabled
         val selectedColorTextView = findViewById<TextView>(selectedColorTextId)
         colorCardView.setOnClickListener {
             showColorPickerDialog(colorCardView, selectedColorTextView)
@@ -246,8 +258,9 @@ class MainActivity : AppCompatActivity() {
         colorCardView.setCardBackgroundColor(color.rbgColor)
     }
 
-    private fun initAbvSpinner(id: Int, startingIndex: Int, view: View) {
+    private fun initAbvSpinner(id: Int, startingIndex: Int, view: View, isEnabled: Boolean) {
         val spinner = view.findViewById<Spinner>(id)
+        spinner.isEnabled = isEnabled
         val adapter = ArrayAdapter(this,
             R.layout.support_simple_spinner_dropdown_item,
             abvValues)
