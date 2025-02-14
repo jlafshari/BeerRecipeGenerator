@@ -31,6 +31,9 @@ class RecipeListAdapter(private val recipeList: List<RecipePreview>,
                 srmColorCardView.setCardBackgroundColor(color.rbgColor)
             }
 
+            //if (recipePreview)
+            txtUpdatedOn.text = "Updated on Feb 13, 2025"
+
             bind(recipePreview, clickListener)
         }
     }
@@ -57,6 +60,7 @@ class RecipeListAdapter(private val recipeList: List<RecipePreview>,
         val txtColorSrm: TextView = itemView.findViewById(R.id.txtColorSrm)
         val txtVersionNumber: TextView = itemView.findViewById(R.id.txtVersionNumber)
         val srmColorCardView: CardView = itemView.findViewById(R.id.srmColorCardView)
+        val txtUpdatedOn: TextView = itemView.findViewById(R.id.txtUpdatedOn)
 
         fun bind(recipePreview: RecipePreview, clickListener: (RecipePreview) -> Unit) =
             itemView.setOnClickListener { clickListener(recipePreview) }
