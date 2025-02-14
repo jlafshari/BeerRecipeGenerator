@@ -4,11 +4,14 @@ import android.annotation.SuppressLint
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
+import com.jlafshari.beerrecipecore.utility.DateUtility
 import com.jlafshari.beerrecipegenerator.R
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
 
@@ -31,8 +34,12 @@ class RecipeListAdapter(private val recipeList: List<RecipePreview>,
                 srmColorCardView.setCardBackgroundColor(color.rbgColor)
             }
 
-            //if (recipePreview)
-            txtUpdatedOn.text = "Updated on Feb 13, 2025"
+            if (recipePreview.lastUpdatedDate != null) {
+                txtUpdatedOn.visibility = VISIBLE
+                txtUpdatedOn.text = "Updated on " + DateUtility.getFormattedDateShortMonth(recipePreview.lastUpdatedDate!!)
+            } else {
+                txtUpdatedOn.visibility = INVISIBLE
+            }
 
             bind(recipePreview, clickListener)
         }

@@ -10,13 +10,25 @@ object DateUtility {
     private val timestampFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         .withZone(ZoneOffset.UTC)
     private val humanReadableFormatter = DateTimeFormatter.ofPattern("MMMM d, yyyy")
+    private val humanReadableFormatterShortMonth = DateTimeFormatter.ofPattern("MMM d, yyyy")
 
     fun getFormattedDate(date: String) : String {
+        val currentZonedDateTime = parseZonedDateTime(date)
+
+        return currentZonedDateTime.format(humanReadableFormatter)
+    }
+
+    fun getFormattedDateShortMonth(date: String): String {
+        val currentZonedDateTime = parseZonedDateTime(date)
+
+        return currentZonedDateTime.format(humanReadableFormatterShortMonth)
+    }
+
+    private fun parseZonedDateTime(date: String): ZonedDateTime {
         val zonedDateTime = ZonedDateTime.parse(date, DateTimeFormatter.ISO_DATE_TIME)
         val currentZoneId = ZoneId.systemDefault()
         val currentZonedDateTime = zonedDateTime.withZoneSameInstant(currentZoneId)
-
-        return currentZonedDateTime.format(humanReadableFormatter)
+        return currentZonedDateTime
     }
 
     fun getFormattedTimeStamp(time: Instant): String = timestampFormatter.format(time)
