@@ -30,6 +30,7 @@ interface HomebrewApi {
         @Query("colorMin") colorMin: String?, @Query("colorMax") colorMax: String?,
         @Query("recipeType") recipeType: String?,
         @Query("fermentableIds") fermentableIds: List<String>,
+        @Query("daysSinceLastUpdated") daysSinceLastUpdated: Int?,
         @Query("hopIds") hopIds: List<String>
     ): Single<List<RecipePreview>>
 

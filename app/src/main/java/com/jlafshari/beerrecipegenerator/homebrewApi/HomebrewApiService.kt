@@ -50,7 +50,8 @@ class HomebrewApiService @Inject constructor() {
                 colorMax,
                 recipeType,
                 fermentables.map { it.id },
-                hops.map { it.id }
+                daysSinceLastUpdated,
+                hops.map { it.id },
             )
         }
     }

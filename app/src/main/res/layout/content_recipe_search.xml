@@ -156,12 +156,31 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <LinearLayout
+        android:id="@+id/daysUpdatedLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/colorLayout"
+        app:layout_constraintStart_toStartOf="parent">
+        <CheckBox
+            android:id="@+id/chkDaysUpdated"
+            android:text="@string/days_since_last_updated_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/daysUpdatedSpinner"
+            android:layout_marginStart="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fermentableLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/colorLayout">
+        app:layout_constraintTop_toBottomOf="@+id/daysUpdatedLayout">
         <TextView
             android:id="@+id/txtFermentable"
             android:layout_width="wrap_content"

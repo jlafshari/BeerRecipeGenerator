@@ -118,4 +118,5 @@
     <string name="assistant_brewer_name_hint">Assistant brewer name</string>
     <string name="new_batch">New Batch</string>
     <string name="last_updated_on_label">Last updated on %1$s</string>
+    <string name="days_since_last_updated_label">Days since last updated:</string>
 </resources>
