@@ -45,8 +45,6 @@ import com.jlafshari.beerrecipegenerator.srmColors.Colors
 import com.jlafshari.beerrecipegenerator.login.AzureAuthHelper
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -60,7 +58,6 @@ class MainActivity : AppCompatActivity() {
     private val hopsToSearch = mutableListOf<Hop>()
     private val recipeViewModel: RecipeViewModel by viewModels()
     private val ingredientViewModel: IngredientViewModel by viewModels()
-    private val recipeSearchFilterFileName = "recipeSearchFilter"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,7 +130,8 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        saveRecipeSearchFilter()
+        val recipeSearchFilter = getRecipeSearchFilter()
+        RecipeSearchFilterUtility.saveRecipeSearchFilter(recipeSearchFilter, this)
     }
 
     private fun addFermentableToSearchCriteria(fermentable: Fermentable) {
@@ -194,7 +192,7 @@ class MainActivity : AppCompatActivity() {
         initializeExpandSearchButton(binding)
         initializeSearchButtons(binding)
 
-        val recipeSearchFilter = loadRecipeSearchFilter()
+        val recipeSearchFilter = RecipeSearchFilterUtility.loadRecipeSearchFilter(this)
 
         val abvCheckbox = findViewById<CheckBox>(R.id.chkAbvFilter)
         abvCheckbox.setOnCheckedChangeListener { _, isChecked: Boolean ->
@@ -365,30 +363,6 @@ class MainActivity : AppCompatActivity() {
             return RecipeSearchFilter(abvCheckbox.isChecked, abvMin, abvMax, colorCheckBox.isChecked,
                 colorMin, colorMax, aleChecked, lagerChecked, recipeType,
                 fermentablesToSearch, hopsToSearch, daysSinceLastUpdatedChecked, daysSinceLastUpdated, searchFilterVisible)
-        }
-    }
-
-    private fun saveRecipeSearchFilter() {
-        val recipeSearchFilter = getRecipeSearchFilter()
-
-        openFileOutput(recipeSearchFilterFileName, MODE_PRIVATE).use { fos ->
-            val objectOutputStream = ObjectOutputStream(fos)
-            objectOutputStream.writeObject(recipeSearchFilter)
-            objectOutputStream.close()
-        }
-    }
-
-    private fun loadRecipeSearchFilter() : RecipeSearchFilter? {
-        return try {
-            openFileInput(recipeSearchFilterFileName).use { fis ->
-                val objectInputStream = ObjectInputStream(fis)
-                val recipeSearchFilter = objectInputStream.readObject() as RecipeSearchFilter
-                objectInputStream.close()
-                recipeSearchFilter
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
         }
     }
 
