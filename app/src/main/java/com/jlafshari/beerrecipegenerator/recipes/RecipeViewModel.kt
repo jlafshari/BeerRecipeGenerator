@@ -41,6 +41,8 @@ class RecipeViewModel @Inject constructor(private val homebrewApiService: Homebr
     ) {
         runIfTokenIsValid {
             homebrewApiService.getAllRecipePreviews(authResult!!.authorizationHeader, recipeSearchFilter)
+                .toObservable()
+                .retryWhen(retryWithDelay(10, 2))
                 .subscribeThenDispose(
                     { _loadRecipePreviewsResponse.postValue(it) },
                     { Log.d("", "load recipe previews error ", it)}
