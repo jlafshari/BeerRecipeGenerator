@@ -104,13 +104,13 @@ class MainActivity : AppCompatActivity() {
 
             val searchBtn = binding.root.findViewById<Button>(R.id.searchRecipeBtn)
             searchBtn.setOnClickListener {
-                loadSavedRecipePreviews(binding)
+                loadSavedRecipePreviews()
             }
 
             recipeViewModel.loadRecipePreviewsResponse.observe(this@MainActivity) {
                 displaySavedRecipePreviews(it, binding)
             }
-            loadSavedRecipePreviews(binding)
+            loadSavedRecipePreviews()
 
             recipeViewModel.loadRecipeDefaultSettingsResponse.observe(this@MainActivity) {
                 loadSettings(it)
@@ -321,16 +321,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadSavedRecipePreviews(binding: ActivityMainBinding) {
-        with (binding.root) {
-            val txtLoadingIndicator = findViewById<TextView>(R.id.txtLoadingIndicator)
-            txtLoadingIndicator.visibility = View.VISIBLE
-            val recipeRecyclerView = findViewById<RecyclerView>(R.id.recipeRecyclerView)
-            recipeRecyclerView.visibility = View.INVISIBLE
+    private fun loadSavedRecipePreviews() {
+        toggleRecipeRecyclerViewVisibility(false)
 
-            val recipeSearchFilter = getRecipeSearchFilter()
-            recipeViewModel.loadRecipePreviews(recipeSearchFilter)
-        }
+        val recipeSearchFilter = getRecipeSearchFilter()
+        recipeViewModel.loadRecipePreviews(recipeSearchFilter)
     }
 
     private fun getRecipeSearchFilter() : RecipeSearchFilter {
@@ -371,17 +366,29 @@ class MainActivity : AppCompatActivity() {
         binding: ActivityMainBinding
     ) {
         with (binding.root) {
-            val txtLoadingIndicator = findViewById<TextView>(com.jlafshari.beerrecipegenerator.R.id.txtLoadingIndicator)
             val txtRecipeCount = findViewById<TextView>(com.jlafshari.beerrecipegenerator.R.id.txtRecipeCount)
             val recipeRecyclerView = findViewById<RecyclerView>(com.jlafshari.beerrecipegenerator.R.id.recipeRecyclerView)
-            recipeRecyclerView.visibility = View.INVISIBLE
             recipeRecyclerView.adapter =
                 RecipeListAdapter(recipes) { recipePreview ->
                     recipePreviewClicked(recipePreview)
                 }
-            recipeRecyclerView.visibility = View.VISIBLE
-            txtLoadingIndicator.visibility = View.INVISIBLE
+            toggleRecipeRecyclerViewVisibility(true)
             txtRecipeCount.text = context.getString(R.string.recipes_count, recipes.size.toString())
+        }
+    }
+
+    private fun toggleRecipeRecyclerViewVisibility(showRecyclerView: Boolean) {
+        with(binding.root) {
+            val recipeRecyclerView = findViewById<RecyclerView>(R.id.recipeRecyclerView)
+            val txtLoadingIndicator = findViewById<TextView>(R.id.txtLoadingIndicator)
+
+            if (showRecyclerView) {
+                recipeRecyclerView.visibility = View.VISIBLE
+                txtLoadingIndicator.visibility = View.INVISIBLE
+            } else {
+                recipeRecyclerView.visibility = View.INVISIBLE
+                txtLoadingIndicator.visibility = View.VISIBLE
+            }
         }
     }
 
