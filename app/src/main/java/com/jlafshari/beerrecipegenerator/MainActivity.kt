@@ -82,6 +82,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnNewRecipe.setOnClickListener { newRecipe() }
 
+        initializeRetryButton()
+
         val fermentableSearchRecyclerView = binding.root.findViewById<RecyclerView>(R.id.fermentableSearchRecyclerView)
         fermentableSearchRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         fermentableSearchRecyclerView.adapter = FermentableSearchListAdapter(emptyList()) {}
@@ -124,6 +126,15 @@ class MainActivity : AppCompatActivity() {
             ingredientViewModel.loadHopDetailsResponse.observe(this@MainActivity) {
                 addHopToSearchCriteria(it)
             }
+        }
+    }
+
+    private fun initializeRetryButton() {
+        val retryButton = findViewById<Button>(R.id.btnRetry)
+        retryButton.visibility = View.INVISIBLE
+        retryButton.setOnClickListener {
+            loadSavedRecipePreviews()
+            retryButton.visibility = View.INVISIBLE
         }
     }
 
@@ -325,7 +336,9 @@ class MainActivity : AppCompatActivity() {
         toggleRecipeRecyclerViewVisibility(false)
 
         val recipeSearchFilter = getRecipeSearchFilter()
-        recipeViewModel.loadRecipePreviews(recipeSearchFilter)
+        recipeViewModel.loadRecipePreviews(recipeSearchFilter) {
+            showRetryButton()
+        }
     }
 
     private fun getRecipeSearchFilter() : RecipeSearchFilter {
@@ -378,6 +391,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun toggleRecipeRecyclerViewVisibility(showRecyclerView: Boolean) {
+        hideRetryButton()
         with(binding.root) {
             val recipeRecyclerView = findViewById<RecyclerView>(R.id.recipeRecyclerView)
             val txtLoadingIndicator = findViewById<TextView>(R.id.txtLoadingIndicator)
@@ -390,6 +404,21 @@ class MainActivity : AppCompatActivity() {
                 txtLoadingIndicator.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun showRetryButton() {
+        val retryButton = findViewById<Button>(R.id.btnRetry)
+        retryButton.visibility = View.VISIBLE
+
+        val recipeRecyclerView = findViewById<RecyclerView>(R.id.recipeRecyclerView)
+        recipeRecyclerView.visibility = View.INVISIBLE
+        val txtLoadingIndicator = findViewById<TextView>(R.id.txtLoadingIndicator)
+        txtLoadingIndicator.visibility = View.INVISIBLE
+    }
+
+    private fun hideRetryButton() {
+        val retryButton = findViewById<Button>(R.id.btnRetry)
+        retryButton.visibility = View.INVISIBLE
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
