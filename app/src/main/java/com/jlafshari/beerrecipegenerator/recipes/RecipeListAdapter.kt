@@ -41,6 +41,13 @@ class RecipeListAdapter(private val recipeList: List<RecipePreview>,
                 txtUpdatedOn.visibility = INVISIBLE
             }
 
+            if (recipePreview.numberOfBatches > 0) {
+                val batchText = if (recipePreview.numberOfBatches == 1) "batch" else "batches"
+                txtNumberOfBatches.text = "${recipePreview.numberOfBatches} $batchText"
+            } else {
+                txtNumberOfBatches.visibility = INVISIBLE
+            }
+
             bind(recipePreview, clickListener)
         }
     }
@@ -68,6 +75,7 @@ class RecipeListAdapter(private val recipeList: List<RecipePreview>,
         val txtVersionNumber: TextView = itemView.findViewById(R.id.txtVersionNumber)
         val srmColorCardView: CardView = itemView.findViewById(R.id.srmColorCardView)
         val txtUpdatedOn: TextView = itemView.findViewById(R.id.txtUpdatedOn)
+        val txtNumberOfBatches: TextView = itemView.findViewById(R.id.txtNumberOfBatches)
 
         fun bind(recipePreview: RecipePreview, clickListener: (RecipePreview) -> Unit) =
             itemView.setOnClickListener { clickListener(recipePreview) }
