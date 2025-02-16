@@ -54,7 +54,7 @@ class RecipeListAdapter(private val recipeList: List<RecipePreview>,
 
     private fun ViewHolder.setRecipeNameText(recipePreview: RecipePreview) {
         val nameBuilder = SpannableStringBuilder(recipePreview.toString())
-        val nameMaxLength = 28
+        val nameMaxLength = 21
         if (nameBuilder.length > nameMaxLength) {
             nameBuilder.replace(nameMaxLength - 1, nameBuilder.length, "...")
         }
