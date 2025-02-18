@@ -80,8 +80,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnNewRecipe.setOnClickListener { newRecipe() }
-
         initializeRetryButton()
 
         val fermentableSearchRecyclerView = binding.root.findViewById<RecyclerView>(R.id.fermentableSearchRecyclerView)
