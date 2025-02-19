@@ -20,6 +20,9 @@
             android:id="@+id/btnDeleteFermentableSearch"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:text="×"/>
+            android:background="?attr/selectableItemBackground"
+            android:drawableStart="@android:drawable/ic_delete"
+            android:text=""
+            android:padding="8dp"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
