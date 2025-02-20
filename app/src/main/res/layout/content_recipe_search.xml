@@ -191,8 +191,8 @@
 
         <Button
             android:id="@+id/btnNewFermentableSearch"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
             android:text="@string/fermentable_search_btn_label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtFermentable" />
@@ -224,8 +224,8 @@
 
         <Button
             android:id="@+id/btnNewHopSearch"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
             android:text="@string/hop_search_btn_label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtHop" />
