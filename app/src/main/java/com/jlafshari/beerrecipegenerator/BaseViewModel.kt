@@ -11,6 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Action
 import io.reactivex.schedulers.Schedulers
+import java.net.ConnectException
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -68,15 +69,17 @@ abstract class BaseViewModel : ViewModel() {
 
     protected fun retryWithDelay(maxRetries: Int, delaySeconds: Long): (Observable<Throwable>) -> Observable<*> {
         return { errors ->
-            errors.zipWith(Observable.range(1, maxRetries)) { error, retryCount ->
-                if (retryCount < maxRetries) {
-                    Pair(error, retryCount)
-                } else {
-                    throw error
+            errors
+                .zipWith(Observable.range(1, maxRetries)) { error, retryCount ->
+                    if (retryCount < maxRetries && error is ConnectException) {
+                        Pair(error, retryCount)
+                    } else {
+                        throw error
+                    }
                 }
-            }.flatMap {
-                Observable.timer(delaySeconds, TimeUnit.SECONDS)
-            }
+                .flatMap {
+                    Observable.timer(delaySeconds, TimeUnit.SECONDS)
+                }
         }
     }
 
