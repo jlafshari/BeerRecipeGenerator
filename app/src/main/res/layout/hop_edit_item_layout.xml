@@ -7,11 +7,12 @@
 
     <ImageButton
         android:id="@+id/btnDeleteHop"
-        android:layout_width="30dp"
+        android:layout_width="25dp"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:contentDescription="@string/delete_hop_button_description"
         android:src="@drawable/trash_icon"
+        android:scaleType="fitCenter"
         app:tint="@color/colorPrimaryDark" />
 
     <EditText
