@@ -27,17 +27,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-                android:id="@+id/txtIngredientHeading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/ingredientsHeading"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtRecipeName" />
-
-        <TextView
                 android:id="@+id/txtGrainHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,7 +35,7 @@
                 android:text="@string/grainsHeading"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtIngredientHeading" />
+                app:layout_constraintTop_toBottomOf="@+id/txtRecipeName" />
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/grainEditRecyclerView"
