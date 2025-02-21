@@ -13,24 +13,27 @@
     app:cardElevation="0dp">
     <LinearLayout
         android:paddingStart="6dp"
-        android:paddingEnd="4dp"
+        android:paddingEnd="2dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <TextView
             android:id="@+id/txtHopSearch"
             tools:text="Fuggles"
+            android:gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnDeleteHopSearch"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="0dp"
-            android:paddingStart="0dp"
+            android:contentDescription="@string/delete_hop_button_description"
+            android:paddingStart="2dp"
             android:paddingEnd="0dp"
-            android:background="?attr/selectableItemBackground"
-            android:drawableTint="@color/colorPrimaryDark"
-            android:drawableLeft="@android:drawable/ic_delete" />
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/trash_icon"
+            app:tint="@color/colorPrimaryDark" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

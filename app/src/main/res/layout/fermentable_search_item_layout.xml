@@ -14,25 +14,28 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:paddingStart="6dp"
-        android:paddingEnd="4dp">
+        android:paddingEnd="2dp">
 
         <TextView
             android:id="@+id/txtFermentableSearch"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             tools:text="2 Row" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnDeleteFermentableSearch"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="0dp"
-            android:paddingStart="0dp"
-            android:paddingEnd="0dp"
             android:background="@android:color/transparent"
-            android:drawableTint="@color/colorPrimaryDark"
-            android:drawableLeft="@android:drawable/ic_delete" />
+            android:contentDescription="@string/delete_grain_button_description"
+            android:paddingStart="2dp"
+            android:paddingEnd="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/trash_icon"
+            app:tint="@color/colorPrimaryDark" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

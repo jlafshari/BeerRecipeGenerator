@@ -3,7 +3,7 @@ package com.jlafshari.beerrecipegenerator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
@@ -32,7 +32,7 @@ class HopSearchListAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtHopSearch: TextView = itemView.findViewById(R.id.txtHopSearch)
-        private val btnDeleteHopSearch: Button = itemView.findViewById(R.id.btnDeleteHopSearch)
+        private val btnDeleteHopSearch: ImageButton = itemView.findViewById(R.id.btnDeleteHopSearch)
         private val hopSearchItemCardView: MaterialCardView = itemView.findViewById(R.id.hopSearchItemCardView)
 
         fun bind(hop: Hop, clickListener: (Hop) -> Unit) {

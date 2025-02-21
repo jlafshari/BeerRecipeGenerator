@@ -3,7 +3,7 @@ package com.jlafshari.beerrecipegenerator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
@@ -34,7 +34,7 @@ class FermentableSearchListAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtFermentableSearch: TextView = itemView.findViewById(R.id.txtFermentableSearch)
-        private val btnDeleteFermentableSearch: Button = itemView.findViewById(R.id.btnDeleteFermentableSearch)
+        private val btnDeleteFermentableSearch: ImageButton = itemView.findViewById(R.id.btnDeleteFermentableSearch)
         private val fermentableSearchItemCardView: MaterialCardView = itemView.findViewById(R.id.fermentableSearchItemCardView)
 
         fun bind(fermentable: Fermentable, clickListener: (Fermentable) -> Unit) {
