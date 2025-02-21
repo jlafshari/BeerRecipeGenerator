@@ -5,9 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.jlafshari.beerrecipecore.Fermentable
 
 class FermentableSearchListAdapter(
@@ -30,20 +29,17 @@ class FermentableSearchListAdapter(
         val fermentable = fermentableList[position]
         holder.txtFermentableSearch.text = fermentable.name
 
-        val drawable = holder.btnDeleteFermentableSearch.compoundDrawablesRelative[0]
-        drawable?.let {
-            val wrappedDrawable = DrawableCompat.wrap(it)
-            DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(holder.itemView.context, R.color.colorPrimaryDark))
-        }
-
         holder.bind(fermentable, clickListener)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtFermentableSearch: TextView = itemView.findViewById(R.id.txtFermentableSearch)
-        val btnDeleteFermentableSearch: Button = itemView.findViewById(R.id.btnDeleteFermentableSearch)
+        private val btnDeleteFermentableSearch: Button = itemView.findViewById(R.id.btnDeleteFermentableSearch)
+        private val fermentableSearchItemCardView: MaterialCardView = itemView.findViewById(R.id.fermentableSearchItemCardView)
 
-        fun bind(fermentable: Fermentable, clickListener: (Fermentable) -> Unit) =
+        fun bind(fermentable: Fermentable, clickListener: (Fermentable) -> Unit) {
+            fermentableSearchItemCardView.setOnClickListener { clickListener(fermentable) }
             btnDeleteFermentableSearch.setOnClickListener { clickListener(fermentable) }
+        }
     }
 }

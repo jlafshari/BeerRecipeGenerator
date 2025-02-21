@@ -5,9 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.jlafshari.beerrecipecore.Hop
 
 class HopSearchListAdapter(
@@ -28,20 +27,17 @@ class HopSearchListAdapter(
         val hop = hopList[position]
         holder.txtHopSearch.text = hop.name
 
-        val drawable = holder.btnDeleteHopSearch.compoundDrawablesRelative[0]
-        drawable?.let {
-            val wrappedDrawable = DrawableCompat.wrap(it)
-            DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(holder.itemView.context, R.color.colorPrimaryDark))
-        }
-
         holder.bind(hop, clickListener)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtHopSearch: TextView = itemView.findViewById(R.id.txtHopSearch)
-        val btnDeleteHopSearch: Button = itemView.findViewById(R.id.btnDeleteHopSearch)
+        private val btnDeleteHopSearch: Button = itemView.findViewById(R.id.btnDeleteHopSearch)
+        private val hopSearchItemCardView: MaterialCardView = itemView.findViewById(R.id.hopSearchItemCardView)
 
-        fun bind(hop: Hop, clickListener: (Hop) -> Unit) =
+        fun bind(hop: Hop, clickListener: (Hop) -> Unit) {
+            hopSearchItemCardView.setOnClickListener { clickListener(hop) }
             btnDeleteHopSearch.setOnClickListener { clickListener(hop) }
+        }
     }
 }
