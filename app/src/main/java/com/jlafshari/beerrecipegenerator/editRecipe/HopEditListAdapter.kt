@@ -5,8 +5,8 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipecore.HopIngredient
@@ -59,6 +59,6 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>,
         val txtHopAmount: EditText = itemView.findViewById(R.id.txtHopAmountEdit)
         val txtHop: TextView = itemView.findViewById(R.id.txtHopEdit)
         val txtHopAdditionTime: EditText = itemView.findViewById(R.id.txtHopAdditionTimeEdit)
-        val btnDeleteHop: Button = itemView.findViewById(R.id.btnDeleteHop)
+        val btnDeleteHop: ImageButton = itemView.findViewById(R.id.btnDeleteHop)
     }
 }

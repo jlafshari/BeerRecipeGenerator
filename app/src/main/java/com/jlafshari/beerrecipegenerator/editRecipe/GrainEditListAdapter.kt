@@ -5,8 +5,8 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipecore.FermentableIngredient
@@ -48,6 +48,6 @@ class GrainEditListAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtGrainAmount: EditText = itemView.findViewById(R.id.txtGrainAmountEdit)
         val txtGrain: TextView = itemView.findViewById(R.id.txtGrainEdit)
-        val btnDeleteGrain: Button = itemView.findViewById(R.id.btnDeleteGrain)
+        val btnDeleteGrain: ImageButton = itemView.findViewById(R.id.btnDeleteGrain)
     }
 }

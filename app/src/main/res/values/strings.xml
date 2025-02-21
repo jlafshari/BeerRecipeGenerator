@@ -63,7 +63,6 @@
     <string name="addGrainHeading">Add Grain</string>
     <string name="btnUpdateRecipe">Update</string>
     <string name="btnUpdateBatch">Update</string>
-    <string name="deleteText">Delete</string>
     <string name="searchHintText">Search …</string>
     <string name="hopOuncesHint"><font size="14">oz.</font></string>
     <string name="hopAmountUnit">oz</string>
@@ -120,4 +119,6 @@
     <string name="last_updated_on_label">Last updated on %1$s</string>
     <string name="days_since_last_updated_label">Days since last updated:</string>
     <string name="retry_load_button">Retry</string>
+    <string name="delete_grain_button_description">Delete Grain</string>
+    <string name="delete_hop_button_description">Delete Hop</string>
 </resources>
