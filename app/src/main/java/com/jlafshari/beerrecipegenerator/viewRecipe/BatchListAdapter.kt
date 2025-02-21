@@ -3,7 +3,6 @@ package com.jlafshari.beerrecipegenerator.viewRecipe
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipecore.batches.BatchPreview
@@ -31,11 +30,10 @@ class BatchListAdapter(
         val formattedBrewingDate = DateUtility.getFormattedDate(batch.brewingDate)
         holder.txtBatch.text = "${formattedBrewingDate} (${batch.status.displayText()})"
 
-        holder.btnViewBatch.setOnClickListener { clickListener(batch) }
+        holder.itemView.setOnClickListener { clickListener(batch) }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtBatch: TextView = itemView.findViewById(R.id.txtBatch)
-        val btnViewBatch: Button = itemView.findViewById(R.id.btnViewBatch)
     }
 }
