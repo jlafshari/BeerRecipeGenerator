@@ -120,4 +120,7 @@
     <string name="retry_load_button">Retry</string>
     <string name="delete_grain_button_description">Delete Grain</string>
     <string name="delete_hop_button_description">Delete Hop</string>
+    <string name="ascending_label">Ascending</string>
+    <string name="descending_label">Descending</string>
+    <string name="sort_by_label">Sort by:</string>
 </resources>

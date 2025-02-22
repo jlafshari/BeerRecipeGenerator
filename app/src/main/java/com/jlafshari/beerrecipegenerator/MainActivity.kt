@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
@@ -28,6 +31,9 @@ import androidx.transition.TransitionManager
 import com.jlafshari.beerrecipecore.Fermentable
 import com.jlafshari.beerrecipecore.Hop
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
+import com.jlafshari.beerrecipecore.recipes.recipeSorting.RecipeSortType
+import com.jlafshari.beerrecipecore.recipes.recipeSorting.RecipeSorter.sortRecipes
+import com.jlafshari.beerrecipecore.recipes.recipeSorting.displayText
 import com.jlafshari.beerrecipecore.utility.AbvUtility
 import com.jlafshari.beerrecipegenerator.about.AboutActivity
 import com.jlafshari.beerrecipegenerator.account.AccountActivity
@@ -50,6 +56,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var binding: ActivityMainBinding
+    private var recipes: List<RecipePreview> = emptyList()
 
     private val abvValues = AbvUtility.getAbvRecipeSearchValues().map { it.toString() }.toTypedArray()
     private val srmColors = Colors.getSrmColors()
@@ -101,6 +108,7 @@ class MainActivity : AppCompatActivity() {
                 )
 
             initializeRecipeSearchFilterUi()
+            initializeSortUi()
 
             val searchBtn = binding.root.findViewById<Button>(R.id.searchRecipeBtn)
             searchBtn.setOnClickListener {
@@ -108,7 +116,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             recipeViewModel.loadRecipePreviewsResponse.observe(this@MainActivity) {
-                displaySavedRecipePreviews(it, binding)
+                recipes = sortRecipes(it)
+                displaySavedRecipePreviews(recipes, binding)
             }
             loadSavedRecipePreviews()
 
@@ -124,6 +133,37 @@ class MainActivity : AppCompatActivity() {
             ingredientViewModel.loadHopDetailsResponse.observe(this@MainActivity) {
                 addHopToSearchCriteria(it)
             }
+        }
+    }
+
+    private fun sortRecipes(recipes: List<RecipePreview>?): List<RecipePreview> {
+        val sortTypeDisplayText = binding.root.findViewById<Spinner>(R.id.sortItemsSpinner).selectedItem.toString()
+        val sortType = RecipeSortType.entries.find { it.displayText() == sortTypeDisplayText } ?: RecipeSortType.None
+
+        val ascending = binding.root.findViewById<RadioButton>(R.id.radioAscending).isChecked
+
+        return sortRecipes(recipes ?: emptyList(), sortType, ascending)
+    }
+
+    private fun initializeSortUi() {
+        val sortSpinner = binding.root.findViewById<Spinner>(R.id.sortItemsSpinner)
+        val sortValues = RecipeSortType.entries.map { it.displayText() }.toList()
+        val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, sortValues)
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        sortSpinner.adapter = adapter
+        sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                displaySavedRecipePreviews(sortRecipes(recipes), binding)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                displaySavedRecipePreviews(sortRecipes(recipes), binding)
+            }
+        }
+
+        val ascendingRadioButtonGroup = binding.root.findViewById<RadioGroup>(R.id.radioGroupSortOrder)
+        ascendingRadioButtonGroup.setOnCheckedChangeListener { _, _ ->
+            displaySavedRecipePreviews(sortRecipes(recipes), binding)
         }
     }
 
