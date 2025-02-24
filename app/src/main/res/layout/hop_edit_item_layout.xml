@@ -15,6 +15,12 @@
         android:scaleType="fitCenter"
         app:tint="@color/colorPrimaryDark" />
 
+    <Spinner
+        android:id="@+id/hopUseSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/spinner_button_background" />
+
     <EditText
             android:id="@+id/txtHopAmountEdit"
             android:layout_width="wrap_content"

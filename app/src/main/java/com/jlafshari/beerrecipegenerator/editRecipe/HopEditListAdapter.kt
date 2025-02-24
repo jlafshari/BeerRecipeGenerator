@@ -5,11 +5,15 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jlafshari.beerrecipecore.HopIngredient
+import com.jlafshari.beerrecipecore.HopUse
+import com.jlafshari.beerrecipecore.displayText
 import com.jlafshari.beerrecipegenerator.R
 
 class HopEditListAdapter(private val hopList: List<HopIngredient>,
@@ -17,6 +21,7 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>,
      private val hopBoilAdditionTimeChangedListener: (boilAdditionTime: Int, index: Int) -> Unit,
      private val deleteHopListener: (index: Int) -> Unit) :
     RecyclerView.Adapter<HopEditListAdapter.ViewHolder>() {
+    private val hopUses = HopUse.entries.map { it.displayText() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.hop_edit_item_layout, parent,
@@ -51,6 +56,10 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>,
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
         holder.btnDeleteHop.setOnClickListener { deleteHopListener(holder.adapterPosition) }
+
+        holder.hopUseSpinner.adapter = ArrayAdapter(holder.itemView.context,
+            android.R.layout.simple_spinner_dropdown_item, hopUses)
+        holder.hopUseSpinner.setSelection(HopUse.entries.indexOf(hop.use))
     }
 
     override fun getItemCount() = hopList.size
@@ -60,5 +69,6 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>,
         val txtHop: TextView = itemView.findViewById(R.id.txtHopEdit)
         val txtHopAdditionTime: EditText = itemView.findViewById(R.id.txtHopAdditionTimeEdit)
         val btnDeleteHop: ImageButton = itemView.findViewById(R.id.btnDeleteHop)
+        val hopUseSpinner: Spinner = itemView.findViewById(R.id.hopUseSpinner)
     }
 }
