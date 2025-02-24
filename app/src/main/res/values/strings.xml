@@ -97,10 +97,8 @@
     <string name="color_checkbox_label">Color:</string>
     <string name="ale_checkbox_label">Ale</string>
     <string name="lager_checkbox_label">Lager</string>
-    <string name="fermentable_section_label">Fermentables</string>
-    <string name="fermentable_search_btn_label">+</string>
-    <string name="hop_section_label">Hops</string>
-    <string name="hop_search_btn_label">+</string>
+    <string name="fermentable_search_btn_label">+ Fermentable</string>
+    <string name="hop_search_btn_label">+ Hop</string>
     <string name="batches_heading_label">Batches</string>
     <string name="assistant_brewer_label">Assistant Brewer:</string>
     <string name="notes_label">Notes:</string>

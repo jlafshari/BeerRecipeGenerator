@@ -90,11 +90,11 @@ class MainActivity : AppCompatActivity() {
         initializeRetryButton()
 
         val fermentableSearchRecyclerView = binding.root.findViewById<RecyclerView>(R.id.fermentableSearchRecyclerView)
-        fermentableSearchRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        fermentableSearchRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         fermentableSearchRecyclerView.adapter = FermentableSearchListAdapter(emptyList()) {}
 
         val hopSearchRecyclerView = binding.root.findViewById<RecyclerView>(R.id.hopSearchRecyclerView)
-        hopSearchRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        hopSearchRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         hopSearchRecyclerView.adapter = HopSearchListAdapter(emptyList()) {}
 
         AzureAuthHelper.isUserSignedIn(this) {

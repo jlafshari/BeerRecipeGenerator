@@ -10,7 +10,7 @@ enum class RecipeSortType {
 fun RecipeSortType.displayText(): String = recipeSortTypeEnumDisplayMap[this]!!
 
 val recipeSortTypeEnumDisplayMap = mapOf(
-    RecipeSortType.None to "---",
+    RecipeSortType.None to "-- Sort By --",
     RecipeSortType.Abv to "ABV",
     RecipeSortType.Color to "Color",
     RecipeSortType.BatchCount to "Batch Count"

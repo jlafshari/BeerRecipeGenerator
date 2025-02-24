@@ -181,63 +181,43 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/daysUpdatedLayout">
-        <TextView
-            android:id="@+id/txtFermentable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/fermentable_section_label"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <Button
             android:id="@+id/btnNewFermentableSearch"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fermentable_search_btn_label"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtFermentable" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fermentableSearchRecyclerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            app:layout_constraintStart_toEndOf="@+id/btnNewFermentableSearch"
-            app:layout_constraintTop_toBottomOf="@id/txtFermentable"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnNewFermentableSearch" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/hopLayout"
+        android:layout_marginStart="24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fermentableLayout">
-        <TextView
-            android:id="@+id/txtHop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hop_section_label"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintStart_toEndOf="@+id/fermentableLayout"
+        app:layout_constraintTop_toBottomOf="@+id/daysUpdatedLayout">
         <Button
             android:id="@+id/btnNewHopSearch"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hop_search_btn_label"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtHop" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hopSearchRecyclerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            app:layout_constraintStart_toEndOf="@+id/btnNewHopSearch"
-            app:layout_constraintTop_toBottomOf="@id/txtHop"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnNewHopSearch" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
