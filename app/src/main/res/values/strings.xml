@@ -121,4 +121,7 @@
     <string name="ascending_label">Ascending</string>
     <string name="descending_label">Descending</string>
     <string name="sort_by_label">Sort by:</string>
+    <string name="dry_hop_entry_hint">day</string>
+    <string name="dry_hop_days_label">days</string>
+    <string name="dry_hop_range_label">-</string>
 </resources>

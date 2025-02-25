@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal">
 
     <ImageButton
@@ -26,6 +26,7 @@
         android:id="@+id/txtHopAmountEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="48dp"
         android:autofillHints="@string/hopOuncesHint"
         android:hint="@string/hopOuncesHint"
         android:inputType="numberDecimal" />
@@ -48,14 +49,16 @@
         android:id="@+id/txtHopBoilAdditionTimeEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autofillHints="@string/hopAdditionTimeHint"
+        android:minWidth="48dp"
+        android:autofillHints="Time remaining in boil"
         android:hint="@string/hopAdditionTimeHint"
         android:inputType="number" />
     <EditText
         android:id="@+id/txtWhirlpoolAdditionTimeEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autofillHints="@string/hopAdditionTimeHint"
+        android:minWidth="48dp"
+        android:autofillHints="Whirlpool duration"
         android:hint="@string/hopAdditionTimeHint"
         android:inputType="number" />
 
@@ -69,23 +72,30 @@
         android:id="@+id/dryHopLayout"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
         <EditText
             android:id="@+id/txtDryHopDayStartEdit"
             android:inputType="number"
+            android:autofillHints="Day to start dry hop"
+            android:hint="@string/dry_hop_entry_hint"
+            android:minWidth="48dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:text="-"
+            android:text="@string/dry_hop_range_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/txtDryHopDayEndEdit"
             android:inputType="number"
+            android:autofillHints="Day to end dry hop"
+            android:hint="@string/dry_hop_entry_hint"
+            android:minWidth="48dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:text="days"
+            android:text="@string/dry_hop_days_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
