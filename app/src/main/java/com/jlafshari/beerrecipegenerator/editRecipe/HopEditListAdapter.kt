@@ -19,9 +19,12 @@ import com.jlafshari.beerrecipecore.displayText
 import com.jlafshari.beerrecipegenerator.R
 
 class HopEditListAdapter(private val hopList: List<HopIngredient>,
-     private val amountChangedListener: (amount: Double, index: Int) -> Unit,
-     private val hopBoilAdditionTimeChangedListener: (boilAdditionTime: Int, index: Int) -> Unit,
-     private val deleteHopListener: (index: Int) -> Unit) :
+                         private val onAmountChanged: (amount: Double, index: Int) -> Unit,
+                         private val onBoilAdditionTimeChanged: (boilAdditionTime: Int, index: Int) -> Unit,
+                         private val onWhirlpoolAdditionTimeChanged: (whirlpoolAdditionTime: Int, index: Int) -> Unit,
+                         private val onDryHopStartDayChanged: (day: Int, index: Int) -> Unit,
+                         private val onDryHopEndDayChanged: (day: Int, index: Int) -> Unit,
+                         private val deleteHopListener: (index: Int) -> Unit) :
     RecyclerView.Adapter<HopEditListAdapter.ViewHolder>() {
     private val hopUses = HopUse.entries.map { it.displayText() }
 
@@ -39,7 +42,7 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>,
             override fun afterTextChanged(hopAmountEditText: Editable?) {
                 val amount = hopAmountEditText.toString().toDoubleOrNull()
                 if (amount != null) {
-                    amountChangedListener(amount, holder.adapterPosition)
+                    onAmountChanged(amount, holder.adapterPosition)
                 }
             }
 
@@ -54,7 +57,7 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>,
         holder.hopUseSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 hop.use = HopUse.entries[position]
-                setElementsForHopUse(hop, holder)
+                setElementVisibilityForHopUse(hop, holder)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -66,7 +69,7 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>,
             override fun afterTextChanged(hopBoilAdditionTimeEditText: Editable?) {
                 val boilAdditionTime = hopBoilAdditionTimeEditText.toString().toIntOrNull()
                 if (boilAdditionTime != null)
-                    hopBoilAdditionTimeChangedListener(boilAdditionTime, holder.adapterPosition)
+                    onBoilAdditionTimeChanged(boilAdditionTime, holder.adapterPosition)
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -75,18 +78,48 @@ class HopEditListAdapter(private val hopList: List<HopIngredient>,
 
         holder.txtWhirlpoolAdditionTime.text.clear()
         holder.txtWhirlpoolAdditionTime.text.insert(0, hop.whirlpoolDuration.toString())
+        holder.txtWhirlpoolAdditionTime.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(hopWhirlpoolAdditionTimeEditText: Editable?) {
+                val whirlpoolAdditionTime = hopWhirlpoolAdditionTimeEditText.toString().toIntOrNull()
+                if (whirlpoolAdditionTime != null)
+                    onWhirlpoolAdditionTimeChanged(whirlpoolAdditionTime, holder.adapterPosition)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
 
         holder.txtDryHopDayStartEdit.text.clear()
         holder.txtDryHopDayStartEdit.text.insert(0, hop.dryHopDayStart.toString())
+        holder.txtDryHopDayStartEdit.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(hopDryHopDayStartEditText: Editable?) {
+                val day = hopDryHopDayStartEditText.toString().toIntOrNull()
+                if (day != null)
+                    onDryHopStartDayChanged(day, holder.adapterPosition)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
         holder.txtDryHopDayEndEdit.text.clear()
         holder.txtDryHopDayEndEdit.text.insert(0, hop.dryHopDayEnd.toString())
+        holder.txtDryHopDayEndEdit.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(hopDryHopDayEndEditText: Editable?) {
+                val day = hopDryHopDayEndEditText.toString().toIntOrNull()
+                if (day != null)
+                    onDryHopEndDayChanged(day, holder.adapterPosition)
+            }
 
-        setElementsForHopUse(hop, holder)
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        setElementVisibilityForHopUse(hop, holder)
     }
 
     override fun getItemCount() = hopList.size
 
-    private fun setElementsForHopUse(hop: HopIngredient, holder: ViewHolder) {
+    private fun setElementVisibilityForHopUse(hop: HopIngredient, holder: ViewHolder) {
         with(holder) {
             when (hop.use) {
                 HopUse.Boil -> {

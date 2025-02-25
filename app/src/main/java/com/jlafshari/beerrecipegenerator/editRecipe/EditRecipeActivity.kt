@@ -118,14 +118,29 @@ class EditRecipeActivity : AppCompatActivity() {
         fermentableIngredient.amount = amount
     }
 
-    private fun hopAmountChangedListener(amount: Double, index: Int) {
+    private fun onHopAmountChanged(amount: Double, index: Int) {
         val hopIngredient = mRecipeUpdateInfo.hopIngredients[index]
         hopIngredient.amount = amount
     }
 
-    private fun hopBoilAdditionTimeChangedListener(boilAdditionTime: Int, index: Int) {
+    private fun onHopBoilAdditionTimeChanged(boilAdditionTime: Int, index: Int) {
         val hopIngredient = mRecipeUpdateInfo.hopIngredients[index]
         hopIngredient.boilAdditionTime = boilAdditionTime
+    }
+
+    private fun onHopWhirlpoolAdditionTimeChanged(whirlpoolAdditionTime: Int, index: Int) {
+        val hopIngredient = mRecipeUpdateInfo.hopIngredients[index]
+        hopIngredient.whirlpoolDuration = whirlpoolAdditionTime
+    }
+
+    private fun onHopDryHopStartDayChanged(day: Int, index: Int) {
+        val hopIngredient = mRecipeUpdateInfo.hopIngredients[index]
+        hopIngredient.dryHopDayStart = day
+    }
+
+    private fun onHopDryHopEndDayChanged(day: Int, index: Int) {
+        val hopIngredient = mRecipeUpdateInfo.hopIngredients[index]
+        hopIngredient.dryHopDayEnd = day
     }
 
     private fun deleteGrainListener(fermentableId: String) {
@@ -189,8 +204,11 @@ class EditRecipeActivity : AppCompatActivity() {
 
     private fun setHopEditRecyclerView(hopIngredients: List<HopIngredient>) {
         binding.hopEditRecyclerView.adapter = HopEditListAdapter(hopIngredients,
-            { a, h -> hopAmountChangedListener(a, h) },
-            { t, h -> hopBoilAdditionTimeChangedListener(t, h) },
+            { a, h -> onHopAmountChanged(a, h) },
+            { t, h -> onHopBoilAdditionTimeChanged(t, h) },
+            { t, h -> onHopWhirlpoolAdditionTimeChanged(t, h) },
+            { d, h -> onHopDryHopStartDayChanged(d, h) },
+            { d, h -> onHopDryHopEndDayChanged(d, h) },
             { h -> deleteHopListener(h) })
     }
 
