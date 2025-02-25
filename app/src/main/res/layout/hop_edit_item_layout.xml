@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal">
 
     <ImageButton
@@ -22,37 +23,70 @@
         android:background="@drawable/spinner_button_background" />
 
     <EditText
-            android:id="@+id/txtHopAmountEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autofillHints="@string/hopOuncesHint"
-            android:hint="@string/hopOuncesHint"
-            android:inputType="numberDecimal" />
+        android:id="@+id/txtHopAmountEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/hopOuncesHint"
+        android:hint="@string/hopOuncesHint"
+        android:inputType="numberDecimal" />
 
     <TextView
-            android:id="@+id/txtHopAmountUnit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hopAmountUnit"
-            android:layout_marginEnd="4dp" />
+        android:id="@+id/txtHopAmountUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hopAmountUnit"
+        android:layout_marginEnd="4dp" />
 
     <TextView
-            android:id="@+id/txtHopEdit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3" />
+        android:id="@+id/txtHopEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Cascade"
+        android:layout_weight="3" />
 
     <EditText
-            android:id="@+id/txtHopAdditionTimeEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autofillHints="@string/hopAdditionTimeHint"
-            android:hint="@string/hopAdditionTimeHint"
-            android:inputType="number" />
+        android:id="@+id/txtHopBoilAdditionTimeEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/hopAdditionTimeHint"
+        android:hint="@string/hopAdditionTimeHint"
+        android:inputType="number" />
+    <EditText
+        android:id="@+id/txtWhirlpoolAdditionTimeEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/hopAdditionTimeHint"
+        android:hint="@string/hopAdditionTimeHint"
+        android:inputType="number" />
 
     <TextView
-            android:id="@+id/txtHopAdditionTimeUnit"
+        android:id="@+id/txtHopAdditionTimeUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hopAdditionTimeUnit" />
+
+    <LinearLayout
+        android:id="@+id/dryHopLayout"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/txtDryHopDayStartEdit"
+            android:inputType="number"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hopAdditionTimeUnit" />
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="-"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/txtDryHopDayEndEdit"
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>
