@@ -114,7 +114,7 @@
     <string name="assistant_brewer_name_hint">Assistant brewer name</string>
     <string name="new_batch">New Batch</string>
     <string name="last_updated_on_label">Last updated on %1$s</string>
-    <string name="days_since_last_updated_label">Days since last updated:</string>
+    <string name="days_since_last_updated_label">Last updated:</string>
     <string name="retry_load_button">Retry</string>
     <string name="delete_grain_button_description">Delete Grain</string>
     <string name="delete_hop_button_description">Delete Hop</string>

@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     private val abvValues = AbvUtility.getAbvRecipeSearchValues().map { it.toString() }.toTypedArray()
     private val srmColors = Colors.getSrmColors()
-    private val daysSinceUpdatedValues = arrayOf(1, 7, 14, 30, 60, 90)
+    private val daysSinceUpdatedValues = arrayOf("---", "1", "7", "14", "30", "60", "90")
     private val fermentablesToSearch = mutableListOf<Fermentable>()
     private val hopsToSearch = mutableListOf<Hop>()
     private val recipeViewModel: RecipeViewModel by viewModels()
@@ -292,13 +292,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initDaysSinceLastUpdatedFilter(recipeSearchFilter: RecipeSearchFilter?) {
-        val daysSinceLastUpdatedCheckbox = findViewById<CheckBox>(R.id.chkDaysUpdated)
         val daysSinceLastUpdatedSpinner = findViewById<Spinner>(R.id.daysUpdatedSpinner)
-        daysSinceLastUpdatedCheckbox.isChecked =
-            recipeSearchFilter?.daysSinceLastUpdatedEnabled ?: false
-        daysSinceLastUpdatedCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            daysSinceLastUpdatedSpinner.isEnabled = isChecked
-        }
 
         val adapter = ArrayAdapter(
             this,
@@ -309,7 +303,7 @@ class MainActivity : AppCompatActivity() {
         daysSinceLastUpdatedSpinner.adapter = adapter
 
         val daysSinceLastUpdatedIndex = if (recipeSearchFilter?.daysSinceLastUpdated != null)
-            daysSinceUpdatedValues.indexOf(recipeSearchFilter.daysSinceLastUpdated)
+            daysSinceUpdatedValues.indexOf(recipeSearchFilter.daysSinceLastUpdated.toString())
         else 0
         daysSinceLastUpdatedSpinner.setSelection(daysSinceLastUpdatedIndex)
     }
@@ -397,18 +391,14 @@ class MainActivity : AppCompatActivity() {
                 else if (!aleChecked && lagerChecked) "lager"
                 else null
 
-            val daysSinceLastUpdatedCheckbox = findViewById<CheckBox>(R.id.chkDaysUpdated)
-            val daysSinceLastUpdatedChecked = daysSinceLastUpdatedCheckbox.isChecked
             val daysSinceLastUpdatedSpinner = findViewById<Spinner>(R.id.daysUpdatedSpinner)
-            val daysSinceLastUpdated = if (daysSinceLastUpdatedChecked)
-                daysSinceUpdatedValues[daysSinceLastUpdatedSpinner.selectedItemPosition]
-                else null
+            val daysSinceLastUpdated = daysSinceUpdatedValues[daysSinceLastUpdatedSpinner.selectedItemPosition].toIntOrNull()
 
             val searchFilterVisible = findViewById<ConstraintLayout>(R.id.recipeSearchLayout).isVisible
 
             return RecipeSearchFilter(abvCheckbox.isChecked, abvMin, abvMax, colorCheckBox.isChecked,
                 colorMin, colorMax, aleChecked, lagerChecked, recipeType,
-                fermentablesToSearch, hopsToSearch, daysSinceLastUpdatedChecked, daysSinceLastUpdated, searchFilterVisible)
+                fermentablesToSearch, hopsToSearch, daysSinceLastUpdated, searchFilterVisible)
         }
     }
 
