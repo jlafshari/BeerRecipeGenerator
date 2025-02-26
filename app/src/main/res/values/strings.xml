@@ -94,7 +94,7 @@
     <string name="search_btn_text">Search</string>
     <string name="expand_search_content_desc">Expand search</string>
     <string name="recipes_count">%1$s recipes</string>
-    <string name="color_checkbox_label">Color:</string>
+    <string name="color_label">Color:</string>
     <string name="ale_checkbox_label">Ale</string>
     <string name="lager_checkbox_label">Lager</string>
     <string name="fermentable_search_btn_label">+ Fermentable</string>

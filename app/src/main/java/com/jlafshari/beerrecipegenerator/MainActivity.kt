@@ -1,6 +1,7 @@
 package com.jlafshari.beerrecipegenerator
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -215,22 +216,21 @@ class MainActivity : AppCompatActivity() {
         setHopToSearchRecyclerView(hopsToSearch)
     }
 
-    private fun showColorPickerDialog(selectedColorCardView: CardView, selectedColorTextView: TextView) {
+    private fun showColorPickerDialog(colorCardView: CardView, colorTextView: TextView) {
         val recyclerView = RecyclerView(this)
         val colorPickerDialog = AlertDialog.Builder(this)
             .setTitle("Choose a color")
             .setView(recyclerView)
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
+            .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+            .setNeutralButton("Clear") { _, _ -> showDeselectedColorFilter(colorTextView, colorCardView) }
             .create()
 
         recyclerView.layoutManager = GridLayoutManager(this, 3)
         recyclerView.setPadding(5)
         recyclerView.adapter = ColorPaletteDialogListAdapter(srmColors, R.layout.color_item_layout) { selectedColor ->
             val selectedSrmColor = srmColors.find { it.srmColor == selectedColor }!!
-            selectedColorCardView.setCardBackgroundColor(selectedSrmColor.rbgColor)
-            selectedColorTextView.text = selectedSrmColor.srmColor.toString()
+            colorCardView.setCardBackgroundColor(selectedSrmColor.rbgColor)
+            colorTextView.text = selectedSrmColor.srmColor.toString()
             colorPickerDialog.dismiss()
         }
 
@@ -254,19 +254,8 @@ class MainActivity : AppCompatActivity() {
         val maxAbvIndex = if (recipeSearchFilter?.abvMax != null) abvValues.indexOf(recipeSearchFilter.abvMax) else abvValues.size - 1
         initAbvSpinner(R.id.maxAbvSpinner, maxAbvIndex, binding.root, abvCheckbox.isChecked)
 
-        val colorCheckbox = findViewById<CheckBox>(R.id.chkColorFilter)
-        colorCheckbox.setOnCheckedChangeListener { _, isChecked: Boolean ->
-            binding.root.findViewById<CardView>(R.id.selectedMinColorCardView).isEnabled = isChecked
-            binding.root.findViewById<CardView>(R.id.selectedMaxColorCardView).isEnabled = isChecked
-        }
-        colorCheckbox.isChecked = recipeSearchFilter?.colorEnabled ?: false
-        val minColorIndex = if (recipeSearchFilter?.colorMin != null)
-            srmColors.indexOfFirst { it.srmColor.toString() == recipeSearchFilter.colorMin } else 0
-        initColorFilter(R.id.selectedMinColorCardView, R.id.txtSelectedMinColor, minColorIndex, colorCheckbox.isChecked)
-        val maxColorIndex = if (recipeSearchFilter?.colorMax != null)
-            srmColors.indexOfFirst { it.srmColor.toString() == recipeSearchFilter.colorMax }
-            else srmColors.size - 1
-        initColorFilter(R.id.selectedMaxColorCardView, R.id.txtSelectedMaxColor, maxColorIndex, colorCheckbox.isChecked)
+        initColorFilter(R.id.selectedMinColorCardView, R.id.txtSelectedMinColor, recipeSearchFilter?.colorMin)
+        initColorFilter(R.id.selectedMaxColorCardView, R.id.txtSelectedMaxColor, recipeSearchFilter?.colorMax)
 
         val aleCheckBox = findViewById<CheckBox>(R.id.chkAle)
         aleCheckBox.isChecked = recipeSearchFilter?.aleEnabled ?: false
@@ -308,19 +297,29 @@ class MainActivity : AppCompatActivity() {
 
     private fun initColorFilter(
         selectedColorCardViewId: Int, selectedColorTextId: Int,
-        startingColorIndex: Int,
-        isEnabled: Boolean
+        startingColor: Int?
     ) {
         val colorCardView = findViewById<CardView>(selectedColorCardViewId)
-        colorCardView.isEnabled = isEnabled
         val selectedColorTextView = findViewById<TextView>(selectedColorTextId)
         colorCardView.setOnClickListener {
             showColorPickerDialog(colorCardView, selectedColorTextView)
         }
 
-        val color = srmColors[startingColorIndex]
-        selectedColorTextView.text = color.srmColor.toString()
-        colorCardView.setCardBackgroundColor(color.rbgColor)
+        if (startingColor != null) {
+            val color = srmColors.first { it.srmColor == startingColor }
+            selectedColorTextView.text = color.srmColor.toString()
+            colorCardView.setCardBackgroundColor(color.rbgColor)
+        } else {
+            showDeselectedColorFilter(selectedColorTextView, colorCardView)
+        }
+    }
+
+    private fun showDeselectedColorFilter(
+        selectedColorTextView: TextView,
+        colorCardView: CardView
+    ) {
+        selectedColorTextView.text = "--"
+        colorCardView.setCardBackgroundColor(Color.GRAY)
     }
 
     private fun initAbvSpinner(id: Int, startingIndex: Int, view: View, isEnabled: Boolean) {
@@ -379,9 +378,8 @@ class MainActivity : AppCompatActivity() {
             val maxAbvSpinner = findViewById<Spinner>(R.id.maxAbvSpinner)
             val abvMax = if (abvCheckbox.isChecked) abvValues[maxAbvSpinner.selectedItemPosition] else null
 
-            val colorCheckBox = findViewById<CheckBox>(R.id.chkColorFilter)
-            val colorMin = if (colorCheckBox.isChecked) findViewById<TextView>(R.id.txtSelectedMinColor).text.toString() else null
-            val colorMax = if (colorCheckBox.isChecked) findViewById<TextView>(R.id.txtSelectedMaxColor).text.toString() else null
+            val colorMin = findViewById<TextView>(R.id.txtSelectedMinColor).text.toString().toIntOrNull()
+            val colorMax = findViewById<TextView>(R.id.txtSelectedMaxColor).text.toString().toIntOrNull()
 
             val aleChecked = findViewById<CheckBox>(R.id.chkAle).isChecked
             val lagerChecked = findViewById<CheckBox>(R.id.chkLager).isChecked
@@ -394,7 +392,7 @@ class MainActivity : AppCompatActivity() {
 
             val searchFilterVisible = findViewById<ConstraintLayout>(R.id.recipeSearchLayout).isVisible
 
-            return RecipeSearchFilter(abvCheckbox.isChecked, abvMin, abvMax, colorCheckBox.isChecked,
+            return RecipeSearchFilter(abvCheckbox.isChecked, abvMin, abvMax,
                 colorMin, colorMax, aleChecked, lagerChecked, recipeType,
                 fermentablesToSearch, hopsToSearch, daysSinceLastUpdated, searchFilterVisible)
         }
