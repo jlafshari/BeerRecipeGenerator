@@ -35,6 +35,7 @@ import com.jlafshari.beerrecipecore.recipes.recipeSorting.RecipeSortType
 import com.jlafshari.beerrecipecore.recipes.recipeSorting.RecipeSorter.sortRecipes
 import com.jlafshari.beerrecipecore.recipes.recipeSorting.displayText
 import com.jlafshari.beerrecipecore.utility.AbvUtility
+import com.jlafshari.beerrecipecore.utility.LastUpdatedUtility
 import com.jlafshari.beerrecipegenerator.about.AboutActivity
 import com.jlafshari.beerrecipegenerator.account.AccountActivity
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
@@ -60,7 +61,6 @@ class MainActivity : AppCompatActivity() {
 
     private val abvValues = AbvUtility.getAbvRecipeSearchValues().map { it.toString() }.toTypedArray()
     private val srmColors = Colors.getSrmColors()
-    private val daysSinceUpdatedValues = arrayOf("---", "1", "7", "14", "30", "60", "90")
     private val fermentablesToSearch = mutableListOf<Fermentable>()
     private val hopsToSearch = mutableListOf<Hop>()
     private val recipeViewModel: RecipeViewModel by viewModels()
@@ -297,14 +297,12 @@ class MainActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(
             this,
             R.layout.support_simple_spinner_dropdown_item,
-            daysSinceUpdatedValues
+            LastUpdatedUtility.timePeriodsForDisplay()
         )
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         daysSinceLastUpdatedSpinner.adapter = adapter
 
-        val daysSinceLastUpdatedIndex = if (recipeSearchFilter?.daysSinceLastUpdated != null)
-            daysSinceUpdatedValues.indexOf(recipeSearchFilter.daysSinceLastUpdated.toString())
-        else 0
+        val daysSinceLastUpdatedIndex = LastUpdatedUtility.getLastUpdatedIndex(recipeSearchFilter?.daysSinceLastUpdated)
         daysSinceLastUpdatedSpinner.setSelection(daysSinceLastUpdatedIndex)
     }
 
@@ -391,8 +389,8 @@ class MainActivity : AppCompatActivity() {
                 else if (!aleChecked && lagerChecked) "lager"
                 else null
 
-            val daysSinceLastUpdatedSpinner = findViewById<Spinner>(R.id.daysUpdatedSpinner)
-            val daysSinceLastUpdated = daysSinceUpdatedValues[daysSinceLastUpdatedSpinner.selectedItemPosition].toIntOrNull()
+            val lastUpdatedSpinner = findViewById<Spinner>(R.id.daysUpdatedSpinner)
+            val daysSinceLastUpdated = LastUpdatedUtility.getDaysSinceUpdated(lastUpdatedSpinner.selectedItemPosition)
 
             val searchFilterVisible = findViewById<ConstraintLayout>(R.id.recipeSearchLayout).isVisible
 
