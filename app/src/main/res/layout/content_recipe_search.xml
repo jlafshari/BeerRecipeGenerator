@@ -18,14 +18,15 @@
         android:id="@+id/abvLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toEndOf="@id/colorLayout"
+        app:layout_constraintTop_toBottomOf="@id/searchRecipeBtn">
 
         <CheckBox
             android:id="@+id/chkAbvFilter"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/abv_checkbox_label"
+            android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -69,8 +70,9 @@
         android:id="@+id/colorLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/abvLayout">
+        app:layout_constraintTop_toBottomOf="@id/searchRecipeBtn">
 
         <TextView
             android:id="@+id/txtColorFilter"
@@ -138,8 +140,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@id/colorLayout"
-        app:layout_constraintTop_toBottomOf="@id/abvLayout">
+        app:layout_constraintStart_toEndOf="@id/daysUpdatedLayout"
+        app:layout_constraintTop_toBottomOf="@id/colorLayout">
 
         <CheckBox
             android:id="@+id/chkAle"
