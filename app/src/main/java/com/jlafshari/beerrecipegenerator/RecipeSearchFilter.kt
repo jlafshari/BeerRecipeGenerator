@@ -16,5 +16,6 @@ data class RecipeSearchFilter(
     val fermentables: List<Fermentable>,
     val hops: List<Hop>,
     val daysSinceLastUpdated: Int?,
+    val recipeNameSearchTerm: String?,
     val searchFilterVisible: Boolean
 ) : Serializable

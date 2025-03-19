@@ -124,4 +124,5 @@
     <string name="dry_hop_entry_hint">day</string>
     <string name="dry_hop_days_label">days</string>
     <string name="dry_hop_range_label">-</string>
+    <string name="recipe_name_dots_hint">Name…</string>
 </resources>

@@ -390,11 +390,13 @@ class MainActivity : AppCompatActivity() {
             val lastUpdatedSpinner = findViewById<Spinner>(R.id.daysUpdatedSpinner)
             val daysSinceLastUpdated = LastUpdatedUtility.getDaysSinceUpdated(lastUpdatedSpinner.selectedItemPosition)
 
+            val recipeNameSearchTerm = findViewById<TextView>(R.id.txtRecipeNameSearch).text.toString()
+
             val searchFilterVisible = findViewById<ConstraintLayout>(R.id.recipeSearchLayout).isVisible
 
             return RecipeSearchFilter(abvCheckbox.isChecked, abvMin, abvMax,
                 colorMin, colorMax, aleChecked, lagerChecked, recipeType,
-                fermentablesToSearch, hopsToSearch, daysSinceLastUpdated, searchFilterVisible)
+                fermentablesToSearch, hopsToSearch, daysSinceLastUpdated, recipeNameSearchTerm, searchFilterVisible)
         }
     }
 
