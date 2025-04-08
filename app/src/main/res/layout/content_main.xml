@@ -57,14 +57,13 @@
 
     <include layout="@layout/content_recipe_sort" />
 
-    <TextView
-        android:id="@+id/txtLoadingIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="@string/loadingIndicator"
-        android:textSize="34sp"
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loadingIndicator"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:indicatorColor="@color/colorAccent"
+        android:indeterminate="true"
+        android:indeterminateBehavior="repeat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

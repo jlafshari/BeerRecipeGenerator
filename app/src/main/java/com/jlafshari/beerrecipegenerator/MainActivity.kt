@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.jlafshari.beerrecipecore.Fermentable
 import com.jlafshari.beerrecipecore.Hop
 import com.jlafshari.beerrecipecore.recipes.RecipePreview
@@ -118,6 +119,7 @@ class MainActivity : AppCompatActivity() {
 
             recipeViewModel.loadRecipePreviewsResponse.observe(this@MainActivity) {
                 recipes = sortRecipes(it)
+                toggleRecipeRecyclerViewVisibility(true)
                 displaySavedRecipePreviews(recipes, binding)
             }
             loadSavedRecipePreviews()
@@ -416,7 +418,6 @@ class MainActivity : AppCompatActivity() {
                 RecipeListAdapter(recipes) { recipePreview ->
                     recipePreviewClicked(recipePreview)
                 }
-            toggleRecipeRecyclerViewVisibility(true)
             txtRecipeCount.text = context.getString(R.string.recipes_count, recipes.size.toString())
         }
     }
@@ -425,14 +426,15 @@ class MainActivity : AppCompatActivity() {
         hideRetryButton()
         with(binding.root) {
             val recipeRecyclerView = findViewById<RecyclerView>(R.id.recipeRecyclerView)
-            val txtLoadingIndicator = findViewById<TextView>(R.id.txtLoadingIndicator)
+            val loadingIndicator = findViewById<CircularProgressIndicator>(R.id.loadingIndicator)
 
             if (showRecyclerView) {
                 recipeRecyclerView.visibility = View.VISIBLE
-                txtLoadingIndicator.visibility = View.INVISIBLE
+                loadingIndicator.visibility = View.INVISIBLE
             } else {
                 recipeRecyclerView.visibility = View.INVISIBLE
-                txtLoadingIndicator.visibility = View.VISIBLE
+                loadingIndicator.visibility = View.VISIBLE
+                loadingIndicator.bringToFront()
             }
         }
     }
@@ -443,8 +445,8 @@ class MainActivity : AppCompatActivity() {
 
         val recipeRecyclerView = findViewById<RecyclerView>(R.id.recipeRecyclerView)
         recipeRecyclerView.visibility = View.INVISIBLE
-        val txtLoadingIndicator = findViewById<TextView>(R.id.txtLoadingIndicator)
-        txtLoadingIndicator.visibility = View.INVISIBLE
+        val loadingIndicator = findViewById<CircularProgressIndicator>(R.id.loadingIndicator)
+        loadingIndicator.visibility = View.INVISIBLE
     }
 
     private fun hideRetryButton() {
