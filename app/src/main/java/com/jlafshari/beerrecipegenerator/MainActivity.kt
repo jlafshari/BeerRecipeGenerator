@@ -272,6 +272,11 @@ class MainActivity : AppCompatActivity() {
             setHopToSearchRecyclerView(hopsToSearch)
         }
 
+        if (!recipeSearchFilter?.recipeNameSearchTerm.isNullOrEmpty()) {
+            val recipeNameSearchEditText = findViewById<TextView>(R.id.txtRecipeNameSearch)
+            recipeNameSearchEditText.text = recipeSearchFilter!!.recipeNameSearchTerm
+        }
+
         initDaysSinceLastUpdatedFilter(recipeSearchFilter)
 
         if (recipeSearchFilter?.searchFilterVisible == true) {
