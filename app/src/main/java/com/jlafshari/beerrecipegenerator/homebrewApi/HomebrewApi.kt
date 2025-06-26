@@ -6,6 +6,7 @@ import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.Style
 import com.jlafshari.beerrecipecore.batches.Batch
+import com.jlafshari.beerrecipecore.batches.BatchPreview
 import com.jlafshari.beerrecipecore.batches.BatchUpdateInfo
 import com.jlafshari.beerrecipecore.batches.NewBatchInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
@@ -68,6 +69,9 @@ interface HomebrewApi {
 
     @GET("UserSettings/GetSettings")
     fun getRecipeDefaultSettings(@Header("Authorization") authHeader: String): Single<RecipeDefaultSettings>
+
+    @GET("Batch/GetInProgress")
+    fun getBatchesInProgress(@Header("Authorization") authHeader: String): Single<List<BatchPreview>>
 
     @GET("Batch/{batchId}")
     fun getBatchDetails(@Header("Authorization") authHeader: String, @Path("batchId") batchId: String):

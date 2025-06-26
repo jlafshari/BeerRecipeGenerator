@@ -81,6 +81,7 @@
     <string name="extraction_efficiency_error">Extraction Efficiency should be between 0 and 100!</string>
     <string name="miscIngredientsHeading">Miscellaneous Ingredients</string>
     <string name="recipe_size_hint">e.g. 5</string>
+    <string name="brewed_on">Brewed: %s</string>
     <string name="boil_duration_heading">Boil Duration:</string>
     <string name="boil_duration_hint">min.</string>
     <string name="grain_temperature_heading">Grain Temperature (°F):</string>
@@ -125,4 +126,7 @@
     <string name="dry_hop_days_label">days</string>
     <string name="dry_hop_range_label">-</string>
     <string name="recipe_name_dots_hint">Name…</string>
+    <string name="batches_in_progress">Batches In Progress</string>
+    <string name="no_batches_in_progress">No batches in progress</string>
+    <string name="search">Search</string>
 </resources>

@@ -40,6 +40,8 @@ import com.jlafshari.beerrecipecore.utility.AbvUtility
 import com.jlafshari.beerrecipecore.utility.LastUpdatedUtility
 import com.jlafshari.beerrecipegenerator.about.AboutActivity
 import com.jlafshari.beerrecipegenerator.account.AccountActivity
+import com.jlafshari.beerrecipegenerator.batches.BatchesInProgressAdapter
+import com.jlafshari.beerrecipegenerator.batches.BatchViewModel
 import com.jlafshari.beerrecipegenerator.databinding.ActivityMainBinding
 import com.jlafshari.beerrecipegenerator.editRecipe.AddGrainActivity
 import com.jlafshari.beerrecipegenerator.editRecipe.AddHopActivity
@@ -52,6 +54,7 @@ import com.jlafshari.beerrecipegenerator.settings.RecipeDefaultSettings
 import com.jlafshari.beerrecipegenerator.settings.SettingsActivity
 import com.jlafshari.beerrecipegenerator.srmColors.Colors
 import com.jlafshari.beerrecipegenerator.login.AzureAuthHelper
+import com.jlafshari.beerrecipegenerator.viewBatch.BatchViewActivity
 import com.jlafshari.beerrecipegenerator.viewRecipe.RecipeViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -65,8 +68,10 @@ class MainActivity : AppCompatActivity() {
     private val srmColors = Colors.getSrmColors()
     private val fermentablesToSearch = mutableListOf<Fermentable>()
     private val hopsToSearch = mutableListOf<Hop>()
+    private lateinit var batchesInProgressAdapter: BatchesInProgressAdapter
     private val recipeViewModel: RecipeViewModel by viewModels()
     private val ingredientViewModel: IngredientViewModel by viewModels()
+    private val batchViewModel: BatchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,6 +128,8 @@ class MainActivity : AppCompatActivity() {
                 displaySavedRecipePreviews(recipes, binding)
             }
             loadSavedRecipePreviews()
+
+            setupBatchesInProgress()
 
             recipeViewModel.loadRecipeDefaultSettingsResponse.observe(this@MainActivity) {
                 loadSettings(it)
@@ -499,6 +506,34 @@ class MainActivity : AppCompatActivity() {
     private fun loadSettings(recipeDefaultSettings: RecipeDefaultSettings) {
         val settings = getSharedPreferences(AppSettings.PREFERENCE_FILE_NAME, MODE_PRIVATE)
         AppSettings.loadSettings(settings, recipeDefaultSettings)
+    }
+    
+    private fun setupBatchesInProgress() {
+        batchesInProgressAdapter = BatchesInProgressAdapter(::batchPreviewClicked)
+        
+        val batchesInProgressRecyclerView = binding.root.findViewById<RecyclerView>(R.id.rvBatchesInProgress)
+        batchesInProgressRecyclerView.apply {
+            adapter = batchesInProgressAdapter
+            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+        }
+        
+        val batchesInProgressSection = binding.root.findViewById<ConstraintLayout>(R.id.batchesInProgressSection)
+        val txtNoBatches = binding.root.findViewById<TextView>(R.id.txtNoBatches)
+        batchViewModel.batchesInProgressResponse.observe(this) { batches ->
+            batches?.let {
+                batchesInProgressSection.visibility = if (it.isNotEmpty()) View.VISIBLE else View.GONE
+                txtNoBatches.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+                batchesInProgressAdapter.updateBatches(it)
+            }
+        }
+        
+        batchViewModel.loadBatchesInProgress()
+    }
+
+    private fun batchPreviewClicked(batchId: String) {
+        val viewBatchIntent = Intent(this, BatchViewActivity::class.java)
+        viewBatchIntent.putExtra(Constants.EXTRA_VIEW_BATCH, batchId)
+        startActivity(viewBatchIntent)
     }
 
     private fun addFermentable() {

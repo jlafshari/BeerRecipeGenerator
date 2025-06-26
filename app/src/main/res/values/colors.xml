@@ -3,4 +3,10 @@
     <color name="colorPrimary">#7C452D</color>
     <color name="colorPrimaryDark">#5D341A</color>
     <color name="colorAccent">#D5BC26</color>
+    
+    <!-- Batch Status Colors -->
+    <color name="brewing_status">#2196F3</color>    <!-- Blue -->
+    <color name="fermenting_status">#4CAF50</color> <!-- Green -->
+    <color name="carbonating_status">#9C27B0</color> <!-- Purple -->
+    <color name="completed_status">#9E9E9E</color> <!-- Grey -->
 </resources>

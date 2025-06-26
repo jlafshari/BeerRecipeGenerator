@@ -1,6 +1,7 @@
 package com.jlafshari.beerrecipegenerator.batches
 
 import android.util.Log
+import com.jlafshari.beerrecipecore.batches.BatchPreview
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jlafshari.beerrecipecore.batches.Batch
@@ -24,6 +25,9 @@ class BatchViewModel @Inject constructor(private val homebrewApiService: Homebre
     private val _newBatchResponse = MutableLiveData<String?>()
     val newBatchResponse: LiveData<String?> = _newBatchResponse
 
+    private val _batchesInProgressResponse = MutableLiveData<List<BatchPreview>>()
+    val batchesInProgressResponse: LiveData<List<BatchPreview>> = _batchesInProgressResponse
+
     private val _getCorrectedRefractometerReadingResponse = MutableLiveData<Double?>()
     val getCorrectedRefractometerReadingResponse: LiveData<Double?> = _getCorrectedRefractometerReadingResponse
 
@@ -39,6 +43,16 @@ class BatchViewModel @Inject constructor(private val homebrewApiService: Homebre
 
     fun loadBatchDetailsComplete() {
         _loadBatchDetailsResponse.postValue(null)
+    }
+
+    fun loadBatchesInProgress() {
+        runIfTokenIsValid {
+            homebrewApiService.getBatchesInProgress(authResult!!.authorizationHeader)
+                .subscribeThenDispose(
+                    { _batchesInProgressResponse.postValue(it) },
+                    { Log.d("", "load batches in progress error", it) }
+                )
+        }
     }
 
     fun updateBatch(batchId: String, batchUpdateInfo: BatchUpdateInfo) {

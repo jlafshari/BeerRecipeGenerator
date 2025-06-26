@@ -5,6 +5,7 @@ import com.jlafshari.beerrecipecore.Hop
 import com.jlafshari.beerrecipecore.RecipeGenerationInfo
 import com.jlafshari.beerrecipecore.RecipeUpdateInfo
 import com.jlafshari.beerrecipecore.Style
+import com.jlafshari.beerrecipecore.batches.BatchPreview
 import com.jlafshari.beerrecipecore.batches.BatchUpdateInfo
 import com.jlafshari.beerrecipecore.batches.NewBatchInfo
 import com.jlafshari.beerrecipecore.recipes.Recipe
@@ -77,6 +78,9 @@ class HomebrewApiService @Inject constructor() {
     fun getAllFermentables(authHeader: String): Single<List<Fermentable>> = api.getAllFermentables(authHeader)
 
     fun getAllHops(authHeader: String): Single<List<Hop>> = api.getAllHops(authHeader)
+
+    fun getBatchesInProgress(authHeader: String): Single<List<BatchPreview>> =
+        api.getBatchesInProgress(authHeader)
 
     fun getAllStyles(authHeader: String): Single<List<Style>> = api.getAllStyles(authHeader)
 

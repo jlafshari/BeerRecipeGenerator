@@ -23,6 +23,14 @@ class DateUtilityTest {
     }
 
     @Test
+    fun testGetFormattedDateShortMonthNoYear() {
+        val date = "2023-10-15T10:15:30.00Z"
+        val expected = "Oct 15"
+        val result = DateUtility.getFormattedDateShortMonthNoYear(date)
+        assertEquals(expected, result)
+    }
+
+    @Test
     fun testGetFormattedTimeStamp() {
         val instant = Instant.parse("2023-10-15T10:15:30.00Z")
         val expected = "2023-10-15T10:15:30.000Z"

@@ -11,6 +11,7 @@ object DateUtility {
         .withZone(ZoneOffset.UTC)
     private val humanReadableFormatter = DateTimeFormatter.ofPattern("MMMM d, yyyy")
     private val humanReadableFormatterShortMonth = DateTimeFormatter.ofPattern("MMM d, yyyy")
+    private val humanReadableFormatterShortMonthNoYear = DateTimeFormatter.ofPattern("MMM d")
 
     fun getFormattedDate(date: String) : String {
         val currentZonedDateTime = parseZonedDateTime(date)
@@ -22,6 +23,12 @@ object DateUtility {
         val currentZonedDateTime = parseZonedDateTime(date)
 
         return currentZonedDateTime.format(humanReadableFormatterShortMonth)
+    }
+
+    fun getFormattedDateShortMonthNoYear(date: String): String {
+        val currentZonedDateTime = parseZonedDateTime(date)
+
+        return currentZonedDateTime.format(humanReadableFormatterShortMonthNoYear)
     }
 
     private fun parseZonedDateTime(date: String): ZonedDateTime {
